@@ -1,1 +1,54 @@
-﻿
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+            <div class="container">
+                <div>
+                    <a class="navbar-brand" href="#">
+                        Hand-Out
+                        @*<img src=""></img>*@
+                    </a>
+                </div>
+                <button class="navbar-toggler"></button>
+                <div class="navbar-collapse ">
+                    <div class="container ms-2 me-5">
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Search" />
+                            @*<button class="btn btn-outline-light" type="submit">
+                                    <span class="fa fa-search"></span>
+                                </button>*@
+                        </form>
+                    </div>
+                    <ul class="nav nav-pills me-auto">
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light" href="#">
+                                @*<span class="fa fa-camera"></span>*@Sell
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Near</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item">Top</a></li>
+                                <li><a class="dropdown-item">Mid</a></li>
+                                <li><a class="dropdown-item">Bottom</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    @RenderBody()
+</body>
+</html>
