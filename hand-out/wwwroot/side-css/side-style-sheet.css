@@ -1,0 +1,16 @@
+﻿.category-card {
+    padding: 4em 2em 1em 2em;
+}
+
+.anim-grow {
+    transition: all .3s ease-in-out;
+}
+
+    .anim-grow:hover {
+        transform: scale(1.15);
+    }
+
+.card-link {
+    display: block;
+    text-decoration: none;
+}
