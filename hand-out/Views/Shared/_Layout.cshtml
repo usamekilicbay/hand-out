@@ -4,47 +4,47 @@
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="~/side-css/side-style-sheet.css" rel="stylesheet" />
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-            <div class="container">
-                <div>
-                    <a class="navbar-brand" href="#">
-                        Hand-Out
-                        @*<img src=""></img>*@
+        <nav class="navbar navbar-expand-lg py-4 fixed-top bg-light shadow">
+            <div class="container justify-content-end">
+                <div class="mx-auto">
+                    <a class="navbar-brand text-primary" href="#">
+                        @*Hand-Out*@
+                       <span class="fa fa-hands-helping" style="font-size:50px;"></span>
                     </a>
                 </div>
                 <button class="navbar-toggler"></button>
-                <div class="navbar-collapse ">
-                    <div class="container ms-2 me-5">
+                <div class="navbar-collapse">
+                    <div class="w-75 mx-3">
                         <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" />
+                            <input class="form-control" type="search" placeholder="Search" />
                             @*<button class="btn btn-outline-light" type="submit">
                                     <span class="fa fa-search"></span>
                                 </button>*@
                         </form>
                     </div>
-                    <ul class="nav nav-pills me-auto">
-                        <li class="nav-item">
-                            <a class="btn btn-outline-light" href="#">
-                                @*<span class="fa fa-camera"></span>*@Sell
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link">Near</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item">Top</a></li>
-                                <li><a class="dropdown-item">Mid</a></li>
-                                <li><a class="dropdown-item">Bottom</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <div class="mx-auto">
+                        <ul class="navbar-nav">
+                            <li class="nav-item me-1">
+                                <a class="btn btn-outline-danger" href="#">Post</a>
+                            </li>
+                            <li class="nav-item mx-1">
+                                <a class="btn btn-outline-success" href="#">Messages</a>
+                            </li>
+                            <li class="nav-item dropdown ms-1">
+                                <a class="btn btn-outline-warning dropdown-toggle" href="#" data-bs-toggle="dropdown">Profile</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">Profile</a></li>
+                                    <li><a class="dropdown-item">Notifications</a></li>
+                                    <li><a class="dropdown-item">Sing Out</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
