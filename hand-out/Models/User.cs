@@ -15,6 +15,7 @@ namespace hand_out.Models
         public string Mail { get; set; }
         public string ProfilePhotoLink { get; set; }
         public string Adress { get; set; }
+        public ICollection<Product> Products { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastSeen { get; set; }
     }
