@@ -15,6 +15,7 @@ namespace hand_out.Models
         public string Details { get; set; }
         public string Address { get; set; }
         public short Status { get; set; }
+        public User Grantor { get; set; }
         public DateTime PublishDate { get; set; }
     }
 }
