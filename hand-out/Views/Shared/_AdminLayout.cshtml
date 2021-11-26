@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/side-css/side-style-sheet.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-auto p-0 pt-5 sticky-top border-end shadow bg-light">
+                <a class="btn btn-light anim-grow" href="#">
+                    <span class="fa fa-hands-helping fa-4x"></span>
+                </a>
+                <ul class="nav nav-pills flex-column my-5 p-3 align-items-center">
+                    <li class="nav-item py-3">
+                        <a class="btn btn-light anim-grow" title="Users" href="#">
+                            <span class="fa fa-users fa-2x"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item py-3">
+                        <a class="btn btn-light anim-grow" title="Products" href="#">
+                            <span class="fa fa-box-open fa-2x"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item py-3">
+                        <a class="btn btn-light anim-grow" title="Categories" href="#">
+                            <span class="fa fa-layer-group fa-2x"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item py-3">
+                        <a class="btn btn-light anim-grow" title="Reports" href="#">
+                            <span class="fa fa-flag fa-2x"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm p-3 min-vh-100">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>
