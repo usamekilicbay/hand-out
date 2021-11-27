@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using static Sidekick.NET.Types;
 
 namespace hand_out.Models
 {
@@ -18,5 +19,6 @@ namespace hand_out.Models
         public ICollection<Product> Products { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastSeen { get; set; }
+        public UserStatus Status { get; set; }
     }
 }
