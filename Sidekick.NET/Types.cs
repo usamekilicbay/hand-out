@@ -10,8 +10,9 @@ namespace Sidekick.NET
     {
         public enum UserStatus
         {
+            ACTIVE,
+            BANNED,
             PASSIVE,
-            ACTIVE
         }
 
         public enum UserActivityStatus
