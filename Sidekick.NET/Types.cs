@@ -8,7 +8,7 @@ namespace Sidekick.NET
 {
     public static class Types
     {
-        public enum UserStatus
+        public enum UserStatus : byte
         {
             ACTIVE,
             BANNED,
