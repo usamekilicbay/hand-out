@@ -1,4 +1,9 @@
-﻿.category-card {
+﻿.bg-admin-panel {
+    background-image: url(https://wallpaperbat.com/img/154945-wallpaper-4k-lake-forest-mountains-illustration-4k-4k-wallpaper.jpg);
+    background-size: cover;
+}
+
+.category-card {
     padding: 4em 2em 1em 2em;
 }
 
@@ -15,6 +20,22 @@
     text-decoration: none;
 }
 
-.text-link{
-    text-decoration:none;
+.text-link {
+    text-decoration: none;
+}
+
+.bg-blur-s {
+    backdrop-filter: blur(3px);
+}
+
+.bg-blur-m {
+    backdrop-filter: blur(5px);
+}
+
+.bg-blur-lg {
+    backdrop-filter: blur(10px);
+}
+
+.bg-blur-xl {
+    backdrop-filter: blur(15px);
 }
