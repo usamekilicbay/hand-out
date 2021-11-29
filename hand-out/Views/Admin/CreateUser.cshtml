@@ -1,0 +1,36 @@
+﻿@using hand_out.Models
+@model User
+@{
+    ViewData["Title"] = "CreateUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex h-100">
+    <div class="col-5 m-auto p-5 rounded-3 text-white shadow-lg bg-blur-lg">
+        <h2 class="mb-5 text-center fw-bold">Create User</h2>
+        <form method="post" asp-action="CreateUser">
+            <div class="mb-3">
+                <label class="form-label" for="name-input" asp-for="Name"></label>
+                <input class="form-control" id="name-input" type="text" asp-for="Name" />
+            </div>
+            <div class="my-3">
+                <label class="form-label" for="mail-input" asp-for="Mail"></label>
+                <input class="form-control" id="mail-input" type="email" asp-for="Mail" />
+            </div>
+            <div class="my-3">
+                <label class="form-label" for="address-input" asp-for="Adress"></label>
+                <input class="form-control" id="address-input" type="text" asp-for="Adress" />
+            </div>
+            <div class="my-3">
+                <label class="form-label" for="profile-pic-link-input" asp-for="ProfilePhotoLink"></label>
+                <input class="form-control" id="profile-pic-link-input" type="text" asp-for="ProfilePhotoLink" />
+            </div>
+            <div class="mt-4 text-center">
+                <button class="btn btn-outline-light" type="submit">
+                    <span class="fa fa-save"></span>
+                    <p class="fw-bold d-inline">Save</p>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

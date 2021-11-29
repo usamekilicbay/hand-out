@@ -1,0 +1,37 @@
+﻿@using hand_out.Models
+@model List<User>
+@{
+    ViewData["Title"] = "GetUsers";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Mail</th>
+                <th>Profile Photo Link</th>
+                <th>Address</th>
+                <th>Create Date</th>
+                <th>>Last Seen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (User user in Model)
+            {
+                <tr>
+                    <td>@user.ID</td>
+                    <td>@user.Name</td>
+                    <td>@user.Mail</td>
+                    <td>@user.ProfilePhotoLink</td>
+                    <td>@user.Adress</td>
+                    <td>@user.CreateDate</td>
+                    <td>@user.LastSeen</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
