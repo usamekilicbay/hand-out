@@ -16,7 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
+    <ProjectReference Include="..\EntityLayer\EntityLayer.csproj" />
     <ProjectReference Include="..\Sidekick.NET\Sidekick.NET.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\AdminPanel\Data\" />
+    <Folder Include="Areas\AdminPanel\Models\" />
   </ItemGroup>
 
 </Project>
