@@ -47,11 +47,20 @@ namespace hand_out
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
-                //endpoints.MapGet("/", async context =>
-                //{
-                //    await context.Response.WriteAsync("Hello World!");
-                //});
+                endpoints.MapAreaControllerRoute(
+                  name: "admin",
+                  areaName: "AdminPanel",
+                  pattern: "admin/{controller=User}/{action=Create}/{id?}"
+                  );
+
+                endpoints.MapControllerRoute(
+                    name: "defaultArea",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    );
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}");
             });
         }
     }
