@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace hand_out.Controllers
+namespace hand_out.Areas.AdminPanel.Controllers
 {
-    public class AdminController : Controller
+    [Area("AdminPanel")]
+    public class UserController : Controller
     {
         private readonly ApplicationDbContext _db;
 
-        public AdminController(ApplicationDbContext applicationDbContext)
+        public UserController(ApplicationDbContext applicationDbContext)
         {
             _db = applicationDbContext;
         }
@@ -30,13 +31,13 @@ namespace hand_out.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateUser()
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateResult(User user)
+        public IActionResult Create(User user)
         {
             _db.User.Add(user);
             _db.SaveChanges();
