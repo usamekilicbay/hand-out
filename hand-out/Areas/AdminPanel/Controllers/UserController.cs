@@ -1,5 +1,7 @@
-﻿using hand_out.Data;
-using hand_out.Models;
+﻿using DataAccessLayer.Concrete;
+using DataAccessLayer.Concrete.Repositories;
+using hand_out.Data;
+using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
