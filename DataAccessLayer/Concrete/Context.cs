@@ -1,4 +1,4 @@
-﻿using hand_out.Models;
+﻿using EntityLayer.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
