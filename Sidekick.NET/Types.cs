@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sidekick.NET
+﻿namespace Sidekick.NET
 {
     public static class Types
     {
@@ -15,13 +9,27 @@ namespace Sidekick.NET
             PASSIVE,
         }
 
-        public enum UserActivityStatus
+        public enum UserActivityStatus : byte
         {
             OFFLINE,
             ONLINE
         }
 
+        public enum ProductStatus : byte
+        {
+            ACTIVE,
+            GIVEN,
+            PASSIVE,
+        }
+
+        public enum CategoryStatus : byte
+        {
+            ACTIVE,
+            PASSIVE
+        }
+
         public enum SessionRole
+
         {
             NON,
             STUDENT,
