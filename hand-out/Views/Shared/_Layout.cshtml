@@ -8,20 +8,20 @@
 
 </head>
 <body>
-    <header style="margin-bottom:100px">
-        <nav class="navbar navbar-expand-lg py-4 fixed-top bg-light shadow">
+    <header>
+        <nav class="navbar navbar-expand-lg py-3 fixed-top bg-warning border-bottom border-secondary shadow">
             <div class="container justify-content-end">
                 <div class="mx-auto">
-                    <a class="navbar-brand text-primary" href="#">
+                    <a class="text-warning text-outline-dark" href="#">
                         @*Hand-Out*@
-                        <span class="fa fa-hands-helping" style="font-size:50px;"></span>
+                        <span class="fa fa-hands-helping" style="font-size:40px;"></span>
                     </a>
                 </div>
                 <button class="navbar-toggler"></button>
                 <div class="navbar-collapse">
-                    <div class="w-75 mx-3">
+                    <div class="w-75 mx-5">
                         <form class="d-flex">
-                            <input class="form-control" type="search" placeholder="Search" />
+                            <input class="form-control border border-dark bg-warning text-light " type="search" placeholder="Search" />
                             @*<button class="btn btn-outline-light" type="submit">
                                     <span class="fa fa-search"></span>
                                 </button>*@
@@ -30,13 +30,13 @@
                     <div class="mx-auto">
                         <ul class="navbar-nav">
                             <li class="nav-item me-1">
-                                <a class="btn btn-outline-danger" href="#">Post</a>
+                                <a class="btn btn-outline-dark" href="#">Post</a>
                             </li>
                             <li class="nav-item mx-1">
-                                <a class="btn btn-outline-success" href="#">Messages</a>
+                                <a class="btn btn-outline-dark" href="#">Messages</a>
                             </li>
                             <li class="nav-item dropdown ms-1">
-                                <a class="btn btn-outline-warning dropdown-toggle" href="#" data-bs-toggle="dropdown">Profile</a>
+                                <a class="btn btn-outline-dark dropdown-toggle" href="#" data-bs-toggle="dropdown">Profile</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item">Profile</a></li>
                                     <li><a class="dropdown-item">Notifications</a></li>
@@ -49,6 +49,8 @@
             </div>
         </nav>
     </header>
-    @RenderBody()
+    <div class="container-fluid min-vh-100 px-main-container bg-dark">
+        @RenderBody()
+    </div>
 </body>
 </html>
