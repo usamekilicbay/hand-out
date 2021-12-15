@@ -2,27 +2,27 @@
 {
     public static class Types
     {
-        public enum UserStatus : byte
+        public enum UserStatus
         {
             ACTIVE,
             BANNED,
             PASSIVE,
         }
 
-        public enum UserActivityStatus : byte
+        public enum UserActivityStatus
         {
             OFFLINE,
             ONLINE
         }
 
-        public enum ProductStatus : byte
+        public enum ProductStatus
         {
             ACTIVE,
             GIVEN,
             PASSIVE,
         }
 
-        public enum CategoryStatus : byte
+        public enum CategoryStatus
         {
             ACTIVE,
             PASSIVE
