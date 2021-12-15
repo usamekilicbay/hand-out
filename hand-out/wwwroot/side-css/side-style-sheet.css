@@ -1,4 +1,33 @@
-﻿.bg-admin-panel {
+﻿:root {
+    --transparent: #000000;
+    --blue: #0d6efd;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #d63384;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #198754;
+    --teal: #20c997;
+    --cyan: #0dcaf0;
+    --white: #fff;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+    --black: #000;
+}
+
+.px-main-container {
+    padding: 10em 2em;
+}
+
+.bg-admin-panel {
     background-image: url(https://wallpaperbat.com/img/154945-wallpaper-4k-lake-forest-mountains-illustration-4k-4k-wallpaper.jpg);
     background-size: cover;
 }
@@ -38,4 +67,36 @@
 
 .bg-blur-xl {
     backdrop-filter: blur(15px);
+}
+
+.text-outline-primary {
+    text-shadow: -2px 0 var(--blue), 0 2px var(--blue), 2px 0 var(--blue), 0 -2px var(--blue) !important;
+}
+
+.text-outline-secondary {
+    text-shadow: -2px 0 var(--gray-600), 0 2px var(--gray-600), 2px 0 var(--gray-600), 0 -2px var(--gray-600) !important;
+}
+
+.text-outline-success {
+    text-shadow: -2px 0 var(--green), 0 2px var(--green), 2px 0 var(--green), 0 -2px var(--green) !important;
+}
+
+.text-outline-info {
+    text-shadow: -2px 0 var(--cyan), 0 2px var(--cyan), 2px 0 var(--cyan), 0 -2px var(--cyan) !important;
+}
+
+.text-outline-warning {
+    text-shadow: -2px 0 var(--yellow), 0 2px var(--yellow), 2px 0 var(--yellow), 0 -2px var(--yellow) !important;
+}
+
+.text-outline-danger {
+    text-shadow: -2px 0 var(--red), 0 2px var(--red), 2px 0 var(--red), 0 -2px var(--red) !important;
+}
+
+.text-outline-light {
+    text-shadow: -2px 0 var(--gray-100), 0 2px var(--gray-100), 2px 0 var(--gray-100), 0 -2px var(--gray-100) !important;
+}
+
+.text-outline-dark {
+    text-shadow: -2px 0 var(--gray-900), 0 2px var(--gray-900), 2px 0 var(--gray-900), 0 -2px var(--gray-900) !important;
 }
