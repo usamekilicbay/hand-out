@@ -3,14 +3,12 @@ using static Sidekick.NET.Types;
 
 namespace EntityLayer.Concrete
 {
-    public class Product
+    public class Product : BaseEntity
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
         public string Details { get; set; }
         public string Address { get; set; }
-        public DateTime PublishDate { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string PhotoURL { get; set; }
+        public DateTime DatePublished { get; set; }
         public ProductStatus Status { get; set; }
 
         public int GrantorID { get; set; }
