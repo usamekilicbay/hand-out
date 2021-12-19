@@ -4,14 +4,11 @@ using static Sidekick.NET.Types;
 
 namespace EntityLayer.Concrete
 {
-    public class User
+    public class User : BaseEntity
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Mail { get; set; }
-        public string ProfilePhotoLink { get; set; }
+        public string Email { get; set; }
         public string Address { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string ProfilePhotoURL { get; set; }
         public DateTime LastSeen { get; set; }
         public UserStatus Status { get; set; }
 
