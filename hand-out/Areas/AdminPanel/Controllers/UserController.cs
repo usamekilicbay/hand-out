@@ -1,35 +1,27 @@
-﻿using DataAccessLayer.Concrete;
-using DataAccessLayer.Concrete.Repositories;
-using hand_out.Data;
-using EntityLayer.Concrete;
+﻿using AutoMapper;
+using BusinessLogicLayer;
+using BusinessLogicLayer.Services.Abstract;
+using hand_out.Areas.AdminPanel.Models.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace hand_out.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
     public class UserController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserService _userService;
 
-        public UserController(ApplicationDbContext applicationDbContext)
+        public UserController(DataAccessLayer.ApplicationDbContext applicationDbContext, IMapper mapper)
         {
-            _db = applicationDbContext;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
+            _unitOfWork = new UnitOfWork(applicationDbContext, mapper);
+            _userService = _unitOfWork.UserService;
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public IActionResult Index()
         {
-            List<User> users = _db.User.ToList();
-            return View(users);
+            return View(_userService.GetAll<ListUserViewModel>());
         }
 
         [HttpGet]
@@ -39,12 +31,30 @@ namespace hand_out.Areas.AdminPanel.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(User user)
+        public IActionResult Insert(CreateUserViewModel userCreateViewModel)
         {
-            _db.User.Add(user);
-            _db.SaveChanges();
+            if (!ModelState.IsValid)
+                return Redirect("Create");
 
-            return Redirect("GetUsers");
+            _userService.Insert(userCreateViewModel);
+
+            return Redirect("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            return View(_userService.GetByID<UpdateUserViewModel>(id));
+        }
+
+        public IActionResult Update(UpdateUserViewModel userUpdateViewModel)
+        {
+            if (!ModelState.IsValid)
+                return Redirect("Edit");
+
+            _userService.Update(userUpdateViewModel);
+
+            return RedirectToAction("Index");
         }
     }
 }
