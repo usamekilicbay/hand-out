@@ -1,10 +1,7 @@
 ﻿using EntityLayer.Concrete;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using static Sidekick.NET.Constant;
+using Sidekick.NET.Constant.SQL;
+using Sidekick.NET.Constant.Validation;
 using static Sidekick.NET.Types;
 
 namespace DataAccessLayer
@@ -31,19 +28,24 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<Category>()
                 .Property(c => c.Name)
-                .HasMaxLength(20)
+                .HasMaxLength(Rule.Category.Name.MAX_LENGTH)
                 .IsUnicode()
                 .IsRequired();
 
             modelBuilder.Entity<Category>()
-                .Property(c => c.CreationDate)
-                .HasColumnType("date")
-                .HasDefaultValueSql("getdate()");
+                .Property(c => c.DateCreated)
+                .HasColumnType(Rule.Category.DateCreated.DATA_TYPE)
+                .HasDefaultValueSql(Rule.Category.DateCreated.DEFAULT_VALUE_SQL);
+
+            modelBuilder.Entity<Category>()
+               .Property(c => c.DateModified)
+               .HasColumnType(Rule.Category.DateModified.DATA_TYPE)
+               .HasDefaultValueSql(Rule.Category.DateModified.DEFAULT_VALUE_SQL);
 
             modelBuilder.Entity<Category>()
                 .Property(c => c.Status)
-                .HasColumnType("tinyint")
-                .HasDefaultValue(CategoryStatus.ACTIVE)
+                .HasColumnType(Rule.Category.Status.DATA_TYPE)
+                .HasDefaultValue(Rule.Category.Status.DEFAULT_VALUE)
                 .IsRequired();
         }
 
@@ -64,37 +66,47 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(Rule.Product.Name.MAX_LENGTH)
                 .IsUnicode()
                 .IsRequired();
 
             modelBuilder.Entity<Product>()
-                .Property(p => p.Address)
-                .HasMaxLength(200)
-                .IsUnicode();
-
-            modelBuilder.Entity<Product>()
                 .Property(p => p.Details)
-                .HasMaxLength(500)
+                .HasMaxLength(Rule.Product.Details.MAX_LENGTH)
                 .IsUnicode();
 
             modelBuilder.Entity<Product>()
-                .Property(p => p.CreationDate)
-                .HasColumnType("date")
-                .HasDefaultValueSql("getdate()");
+                .Property(p => p.Address)
+                .HasMaxLength(Rule.Product.Address.MAX_LENGTH)
+                .IsUnicode();
 
             modelBuilder.Entity<Product>()
-                .Property(p => p.PublishDate)
-                .HasColumnType("date")
-                .HasDefaultValueSql("getdate()");
+                .Property(p => p.PhotoURL)
+                .HasMaxLength(Rule.Product.PhotoURL.MAX_LENGTH)
+                .IsUnicode();
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.DatePublished)
+                .HasColumnType(Rule.Product.DatePublished.DATA_TYPE)
+                .HasDefaultValueSql(Rule.Product.DatePublished.DEFAULT_VALUE_SQL);
+
+            modelBuilder.Entity<Product>()
+              .Property(u => u.DateCreated)
+              .HasColumnType(Rule.User.DateCreated.DATA_TYPE)
+              .HasDefaultValueSql(Rule.User.DateCreated.DEFAULT_VALUE_SQL);
+
+            modelBuilder.Entity<Product>()
+               .Property(u => u.DateModified)
+               .HasColumnType(Rule.User.DateModified.DATA_TYPE)
+               .HasDefaultValueSql(Rule.User.DateModified.DEFAULT_VALUE_SQL);
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.Status)
-                .HasColumnType("tinyint")
-                .HasDefaultValue(ProductStatus.ACTIVE)
+                .HasColumnType(Rule.Product.Status.DATA_TYPE)
+                .HasDefaultValue(Rule.Product.Status.DEFAULT_VALUE)
                 .IsRequired();
         }
-        
+
         private static void SetUserTable(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -102,39 +114,44 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<User>()
                 .Property(u => u.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(Rule.User.Name.MAX_LENGTH)
                 .IsUnicode()
                 .IsRequired();
 
             modelBuilder.Entity<User>()
-                .Property(u => u.Mail)
-                .HasMaxLength(507)
+                .Property(u => u.Email)
+                .HasMaxLength(Rule.User.Email.MAX_LENGTH)
                 .IsUnicode();
 
             modelBuilder.Entity<User>()
                 .Property(u => u.Address)
-                .HasMaxLength(200)
+                .HasMaxLength(Rule.User.Address.MAX_LENGTH)
                 .IsUnicode();
 
             modelBuilder.Entity<User>()
-                .Property(u => u.ProfilePhotoLink)
-                .HasMaxLength(1000)
+                .Property(u => u.ProfilePhotoURL)
+                .HasMaxLength(Rule.User.ProfilePhotoURL.MAX_LENGTH)
                 .IsUnicode();
-
-            modelBuilder.Entity<User>()
-                .Property(u => u.CreationDate)
-                .HasColumnType("date")
-                .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<User>()
                 .Property(u => u.LastSeen)
-                .HasColumnType("smalldatetime")
-                .HasDefaultValueSql("getdate()");
+                .HasColumnType(Rule.User.LastSeen.DATA_TYPE)
+                .HasDefaultValueSql(Rule.User.LastSeen.DEFAULT_VALUE_SQL);
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.DateCreated)
+                .HasColumnType(Rule.User.DateCreated.DATA_TYPE)
+                .HasDefaultValueSql(Rule.User.DateCreated.DEFAULT_VALUE_SQL);
+
+            modelBuilder.Entity<User>()
+               .Property(u => u.DateModified)
+               .HasColumnType(Rule.User.DateModified.DATA_TYPE)
+               .HasDefaultValueSql(Rule.User.DateModified.DEFAULT_VALUE_SQL);
 
             modelBuilder.Entity<User>()
                 .Property(u => u.Status)
-                .HasColumnType("tinyint")
-                .HasDefaultValue(UserStatus.ACTIVE)
+                .HasColumnType(Rule.User.Status.DATA_TYPE)
+                .HasDefaultValue(Rule.User.Status.DEFAULT_VALUE)
                 .IsRequired();
         }
 
