@@ -5,10 +5,10 @@ namespace DataAccessLayer
 {
     public interface IUnitOfWork : IDisposable
     {
-        IUserRepository UserRepository { get; }
-        IProductRepository ProductRepository { get; }
-        ICategoryRepository CategoryRepository { get; }
+        public IUserRepository UserRepository { get; }
+        public IProductRepository ProductRepository { get; }
+        public ICategoryRepository CategoryRepository { get; }
 
-        int Complete();
+        int SaveChanges();
     }
 }
