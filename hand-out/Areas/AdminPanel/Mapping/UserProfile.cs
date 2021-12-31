@@ -8,6 +8,9 @@ namespace hand_out.Areas.AdminPanel.Mapping
     {
         public UserProfile()
         {
+            CreateMap<User, ListUserViewModel>()
+                .ReverseMap();
+
             CreateMap<User, CreateUserViewModel>()
                 .ReverseMap();
 
