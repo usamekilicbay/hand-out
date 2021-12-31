@@ -22,7 +22,7 @@ namespace DataAccessLayer
             UserRepository = new UserRepository(_dbContext);
         }
 
-        public int Complete() => 
+        public int SaveChanges() => 
             _dbContext.SaveChanges();
 
 
