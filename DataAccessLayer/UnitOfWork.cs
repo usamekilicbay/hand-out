@@ -5,7 +5,7 @@ namespace DataAccessLayer
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
         public ICategoryRepository CategoryRepository { get; private set; }
 
