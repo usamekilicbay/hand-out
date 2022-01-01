@@ -1,0 +1,85 @@
+﻿@using static Sidekick.NET.Types
+@model UpdateUserViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit User</h2>
+<hr />
+<div class="row">
+    <div class="col-md-8 mx-auto mt-3 p-5 card shadow-lg">
+        <div class="mb-5">
+            <a class="row" asp-action="Index">
+                <span class="fa fa-arrow-left fa-lg"></span>
+            </a>
+            <h2 class="text-center">Edit</h2>
+        </div>
+        <form method="post" asp-action="Update" asp-route-id="@Model.ID" asp-route-data="@Model">
+            <div class="row mb-3 px-5 text-center">
+                <div class="col-6">
+                    <img class="border-radius-lg shadow" style="width: 9rem; height: 9rem;" src="@Model.ProfilePhotoURL" />
+                </div>
+                <div class="col-6 text-end">
+                    <button type="submit" class="btn bg-gradient-info">Update</button>
+                </div>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="row">
+                <div class="col-5 mx-auto">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProfilePhotoURL" class="control-label"></label>
+                        <input type="url" asp-for="ProfilePhotoURL" class="form-control" />
+                        <span asp-validation-for="ProfilePhotoURL" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-5 mx-auto">
+                    <div class="form-group">
+                        <label asp-for="LastSeen" class="control-label"></label>
+                        <input asp-for="LastSeen" class="form-control" readonly />
+                        <span asp-validation-for="LastSeen" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateModified" class="control-label"></label>
+                        <input asp-for="DateModified" class="form-control" readonly />
+                        <span asp-validation-for="DateModified" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateCreated" class="control-label"></label>
+                        <input asp-for="DateCreated" class="form-control" readonly />
+                        <span asp-validation-for="DateCreated" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-control form-select">
+                            <option class="bg-gradient-success">@UserStatus.ACTIVE</option>
+                            <option class="bg-gradient-danger">@UserStatus.BANNED</option>
+                            @*<option class="bg-gradient-secondary">@UserStatus.OFFLINE</option>
+                                <option class="bg-gradient-primary">@UserStatus.ONLINE</option>*@
+                            <option class="bg-gradient-light">@UserStatus.PASSIVE</option>
+                            <option class="bg-gradient-warning">@UserStatus.PENDING</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
