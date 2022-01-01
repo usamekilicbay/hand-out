@@ -1,0 +1,84 @@
+﻿@using static Sidekick.NET.Types
+@using EntityLayer.Concrete
+@model List<Category>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <div class="row mb-4 me-4">
+                        <h6 class="col">Categories</h6>
+                        <a asp-action="Create" class="col-auto btn bg-gradient-success text-end">
+                            <span class="fa fa-plus">&nbsp;</span>
+                            Create New Category
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Modified</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Category category in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center ps-3">
+                                                    <h6 class="mb-0 text-sm">@category.Name</h6>
+                                                    <p class="text-xs text-secondary mb-0">ID: @category.ID</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <h6 class="text-secondary text-xs font-weight-bold">@category.DateModified</h6>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <h6 class="text-secondary text-xs font-weight-bold">@category.DateCreated</h6>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            @{
+                                                string styleClass = "badge badge-sm ";
+                                                switch (category.Status)
+                                                {
+                                                    case CategoryStatus.ACTIVE:
+                                                        styleClass += "bg-gradient-success";
+                                                        break;
+                                                    case CategoryStatus.PASSIVE:
+                                                        styleClass += "bg-gradient-secondary";
+                                                        break;
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
+                                                <span class="badge badge-sm @styleClass">@category.Status</span>
+                                            }
+                                        </td>
+                                        <td class="align-middle">
+                                            <a asp-action="Edit" asp-route-id="@category.ID" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                                Edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
