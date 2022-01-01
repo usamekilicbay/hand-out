@@ -1,34 +1,32 @@
-﻿@model User
+﻿@model CreateUserViewModel
 @{
-    ViewData["Title"] = "CreateUser";
+    ViewData["Title"] = "Create";
 }
 
-<div class="d-flex h-100">
-    <div class="col-5 m-auto p-5 rounded-3 text-white shadow-lg bg-blur-lg">
-        <h2 class="mb-5 text-center fw-bold">Create User</h2>
-        <form method="post" asp-action="CreateUser">
-            <div class="mb-3">
-                <label class="form-label" for="name-input" asp-for="Name"></label>
-                <input class="form-control" id="name-input" type="text" asp-for="Name" />
-            </div>
-            <div class="my-3">
-                <label class="form-label" for="mail-input" asp-for="Mail"></label>
-                <input class="form-control" id="mail-input" type="email" asp-for="Mail" />
-            </div>
-            <div class="my-3">
-                <label class="form-label" for="address-input" asp-for="Adress"></label>
-                <input class="form-control" id="address-input" type="text" asp-for="Adress" />
-            </div>
-            <div class="my-3">
-                <label class="form-label" for="profile-pic-link-input" asp-for="ProfilePhotoLink"></label>
-                <input class="form-control" id="profile-pic-link-input" type="text" asp-for="ProfilePhotoLink" />
-            </div>
-            <div class="mt-4 text-center">
-                <button class="btn btn-outline-light" type="submit">
-                    <span class="fa fa-save"></span>
-                    <p class="fw-bold d-inline">Save</p>
-                </button>
-            </div>
-        </form>
-    </div>
+<div class="d-flex col-5 mx-auto mt-4 mb-7 p-5 pb-3 card shadow-lg">
+    <h2 class="mb-5 text-dark text-gradient text-center fw-bold">Create User</h2>
+    <form method="post" asp-action="Insert">
+        <div class="mb-3">
+            <label class="form-label" for="name-input" asp-for="Name"></label>
+            <input class="form-control" id="name-input" type="text" asp-for="Name" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <div class="my-3">
+            <label class="form-label" for="mail-input" asp-for="Email"></label>
+            <input class="form-control" id="mail-input" type="text" asp-for="Email" />
+            <span class="text-danger" asp-validation-for="Email"></span>
+        </div>
+        <div class="my-3">
+            <label class="form-label" for="address-input" asp-for="Address"></label>
+            <input class="form-control" id="address-input" type="text" asp-for="Address" />
+            <span class="text-danger" asp-validation-for="Address"></span>
+        </div>
+        <div class="my-3">
+            <label class="form-label" for="profile-pic-link-input" asp-for="ProfilePhotoURL"></label>
+            <input class="form-control" id="profile-pic-link-input" type="text" asp-for="ProfilePhotoURL" />
+        </div>
+        <div class="mt-5 mb-0 text-center">
+            <button class="btn bg-gradient-success w-100" type="submit">Save</button>
+        </div>
+    </form>
 </div>
