@@ -47,6 +47,7 @@ namespace hand_out.Areas.AdminPanel.Controllers
             return View(_userService.GetByID<UpdateUserViewModel>(id));
         }
 
+        [HttpPost]
         public IActionResult Update(UpdateUserViewModel userUpdateViewModel)
         {
             if (!ModelState.IsValid)
