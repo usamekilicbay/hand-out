@@ -1,0 +1,27 @@
+﻿@model CreateCategoryViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create Category</h2>
+<hr />
+<div class="d-flex col-5 mx-auto mt-4 mb-7 p-5 pb-3 card shadow-lg">
+    <h2 class="mb-5 text-dark text-gradient text-center fw-bold">Create Category</h2>
+    <form method="post" asp-action="Insert">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mt-5 mb-0 text-center">
+            <button class="btn bg-gradient-success w-100" type="submit">Save</button>
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
