@@ -15,7 +15,7 @@ namespace hand_out.Areas.AdminPanel.Mapping
                 .ReverseMap();
 
             CreateMap<User, UpdateUserViewModel>()
-                .ReverseMap();
+            .ReverseMap();
         }
     }
 }
