@@ -11,7 +11,7 @@ namespace EntityLayer.Concrete
         public DateTime DatePublished { get; set; }
         public ProductStatus Status { get; set; }
 
-        public int GrantorID { get; set; }
+        public string GrantorID { get; set; }
         public virtual User Grantor { get; set; }
         public int CategoryID { get; set; }
         public virtual Category Category { get; set; }
