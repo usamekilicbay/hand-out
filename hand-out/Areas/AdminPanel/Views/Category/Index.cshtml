@@ -50,19 +50,12 @@
                                         </td>
                                         <td class="align-middle text-center text-sm">
                                             @{
-                                                string styleClass = "badge badge-sm ";
-                                                switch (category.Status)
+                                                string styleClass = category.Status switch
                                                 {
-                                                    case CategoryStatus.ACTIVE:
-                                                        styleClass += "bg-gradient-success";
-                                                        break;
-                                                    case CategoryStatus.PASSIVE:
-                                                        styleClass += "bg-gradient-secondary";
-                                                        break;
-                                                        break;
-                                                    default:
-                                                        break;
-                                                }
+                                                    CategoryStatus.ACTIVE => "bg-gradient-success",
+                                                    CategoryStatus.PASSIVE => "bg-gradient-secondary",
+                                                    _ => "bg-gradient-secondary"
+                                                };
                                                 <span class="badge badge-sm @styleClass">@category.Status</span>
                                             }
                                         </td>
