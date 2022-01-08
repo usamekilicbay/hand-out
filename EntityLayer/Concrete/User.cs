@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using static Sidekick.NET.Types;
 
 namespace EntityLayer.Concrete
 {
-    public class User : BaseEntity
+    public class User : IdentityUser
     {
-        public string Email { get; set; }
         public string Address { get; set; }
         public string ProfilePhotoURL { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateModified { get; set; }
         public DateTime LastSeen { get; set; }
         public UserStatus Status { get; set; }
 
