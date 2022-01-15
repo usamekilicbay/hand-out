@@ -1,62 +1,118 @@
-﻿<div class="container-fluid">
-    <div class="container pt-5">
-        <ul class="nav nav-justified text-light">
-            <li class="nav-item me-2">
-                <a class="card-link text-white" href="#">
-                    <div class="category-card shadow rounded-3 anim-grow bg-primary">
-                        <span class="fa fa-couch" style="font-size:30px;"></span>
-                        <h6 class="mt-4" style="font-size:12px">FURNITURE</h6>
+﻿@*@model List< ListProductViewModel>*@
+<div class="container-fluid">
+    <div class="container pt-8">
+        <div class="">
+            <ul class="nav nav-justified">
+                <li class="nav-item me-2">
+                    <a class="card-link text-white" href="#">
+                        <div class="category-card rounded-3 shadow anim-grow bg-gradient-dark">
+                            <span class="fa fa-couch fa-2x"></span>
+                            <span class="category-card-title">FURNITURE</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="card-link text-white" href="#">
+                        <div class="category-card shadow rounded-3 anim-grow bg-gradient-dark">
+                            <span class="fa fa-book fa-2x"></span>
+                            <span class="category-card-title">STATIONARY</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="card-link text-white" href="#">
+                        <div class="category-card shadow rounded-3 anim-grow bg-gradient-dark">
+                            <span class="fa fa-tv fa-2x"></span>
+                            <span class="category-card-title">ELECTRONIC</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="card-link text-white" href="#">
+                        <div class="category-card shadow rounded-3 anim-grow bg-gradient-dark">
+                            <span class="fa fa-football-ball fa-2x"></span>
+                            <span class="category-card-title">SPORT</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="card-link text-white" href="#">
+                        <div class="category-card shadow rounded-3 anim-grow bg-gradient-dark">
+                            <span class="fa fa-tshirt fa-2x"></span>
+                            <span class="category-card-title">CLOTH</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="card-link text-white" href="#">
+                        <div class="category-card shadow rounded-3 anim-grow bg-gradient-dark">
+                            <span class="fa fa-blender fa-2x"></span>
+                            <span class="category-card-title">APPLIANCE</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item ms-2">
+                    <a class="card-link text-white" href="#">
+                        <div class="category-card shadow rounded-3 anim-grow bg-gradient-dark">
+                            <span class="fa fa-tools fa-2x"></span>
+                            <span class="category-card-title">HARDWARE</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-12 mt-4 shadow-lg">
+            <div class="card mb-4">
+                <div class="card-header pb-0 p-3">
+                    <h6 class="mb-1">Projects</span>
+                    <p class="text-sm">Architects design houses</p>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row">
+                        @*@foreach (var product in Model)*@
+                        @for (int i = 0; i < 10; i ++)
+                        {
+                            <div class="col-xl-4 col-md-6 mb-xl-0 my-6">
+                                <div class="card card-blog card-plain shadow-lg">
+                                    <div class="position-relative">
+                                        <a class="d-block shadow-xl border-radius-xl">
+                                            <img src="/assets/img/home-decor-1.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                                        </a>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <p class="text-gradient text-dark mb-2 text-sm">Address</p>
+                                        @*<p class="text-gradient text-dark mb-2 text-sm">@product.Address</p>*@
+                                        <a href="javascript:;">
+                                            @*<h5>@product.Name</h5>*@
+                                            <h5>Name</h5>
+                                        </a>
+                                        @*<p class="mb-4 text-sm">@product.Details</p>*@
+                                        <p class="mb-4 text-sm">Details</p>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <button type="button" class="btn btn-outline-primary btn-sm mb-0">View Project</button>
+                                            <div class="avatar-group mt-2">
+                                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Elena Morison">
+                                                    <img alt="Image placeholder" src="../assets/img/team-1.jpg">
+                                                </a>
+                                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ryan Milly">
+                                                    <img alt="Image placeholder" src="../assets/img/team-2.jpg">
+                                                </a>
+                                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Nick Daniel">
+                                                    <img alt="Image placeholder" src="../assets/img/team-3.jpg">
+                                                </a>
+                                                <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Peterson">
+                                                    <img alt="Image placeholder" src="../assets/img/team-4.jpg">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
-                </a>
-            </li>
-            <li class="nav-item mx-2">
-                <a class="card-link text-white" href="#">
-                    <div class="category-card shadow rounded-3 anim-grow bg-primary">
-                        <span class="fa fa-book" style="font-size:30px;"></span>
-                        <h6 class="mt-4" style="font-size:12px">STATIONARY</h6>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item mx-2">
-                <a class="card-link text-white" href="#">
-                    <div class="category-card shadow rounded-3 anim-grow bg-primary">
-                        <span class="fa fa-tv" style="font-size:30px;"></span>
-                        <h6 class="mt-4" style="font-size:12px">ELECTRONIC</h6>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item mx-2">
-                <a class="card-link text-white" href="#">
-                    <div class="category-card shadow rounded-3 anim-grow bg-primary">
-                        <span class="fa fa-football-ball" style="font-size:30px;"></span>
-                        <h6 class="mt-4" style="font-size:12px">SPORT</h6>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item mx-2">
-                <a class="card-link text-white" href="#">
-                    <div class="category-card shadow rounded-3 anim-grow bg-primary">
-                        <span class="fa fa-tshirt" style="font-size:30px;"></span>
-                        <h6 class="mt-4" style="font-size:12px">CLOTH</h6>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item mx-2">
-                <a class="card-link text-white" href="#">
-                    <div class="category-card shadow rounded-3 anim-grow bg-primary">
-                        <span class="fa fa-blender" style="font-size:30px;"></span>
-                        <h6 class="mt-4" style="font-size:12px">APPLIANCE</h6>
-                    </div>
-                </a>
-            </li>
-            <li class="nav-item ms-2">
-                <a class="card-link text-white" href="#">
-                    <div class="category-card shadow rounded-3 anim-grow bg-primary">
-                        <span class="fa fa-tools" style="font-size:30px;"></span>
-                        <h6 class="mt-4" style="font-size:12px">HARDWARE</h6>
-                    </div>
-                </a>
-            </li>
-        </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
