@@ -1,6 +1,5 @@
 ﻿using DataAccessLayer.Repositories.Abstract;
 using EntityLayer.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
