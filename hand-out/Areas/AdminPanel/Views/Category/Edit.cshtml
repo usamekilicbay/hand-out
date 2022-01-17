@@ -25,6 +25,7 @@
                         <input asp-for="Name" class="form-control" />
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
+
                     <div class="form-group">
                         <label asp-for="DateModified" class="control-label"></label>
                         <input asp-for="DateModified" class="form-control" readonly />
@@ -33,21 +34,29 @@
                 </div>
                 <div class="col-5">
                     <div class="form-group">
-                        <label asp-for="Status" class="control-label"></label>
+                        <label asp-for="FontAwesomeIconName" class="control-label"></label>
+                        <input asp-for="FontAwesomeIconName" class="form-control" />
+                        <span asp-validation-for="FontAwesomeIconName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FontAwesomeIconName" class="control-label"></label>
+                        <input asp-for="FontAwesomeIconName" class="form-control" readonly />
+                        <span asp-validation-for="DateCreated" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="form-group">
+                        <label asp-for="DateCreated" class="control-label"></label>
                         <select asp-for="Status" class="form-control form-select">
                             <option class="bg-gradient-success">@CategoryStatus.ACTIVE</option>
                             <option class="bg-gradient-light">@CategoryStatus.PASSIVE</option>
                         </select>
                         <span asp-validation-for="Status" class="text-danger"></span>
                     </div>
-
-                    <label asp-for="DateCreated" class="control-label"></label>
-                    <input asp-for="DateCreated" class="form-control" readonly />
-                    <span asp-validation-for="DateCreated" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="row justify-content-center">
-                <button type="submit" class="btn bg-gradient-info w-25 m-0">Update</button>
+                <div class="row justify-content-center">
+                    <button type="submit" class="btn bg-gradient-info w-50 m-0 mt-2">Update</button>
+                </div>
             </div>
         </form>
     </div>
