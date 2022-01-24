@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer;
 using BusinessLogicLayer.Services.Abstract;
+using DataAccessLayer;
 using EntityLayer.Concrete;
 using hand_out.Models;
+using hand_out.Models.ViewModels.Shared;
 using hand_out.Models.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using static Sidekick.NET.Types;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace hand_out.Controllers
@@ -19,7 +20,7 @@ namespace hand_out.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
 
-        public UserController(DataAccessLayer.ApplicationDbContext applicationDbContext, IMapper mapper,
+        public UserController(ApplicationDbContext applicationDbContext, IMapper mapper,
             UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _unitOfWork = new UnitOfWork(applicationDbContext, mapper, userManager, signInManager);
@@ -30,7 +31,12 @@ namespace hand_out.Controllers
         [HttpGet]
         public IActionResult Details()
         {
-            return View(_userService.GetUserDetails<DetailsUserViewModel>(HttpContext.User));
+            ProfileViewModel profileViewModel = new ProfileViewModel();
+
+            profileViewModel.UserDetailsViewModel = _userService.GetUserDetails<DetailsUserViewModel>(HttpContext.User);
+            profileViewModel.ProductCreateViewModel = new Models.ViewModels.Product.CreateProductViewModel();
+
+            return View(profileViewModel);
         }
 
         public IActionResult Edit()
