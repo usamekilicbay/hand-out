@@ -1,6 +1,7 @@
 using DataAccessLayer;
 using EntityLayer.Concrete;
 using FluentValidation.AspNetCore;
+using hand_out.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -43,6 +44,8 @@ namespace hand_out
 
             services.AddControllersWithViews()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +77,8 @@ namespace hand_out
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}");
+
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }
