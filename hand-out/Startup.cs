@@ -1,23 +1,21 @@
 using DataAccessLayer;
+using EntityLayer.Concrete;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace hand_out
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,6 +28,16 @@ namespace hand_out
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
+
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.ConfigureApplicationCookie(_ =>
+            {
+                _.LoginPath = new PathString("/User/SignIn");
+                _.AccessDeniedPath = new PathString("/User/SignIn");
+                _.ExpireTimeSpan = System.TimeSpan.FromDays(2);
+                _.SlidingExpiration = true;
+            });
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -46,8 +54,9 @@ namespace hand_out
             }
 
             app.UseStaticFiles();
-
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
