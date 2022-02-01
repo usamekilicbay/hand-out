@@ -45,6 +45,13 @@ namespace hand_out
             services.AddControllersWithViews()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
+
+            services.AddCors(options => options.AddDefaultPolicy(policy => 
+                             policy.AllowAnyHeader()
+                                   .AllowAnyMethod()
+                                   .AllowCredentials()
+                                   .SetIsOriginAllowed(origin => true)));
+
             services.AddSignalR();
         }
 
@@ -57,6 +64,7 @@ namespace hand_out
             }
 
             app.UseStaticFiles();
+            app.UseCors();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
