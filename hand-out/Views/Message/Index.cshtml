@@ -17,6 +17,10 @@
                 let messageContext = $("#message-box").val();
                 connection.invoke("SendMessageAsync", messageContext);
             });
+
+            connection.on("receiveMessage", message => {
+                $("#message-area").append(`<p> ${message} </p>`);
+            })
         })
     </script>
 </head>
@@ -32,7 +36,7 @@
                     <ul class="list-group">
                         @{ for (int i = 0; i < 40; i++)
                             {
-                                <li class="list-group-item border-0 d-flex align-items-center px-0 my-1" >
+                                <li class="list-group-item border-0 d-flex align-items-center px-0 my-1">
                                     <div class="avatar me-3">
                                         <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
                                     </div>
@@ -73,17 +77,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-3 overflow-auto">
-                </div>
-                <div class="card-footer">
-                    <div class="input-group shadow-lg">
-                        <input type="text" id="message-box" class="form-control border-0" />
-                        <button type="button" id="message-send-btn" class="btn btn-dark mb-0 shadow-none">
-                            <span class="fa fa-send text-light"></span>
-                        </button>
+                <div id="message-area" class="card-body p-3 overflow-auto">
+                    <div class="position-relative">
+                        <div class="d-inline-block py-2 ps-3 pe-4 rounded-3 bg-gradient-dark text-white">
+                            <p class="mb-1">It's an example message content</p>
+                            <p class="mb-0 text-secondary text-xs text-end">20:04</p>
+                        </div>
                     </div>
+                    <div class="position-relative">
+                        <div class="d-inline-block float-end py-2 ps-3 pe-4 rounded-3 bg-gradient-faded-primary text-white">
+                            <p class="mb-1 text-end">It's an example message content</p>
+                            <p class="mb-0 text-secondary text-xs">20:04</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="input-group shadow-lg">
+                    <input type="text" id="message-box" class="form-control border-0" />
+                    <button type="button" id="message-send-btn" class="btn btn-dark mb-0 shadow-none">
+                        <span class="fa fa-send text-light"></span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
