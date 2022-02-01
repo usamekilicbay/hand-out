@@ -1,20 +1,38 @@
 ﻿
 @{
-    ViewData["Title"] = "Title";
+    ViewData["Title"] = "Message/Index";
 }
+
+<head>
+    <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+    <script>
+        $(document).ready(() => {
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("http://localhost:44888/chathub").build();
+
+            connection.start();
+
+            $("#message-send-btn").click(() => {
+                let messageContext = $("#message-box").val();
+                connection.invoke("SendMessageAsync", messageContext);
+            });
+        })
+    </script>
+</head>
 
 <div class="container pt-8">
     <div class="row">
         <div class="col-4 me-2">
-            <div class="card h-100 shadow-lg">
-                <div class="card-header pb-0 p-3">
-                    <h6 class="mb-0">Conversations</h6>
+            <div class="card max-height-vh-80 shadow-lg">
+                <div class="card-header p-3 border-bottom">
+                    <h6 class="mb-0">Messages</h6>
                 </div>
-                <div class="card-body p-3">
+                <div class="card-body py-0 px-3 overflow-auto">
                     <ul class="list-group">
-                        @{ for (int i = 0; i < 10; i++)
+                        @{ for (int i = 0; i < 40; i++)
                             {
-                                <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
+                                <li class="list-group-item border-0 d-flex align-items-center px-0 my-1" >
                                     <div class="avatar me-3">
                                         <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
                                     </div>
@@ -31,7 +49,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card h-100 shadow-lg pt-3 px-5">
+            <div class="card h-100 shadow-lg py-3 px-5">
                 <div class="card-header border-bottom border-dark p-3">
                     <div class="d-flex justify-content-between">
                         <div class="d-flex">
@@ -55,7 +73,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-3">
+                <div class="card-body p-3 overflow-auto">
+                </div>
+                <div class="card-footer">
+                    <div class="input-group shadow-lg">
+                        <input type="text" id="message-box" class="form-control border-0" />
+                        <button type="button" id="message-send-btn" class="btn btn-dark mb-0 shadow-none">
+                            <span class="fa fa-send text-light"></span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
