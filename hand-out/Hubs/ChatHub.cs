@@ -8,9 +8,9 @@ namespace hand_out.Hubs
 {
     public class ChatHub : Hub
     {
-        public async void SendMessage(string message)
+        public async void SendMessageAsync(string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", message);
+            await Clients.All.SendAsync("receiveMessage", message);
         }
     }
 }
