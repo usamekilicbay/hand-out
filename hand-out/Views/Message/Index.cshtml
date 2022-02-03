@@ -44,6 +44,45 @@
                 messageArea.append($("#received-message-bubble").html());
                 $(".received-message-bubble .message-content:last").text(messageContext);
             })
+
+            let width;
+            let isSinked = false;
+            const chatSection = $("#chat");
+            const chatListSection = $("#chat-list");
+
+            const mdSize = 768;
+            const lgSize = 992;
+
+            resize();
+
+            $(window).resize(resize);
+
+            function resize() {
+                width = $(window).width();
+                if (width >= lgSize) {
+                    chatSection.show();
+                    chatListSection.show();
+                    isSinked = false;
+                }
+                else {
+                    if (isSinked) return;
+                    chatSection.hide();
+                    chatListSection.show();
+                    isSinked = true;
+                }
+            }
+
+            $(".chat-reply-btn").click(() => {
+                if (width < lgSize) {
+                    chatSection.show();
+                    chatListSection.hide();
+                }
+            });
+
+            $("#cancel-chat-btn").click(() => {
+                chatSection.hide();
+                chatListSection.show();
+            });
         });
     </script>
 </head>
@@ -69,7 +108,7 @@
 
 <div class="container pt-8">
     <div class="row">
-        <div class="col-lg-4">
+        <div id="chat-list" class="col-lg-4">
             <div class="card max-height-vh-80 vh-100 shadow-lg">
                 <div class="card-header p-3 border-bottom">
                     <h6 class="mb-0">Messages</h6>
@@ -86,7 +125,7 @@
                                         <h6 class="mb-0 text-sm">Sophie B.</h6>
                                         <p class="mb-0 text-xs">Hi! I need more information..</p>
                                     </div>
-                                    <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto" href="javascript:;">Reply</a>
+                                    <button class="chat-reply-btn btn btn-link pe-3 ps-0 mb-0 ms-auto" data-bs-toggle="collapse">Reply</button>
                                 </li>
                             }
                         }
@@ -94,10 +133,10 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-8 d-lg-block d-none" id="chat">
+        <div id="chat" class="col-lg-8">
             <div class="card max-height-vh-80 vh-100 shadow-lg py-3 px-lg-5 px-1">
                 <div class="card-header d-flex border-bottom border-dark">
-                    <div class="d-flex col-1 d-lg-none me-md-3 me-1">
+                    <div id="cancel-chat-btn" class="d-flex col-1 d-lg-none me-md-3 me-1">
                         <button class="btn shadow-none mb-0 p-0">
                             <span class="fa fa-arrow-left fa-lg"></span>
                         </button>
