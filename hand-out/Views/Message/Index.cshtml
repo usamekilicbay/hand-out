@@ -69,12 +69,12 @@
 
 <div class="container pt-8">
     <div class="row">
-        <div class="col-4">
+        <div class="col-lg-4">
             <div class="card max-height-vh-80 vh-100 shadow-lg">
                 <div class="card-header p-3 border-bottom">
                     <h6 class="mb-0">Messages</h6>
                 </div>
-                <div class="card-body py-0 px-3 overflow-auto">
+                <div class="card-body py-0 px-md-3 overflow-auto">
                     <ul class="list-group">
                         @{ for (int i = 0; i < 40; i++)
                             {
@@ -94,29 +94,32 @@
                 </div>
             </div>
         </div>
-        <div class="col-8">
-            <div class="card max-height-vh-80 vh-100 shadow-lg py-3 px-5">
-                <div class="card-header border-bottom border-dark p-3">
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex">
-                            <div class="avatar me-3">
-                                <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
-                            </div>
-                            <div class="d-flex align-items-start flex-column justify-content-center">
-                                <h6 class="mb-0 text-sm">Sophie B.</h6>
-                            </div>
+        <div class="col-lg-8 d-lg-block d-none" id="chat">
+            <div class="card max-height-vh-80 vh-100 shadow-lg py-3 px-lg-5 px-1">
+                <div class="card-header d-flex border-bottom border-dark">
+                    <div class="d-flex col-1 d-lg-none me-md-3 me-1">
+                        <button class="btn shadow-none mb-0 p-0">
+                            <span class="fa fa-arrow-left fa-lg"></span>
+                        </button>
+                    </div>
+                    <div class="d-flex col">
+                        <div class="avatar me-lg-3 me-1">
+                            <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
                         </div>
-                        <div class="d-flex">
-                            <div class="my-auto me-2">
-                                <h6 class="mb-0 text-sm">Desk</h6>
-                            </div>
-                            <div class="avatar">
-                                <img src="../assets/img/home-decor-1.jpg" alt="kal" class="border-radius-lg shadow h-100">
-                            </div>
-                            <a class="my-auto ms-5">
-                                <span class="fa fa-ellipsis-v fa-lg"></span>
-                            </a>
+                        <div class="d-flex align-items-start flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">Sophie B.</h6>
                         </div>
+                    </div>
+                    <div class="d-flex col justify-content-end">
+                        <div class="my-auto me-2">
+                            <h6 class="mb-0 text-sm">Desk</h6>
+                        </div>
+                        <div class="avatar">
+                            <img src="../assets/img/home-decor-1.jpg" alt="kal" class="border-radius-lg shadow h-100">
+                        </div>
+                        <a class="my-auto ms-lg-5 ms-2">
+                            <span class="fa fa-ellipsis-v fa-lg"></span>
+                        </a>
                     </div>
                 </div>
                 <div id="message-area" class="card-body p-3 overflow-auto">
