@@ -6,7 +6,7 @@ namespace hand_out.Areas.Admin.Models.ViewModels.Category
 {
     public class ListCategoryViewModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         [Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
