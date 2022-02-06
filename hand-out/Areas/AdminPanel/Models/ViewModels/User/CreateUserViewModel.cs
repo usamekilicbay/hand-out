@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static Sidekick.NET.Types;
 
-namespace hand_out.Areas.AdminPanel.Models.ViewModels.User
+namespace hand_out.Areas.Admin.Models.ViewModels.User
 {
     public class CreateUserViewModel
     {

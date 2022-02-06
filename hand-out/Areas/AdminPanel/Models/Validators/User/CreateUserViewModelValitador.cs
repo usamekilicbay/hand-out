@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using hand_out.Areas.AdminPanel.Models.ViewModels.User;
+using hand_out.Areas.Admin.Models.ViewModels.User;
 using static Sidekick.NET.Constant.Validation.Rule.User;
 
-namespace hand_out.Areas.AdminPanel.Models.Validators.User
+namespace hand_out.Areas.Admin.Models.Validators.User
 {
     public class CreateUserViewModelValitador : AbstractValidator<CreateUserViewModel>
     {

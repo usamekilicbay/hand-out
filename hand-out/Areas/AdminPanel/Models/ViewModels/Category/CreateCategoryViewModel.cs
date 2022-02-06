@@ -1,4 +1,4 @@
-﻿namespace hand_out.Areas.AdminPanel.Models.ViewModels.Category
+﻿namespace hand_out.Areas.Admin.Models.ViewModels.Category
 {
     public class CreateCategoryViewModel
     {

@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using hand_out.Areas.AdminPanel.Models.ViewModels.Category;
+using hand_out.Areas.Admin.Models.ViewModels.Category;
 using static Sidekick.NET.Constant.Validation.Rule.Category;
 
-namespace hand_out.Areas.AdminPanel.Models.Validators.Category
+namespace hand_out.Areas.Admin.Models.Validators.Category
 {
     public class CreateCategoryViewModelValidator : AbstractValidator<CreateCategoryViewModel>
     {

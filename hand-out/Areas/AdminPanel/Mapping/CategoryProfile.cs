@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using EntityLayer.Concrete;
-using hand_out.Areas.AdminPanel.Models.ViewModels.Category;
+using hand_out.Areas.Admin.Models.ViewModels.Category;
 
-namespace hand_out.Areas.AdminPanel.Mapping
+namespace hand_out.Areas.Admin.Mapping
 {
     public class CategoryProfile : Profile
     {

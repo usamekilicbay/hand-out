@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using EntityLayer.Concrete;
-using hand_out.Areas.AdminPanel.Models.ViewModels.User;
+using hand_out.Areas.Admin.Models.ViewModels.User;
 
-namespace hand_out.Areas.AdminPanel.Mapping
+namespace hand_out.Areas.Admin.Mapping
 {
     public class UserProfile : Profile
     {

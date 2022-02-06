@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using hand_out.Areas.AdminPanel.Models.ViewModels.Product;
+using hand_out.Areas.Admin.Models.ViewModels.Product;
 using static Sidekick.NET.Constant.Validation.Rule.Product;
 
-namespace hand_out.Areas.AdminPanel.Models.Validators.Product
+namespace hand_out.Areas.Admin.Models.Validators.Product
 {
     public class UpdateProductViewModelValidator : AbstractValidator<UpdateProductViewModel>
     {
