@@ -63,6 +63,9 @@ namespace hand_out
                 app.UseDeveloperExceptionPage();
             }
 
+            // My operations
+            Sidekick.NET.Constant.Path.SetPaths(env.WebRootPath);
+
             app.UseStaticFiles();
             app.UseCors();
             app.UseRouting();
