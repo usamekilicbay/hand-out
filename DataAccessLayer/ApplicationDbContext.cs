@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Sidekick.NET.Constant.Validation;
-using System;
 
 namespace DataAccessLayer
 {
@@ -25,7 +24,7 @@ namespace DataAccessLayer
         private static void SetCategory(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>()
-                .HasKey(c => c.ID);
+                .HasKey(c => c.Id);
 
             modelBuilder.Entity<Category>()
                 .Property(c => c.Name)
@@ -80,7 +79,7 @@ namespace DataAccessLayer
         private static void SetProduct(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>()
-                .HasKey(p => p.ID);
+                .HasKey(p => p.Id);
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Grantor)
@@ -169,8 +168,8 @@ namespace DataAccessLayer
         }
 
         public DbSet<Category> Category { get; set; }
+        public DbSet<Message> Message { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<Message> Message { get; set; }
     }
 }
