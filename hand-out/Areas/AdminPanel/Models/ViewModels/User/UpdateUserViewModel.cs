@@ -6,7 +6,7 @@ namespace hand_out.Areas.Admin.Models.ViewModels.User
 {
     public class UpdateUserViewModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
