@@ -2,12 +2,14 @@
 using System.ComponentModel.DataAnnotations;
 using static Sidekick.NET.Types;
 
-namespace hand_out.Areas.AdminPanel.Models.ViewModels.Category
+namespace hand_out.Areas.Admin.Models.ViewModels.Category
 {
     public class UpdateCategoryViewModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
+        [Display(Name = "Icon")]
+        public string FontAwesomeIconName { get; set; }
         [Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
         [Display(Name = "Date Modified")]
