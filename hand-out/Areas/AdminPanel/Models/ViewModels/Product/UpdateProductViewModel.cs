@@ -2,11 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using static Sidekick.NET.Types;
 
-namespace hand_out.Areas.AdminPanel.Models.ViewModels.Product
+namespace hand_out.Areas.Admin.Models.ViewModels.Product
 {
     public class UpdateProductViewModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Details { get; set; }
         public string Address { get; set; }
