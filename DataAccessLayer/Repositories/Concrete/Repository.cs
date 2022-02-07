@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public abstract class Repository<T> : IRepository<T> where T : class
     {
-        private ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
         protected DbSet<T> dbSet;
 
         public Repository(ApplicationDbContext applicationDbContext)

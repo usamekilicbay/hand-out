@@ -9,11 +9,11 @@ namespace DataAccessLayer.Repositories.Abstract
         void Insert(T p);
 
         void Update(T p);
-        
+
         void Delete(T p);
 
         T GetByID(int id);
-        
+
         List<T> GetAll();
 
         List<T> GetAll(Expression<Func<T, bool>> filter);
