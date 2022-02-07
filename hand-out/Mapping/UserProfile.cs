@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EntityLayer.Concrete;
-using hand_out.Models.ViewModels.User;
+using DataLayer.ViewModels.User;
 
 namespace hand_out.Mapping
 {

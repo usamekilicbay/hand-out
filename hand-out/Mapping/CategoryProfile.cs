@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EntityLayer.Concrete;
-using hand_out.Models.ViewModels.Category;
+using DataLayer.ViewModels.Category;
 
 namespace hand_out.Mapping
 {
