@@ -1,39 +1,17 @@
-﻿using AutoMapper;
-using BusinessLogicLayer;
-using BusinessLogicLayer.Services.Abstract;
-using DataAccessLayer;
-using EntityLayer.Concrete;
-using hand_out.Models.ViewModels.Product;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using BusinessLogicLayer.Services.Abstract;
+using DataLayer.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace hand_out.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IProductService _productService;
 
-        UserManager<User> _userManager;
-
-        public ProductController(
-            ApplicationDbContext applicationDbContext,
-            IMapper mapper,
-            UserManager<User> userManager,
-            IWebHostEnvironment webHostEnvironment
-            )
+        public ProductController(IProductService productService)
         {
-            _webHostEnvironment = webHostEnvironment;
-            _userManager = userManager;
-            _unitOfWork = new UnitOfWork(applicationDbContext, mapper);
-            _productService = _unitOfWork.ProductService;
+            _productService = productService;
         }
 
         public IActionResult Create()
@@ -42,26 +20,9 @@ namespace hand_out.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert([Bind(Prefix = "ProductCreateViewModel")] CreateProductViewModel createProductViewModel)
+        public async Task<IActionResult> Insert([Bind(Prefix = "ProductCreateViewModel")] DataLayer.ViewModels.Product.CreateProductViewModel createProductViewModel)
         {
-            foreach (IFormFile photo in createProductViewModel.Photos)
-            {
-                string pureFileName = Path.GetFileNameWithoutExtension(photo.FileName);
-                string fileExtension = Path.GetExtension(photo.FileName);
-                string fileName = new StringBuilder().Append(pureFileName).Append("-").Append(Guid.NewGuid()).Append(fileExtension).ToString();
-                string uploadsPath = Path.Combine($"{_webHostEnvironment.WebRootPath}/images/", fileName);
-
-                using (FileStream fileStream = new(uploadsPath, FileMode.CreateNew))
-                {
-                    await photo.CopyToAsync(fileStream);
-                }
-
-                createProductViewModel.PhotoURL += $"{fileName}|";
-            }
-
-            createProductViewModel.GrantorID = _userManager.GetUserId(HttpContext.User);
-            _productService.Insert(createProductViewModel);
-
+            await _productService.InsertAsync(createProductViewModel);
             return Redirect("");
         }
 

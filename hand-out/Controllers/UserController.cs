@@ -1,11 +1,8 @@
-﻿using AutoMapper;
-using BusinessLogicLayer;
-using BusinessLogicLayer.Services.Abstract;
-using DataAccessLayer;
-using EntityLayer.Concrete;
+﻿using BusinessLogicLayer.Services.Abstract;
 using hand_out.Models;
-using hand_out.Models.ViewModels.Shared;
-using hand_out.Models.ViewModels.User;
+using DataLayer.ViewModels.Shared;
+using DataLayer.ViewModels.Product;
+using DataLayer.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,24 +14,21 @@ namespace hand_out.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
 
-        public UserController(ApplicationDbContext applicationDbContext, IMapper mapper,
-            UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserController(IUserService userService)
         {
-            _unitOfWork = new UnitOfWork(applicationDbContext, mapper, userManager, signInManager);
-            _userService = _unitOfWork.UserService;
+            _userService = userService;
         }
 
         [Authorize()]
         [HttpGet]
         public IActionResult Details()
         {
-            ProfileViewModel profileViewModel = new ProfileViewModel();
+            ProfileViewModel profileViewModel = new();
 
-            profileViewModel.UserDetailsViewModel = _userService.GetUserDetails<DetailsUserViewModel>(HttpContext.User);
-            profileViewModel.ProductCreateViewModel = new Models.ViewModels.Product.CreateProductViewModel();
+            profileViewModel.UserDetailsViewModel = _userService.GetCurrentUserDetails<DetailsUserViewModel>();
+            profileViewModel.ProductCreateViewModel = new CreateProductViewModel();
 
             return View(profileViewModel);
         }

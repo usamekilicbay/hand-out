@@ -1,14 +1,8 @@
-﻿using AutoMapper;
-using BusinessLogicLayer;
-using DataAccessLayer;
-using hand_out.Models.ViewModels.Category;
-using hand_out.Models.ViewModels.Product;
-using hand_out.Models.ViewModels.Shared;
+﻿using BusinessLogicLayer;
+using DataLayer.ViewModels.Category;
+using DataLayer.ViewModels.Product;
+using DataLayer.ViewModels.Shared;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace hand_out.Controllers
 {
@@ -16,18 +10,16 @@ namespace hand_out.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ApplicationDbContext applicationDbContext, IMapper mapper)
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork(applicationDbContext, mapper);
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            IndexViewModel indexViewModel = new IndexViewModel
-            {
-                ListProductViewModel = _unitOfWork.ProductService.GetAll<ListProductViewModel>(),
-                ListCategoryViewModel = _unitOfWork.CategoryService.GetAll<ListCategoryViewModel>()
-            };
+            IndexViewModel indexViewModel = new(
+                listProductViewModels: _unitOfWork.ProductService.GetAll<ListProductViewModel>(),
+                listCategoryViewModels: _unitOfWork.CategoryService.GetAll<ListCategoryViewModel>());
 
             return View(indexViewModel);
         }
