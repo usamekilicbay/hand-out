@@ -1,7 +1,6 @@
 ﻿using DataAccessLayer.Repositories.Abstract;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 
 namespace BusinessLogicLayer.Services.Abstract
 {
@@ -9,7 +8,8 @@ namespace BusinessLogicLayer.Services.Abstract
     {
         public IUserRepository UserRepository { get; set; }
 
-        public ViewModel GetUserDetails<ViewModel>(ClaimsPrincipal claimsPrincipal);
+        public string GetCurrentUserId();
+        public ViewModel GetCurrentUserDetails<ViewModel>();
         public IdentityResult SignUp<ViewModel>(ViewModel viewModel, string password);
         public SignInResult PasswordSignIn(string userName, string password, bool isPersistent, bool lockoutOnFailure = false);
     }
