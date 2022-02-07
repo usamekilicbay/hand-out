@@ -23,12 +23,12 @@ namespace BusinessLogicLayer.Services.Concrete
         }
 
         public string GetCurrentUserId() =>
-            UserRepository.GetUserId();
+            UserRepository.GetCurrentUserId();
 
 
         public ViewModel GetCurrentUserDetails<ViewModel>()
         {
-            User user = UserRepository.GetUserDetails();
+            User user = UserRepository.GetCurrentUser();
 
             return mapper.Map<ViewModel>(user);
         }
