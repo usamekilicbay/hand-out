@@ -1,4 +1,5 @@
 ﻿using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace DataAccessLayer.Repositories.Abstract
@@ -7,6 +8,7 @@ namespace DataAccessLayer.Repositories.Abstract
     {
         public UserManager<User> UserManager { get; set; }
         public SignInManager<User> SignInManager { get; set; }
+        public IHttpContextAccessor HttpContextAccessor { get; set; }
 
         public string GetCurrentUserId();
         public User GetCurrentUser();
