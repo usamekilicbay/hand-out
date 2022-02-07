@@ -3,6 +3,7 @@ using BusinessLogicLayer.Services.Abstract;
 using BusinessLogicLayer.Services.Concrete;
 using DataAccessLayer;
 using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace BusinessLogicLayer
@@ -15,17 +16,12 @@ namespace BusinessLogicLayer
 
         public IUserService UserService { get; private set; }
 
-        public UnitOfWork(ApplicationDbContext applicationDbContext, IMapper mapper)
-        {
-            CategoryService = new CategoryService(applicationDbContext, mapper);
-            ProductService = new ProductService(applicationDbContext, mapper);
-        }
-
         public UnitOfWork(ApplicationDbContext applicationDbContext, IMapper mapper,
-            UserManager<User> userManager, SignInManager<User> signInManager)
+            UserManager<User> userManager, SignInManager<User> signInManager, IHttpContextAccessor httpContextAccessor)
         {
-            ProductService = new ProductService(applicationDbContext, mapper);
-            UserService = new UserService(applicationDbContext, mapper, userManager, signInManager);
+            CategoryService = new CategoryService(applicationDbContext, mapper, this);
+            ProductService = new ProductService(applicationDbContext, mapper, this);
+            UserService = new UserService(applicationDbContext, mapper, userManager, signInManager, httpContextAccessor, this);
         }
     }
 }
