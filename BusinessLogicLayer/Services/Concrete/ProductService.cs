@@ -20,7 +20,7 @@ namespace BusinessLogicLayer.Services.Concrete
         public IProductRepository ProductRepository { get; set; }
 
         public ProductService(ApplicationDbContext applicationDbContext,
-            IMapper mapper, UnitOfWork unitOfWork) : base(mapper, unitOfWork)
+            IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
             ProductRepository = new ProductRepository(applicationDbContext);
             Repository = ProductRepository;
