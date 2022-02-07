@@ -25,7 +25,6 @@ namespace BusinessLogicLayer.Services.Concrete
         public string GetCurrentUserId() =>
             UserRepository.GetCurrentUserId();
 
-
         public ViewModel GetCurrentUserDetails<ViewModel>()
         {
             User user = UserRepository.GetCurrentUser();
