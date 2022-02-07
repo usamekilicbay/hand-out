@@ -12,7 +12,8 @@ namespace BusinessLogicLayer.Services.Concrete
     {
         public ICategoryRepository CategoryRepository { get; set; }
 
-        public CategoryService(ApplicationDbContext applicationDbContext, IMapper mapper) : base(mapper)
+        public CategoryService(ApplicationDbContext applicationDbContext, 
+            IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
             CategoryRepository = new CategoryRepository(applicationDbContext);
             Repository = CategoryRepository;
