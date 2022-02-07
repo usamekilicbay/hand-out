@@ -10,11 +10,14 @@ namespace BusinessLogicLayer.Services.Concrete
     public abstract class Service<T> : IService<T> where T : class
     {
         public IRepository<T> Repository { get; set; }
+        public IUnitOfWork UnitOfWork { get; set; }
+
         protected IMapper mapper;
 
-        public Service(IMapper mapper)
+        public Service(IMapper mapper, IUnitOfWork unitOfWork)
         {
             this.mapper = mapper;
+            UnitOfWork = unitOfWork;
         }
 
         public virtual void Delete<ViewModel>(ViewModel viewModel)
