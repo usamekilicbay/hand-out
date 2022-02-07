@@ -8,6 +8,7 @@ namespace BusinessLogicLayer.Services.Abstract
     public interface IService<T> where T : class
     {
         IRepository<T> Repository { get; set; }
+        IUnitOfWork UnitOfWork { get; set; }
 
         void Insert<ViewModel>(ViewModel viewModel);
 
