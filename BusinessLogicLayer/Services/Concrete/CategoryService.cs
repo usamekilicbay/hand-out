@@ -12,7 +12,7 @@ namespace BusinessLogicLayer.Services.Concrete
     {
         public ICategoryRepository CategoryRepository { get; set; }
 
-        public CategoryService(ApplicationDbContext applicationDbContext, 
+        public CategoryService(ApplicationDbContext applicationDbContext,
             IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
             CategoryRepository = new CategoryRepository(applicationDbContext);
@@ -21,11 +21,9 @@ namespace BusinessLogicLayer.Services.Concrete
 
         public List<string> GetCategoryNames()
         {
-            List<Category> categories = Repository.GetAll();
             List<string> categoryNames = new();
-
-            foreach (Category category in categories)
-                categoryNames.Add(category.Name);
+            Repository.GetAll().
+                ForEach(category => categoryNames.Add(category.Name));
 
             return categoryNames;
         }
