@@ -1,3 +1,7 @@
+using AutoMapper;
+using BusinessLogicLayer;
+using BusinessLogicLayer.Services.Abstract;
+using BusinessLogicLayer.Services.Concrete;
 using DataAccessLayer;
 using EntityLayer.Concrete;
 using FluentValidation.AspNetCore;
@@ -10,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace hand_out
 {
@@ -36,7 +41,7 @@ namespace hand_out
             {
                 _.LoginPath = new PathString("/User/SignIn");
                 _.AccessDeniedPath = new PathString("/User/SignIn");
-                _.ExpireTimeSpan = System.TimeSpan.FromDays(2);
+                _.ExpireTimeSpan = TimeSpan.FromDays(2);
                 _.SlidingExpiration = true;
             });
 
@@ -45,14 +50,18 @@ namespace hand_out
             services.AddControllersWithViews()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
-
-            services.AddCors(options => options.AddDefaultPolicy(policy => 
+            services.AddCors(options => options.AddDefaultPolicy(policy =>
                              policy.AllowAnyHeader()
                                    .AllowAnyMethod()
                                    .AllowCredentials()
                                    .SetIsOriginAllowed(origin => true)));
 
             services.AddSignalR();
+
+            services.AddSingleton(p => GetUnitOfWorkInstance(services));
+            services.AddSingleton(p => GetProductServiceInstance(services));
+            services.AddSingleton(p => GetCategoryServiceInstance(services));
+            services.AddSingleton(p => GetUserServiceInstance(services));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +100,51 @@ namespace hand_out
 
                 endpoints.MapHub<ChatHub>("/chathub");
             });
+        }
+
+        private static IUnitOfWork GetUnitOfWorkInstance(IServiceCollection services)
+        {
+            IServiceProvider provider = services.BuildServiceProvider();
+
+            return new UnitOfWork(
+            provider.GetService<ApplicationDbContext>(),
+            provider.GetService<IMapper>(),
+            provider.GetService<UserManager<User>>(),
+            provider.GetService<SignInManager<User>>(),
+            provider.GetService<IHttpContextAccessor>());
+        }
+
+        private static IProductService GetProductServiceInstance(IServiceCollection services)
+        {
+            IServiceProvider provider = services.BuildServiceProvider();
+
+            return new ProductService(
+            provider.GetService<ApplicationDbContext>(),
+            provider.GetService<IMapper>(),
+            provider.GetService<IUnitOfWork>());
+        }
+
+        private static ICategoryService GetCategoryServiceInstance(IServiceCollection services)
+        {
+            IServiceProvider provider = services.BuildServiceProvider();
+
+            return new CategoryService(
+            provider.GetService<ApplicationDbContext>(),
+            provider.GetService<IMapper>(),
+            provider.GetService<IUnitOfWork>());
+        }
+
+        private static IUserService GetUserServiceInstance(IServiceCollection services)
+        {
+            IServiceProvider provider = services.BuildServiceProvider();
+
+            return new UserService(
+            provider.GetService<ApplicationDbContext>(),
+            provider.GetService<IMapper>(),
+            provider.GetService<UserManager<User>>(),
+            provider.GetService<SignInManager<User>>(),
+            provider.GetService<IHttpContextAccessor>(),
+            provider.GetService<IUnitOfWork>());
         }
     }
 }
