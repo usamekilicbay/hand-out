@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using hand_out.Models.ViewModels.User;
-using Sidekick.NET.Constant.Validation;
 using static Sidekick.NET.Constant.Validation.Rule.User;
 
 namespace hand_out.Models.Validators.User
