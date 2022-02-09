@@ -39,6 +39,9 @@ namespace DataAccessLayer.Repositories.Concrete
         public T GetByID(int id) =>
             dbSet.Find(id);
 
+        public T GetByID(string id) =>
+            dbSet.Find(id);
+
         public List<T> GetAll() =>
             dbSet.ToList();
 

@@ -14,6 +14,8 @@ namespace DataAccessLayer.Repositories.Abstract
 
         T GetByID(int id);
 
+        T GetByID(string id);
+
         List<T> GetAll();
 
         List<T> GetAll(Expression<Func<T, bool>> filter);
