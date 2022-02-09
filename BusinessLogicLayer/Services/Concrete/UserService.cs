@@ -3,6 +3,7 @@ using BusinessLogicLayer.Services.Abstract;
 using DataAccessLayer;
 using DataAccessLayer.Repositories.Abstract;
 using DataAccessLayer.Repositories.Concrete;
+using DataLayer.User;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -25,21 +26,21 @@ namespace BusinessLogicLayer.Services.Concrete
         public string GetCurrentUserId() =>
             UserRepository.GetCurrentUserId();
 
-        public ViewModel GetCurrentUserDetails<ViewModel>()
+        public DetailsUserDTO GetCurrentUserDetails()
         {
             User user = UserRepository.GetCurrentUser();
 
-            return mapper.Map<ViewModel>(user);
+            return mapper.Map<DetailsUserDTO>(user);
         }
 
-        public SignInResult PasswordSignIn(string userName, string password, bool isPersistent, bool islockoutOnFailure) => 
-            UserRepository.PasswordSignIn(userName, password, isPersistent, islockoutOnFailure);
+        public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO) =>
+            UserRepository.PasswordSignIn(passwordSignInUserDTO);
 
-        public IdentityResult SignUp<ViewModel>(ViewModel viewModel, string password)
+        public IdentityResult SignUp(SignUpUserDTO signUpUserDTO)
         {
-            User user = mapper.Map<User>(viewModel);
+            User user = mapper.Map<User>(signUpUserDTO);
 
-            return UserRepository.SignUp(user, password);
+            return UserRepository.SignUp(user, signUpUserDTO.Password);
         }
     }
 }
