@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Repositories.Abstract;
+using DataLayer.User;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -26,10 +27,14 @@ namespace DataAccessLayer.Repositories.Concrete
         public User GetCurrentUser() =>
              UserManager.FindByIdAsync(GetCurrentUserId()).Result;
 
-        public SignInResult PasswordSignIn(string userName, string password, bool isPersistent, bool lockoutOnFailure = false) =>
-            SignInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure).Result;
+        public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO) =>
+            SignInManager.PasswordSignInAsync(
+                passwordSignInUserDTO.UserName, 
+                passwordSignInUserDTO.Password, 
+                passwordSignInUserDTO.RememberMe, 
+                false).Result;
 
-        public IdentityResult SignUp(User user, string password) => 
+        public IdentityResult SignUp(User user, string password) =>
             UserManager.CreateAsync(user, password).Result;
     }
 }

@@ -1,4 +1,5 @@
-﻿using EntityLayer.Concrete;
+﻿using DataLayer.User;
+using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
@@ -12,7 +13,7 @@ namespace DataAccessLayer.Repositories.Abstract
 
         public string GetCurrentUserId();
         public User GetCurrentUser();
-        public SignInResult PasswordSignIn(string userName, string password, bool isPersistent, bool lockoutOnFailure = false);
+        public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
         public IdentityResult SignUp(User user, string password);
     }
 }
