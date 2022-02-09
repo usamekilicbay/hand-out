@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj" />
   </ItemGroup>
 
