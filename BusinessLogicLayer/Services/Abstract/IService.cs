@@ -16,7 +16,7 @@ namespace BusinessLogicLayer.Services.Abstract
 
         void Delete<ViewModel>(ViewModel viewModel);
 
-        ViewModel GetByID<ViewModel>(int id);
+        ViewModel GetById<ViewModel>(int id);
 
         List<ViewModel> GetAll<ViewModel>();
 

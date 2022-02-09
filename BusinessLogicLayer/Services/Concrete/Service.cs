@@ -42,9 +42,9 @@ namespace BusinessLogicLayer.Services.Concrete
             return viewModels;
         }
 
-        public virtual ViewModel GetByID<ViewModel>(int id)
+        public virtual ViewModel GetById<ViewModel>(int id)
         {
-            T entity = Repository.GetByID(id);
+            T entity = Repository.GetById(id);
             ViewModel viewModel = mapper.Map<ViewModel>(entity);
 
             return viewModel;
