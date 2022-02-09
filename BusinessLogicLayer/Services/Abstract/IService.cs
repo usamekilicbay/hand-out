@@ -18,6 +18,8 @@ namespace BusinessLogicLayer.Services.Abstract
 
         ViewModel GetById<ViewModel>(int id);
 
+        ViewModel GetById<ViewModel>(string id);
+
         List<ViewModel> GetAll<ViewModel>();
 
         List<ViewModel> GetAll<ViewModel>(Expression<Func<T, bool>> filter);

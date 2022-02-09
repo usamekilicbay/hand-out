@@ -50,6 +50,14 @@ namespace BusinessLogicLayer.Services.Concrete
             return viewModel;
         }
 
+        public virtual ViewModel GetById<ViewModel>(string id)
+        {
+            T entity = Repository.GetById(id);
+            ViewModel viewModel = mapper.Map<ViewModel>(entity);
+
+            return viewModel;
+        }
+
         public virtual void Insert<ViewModel>(ViewModel viewModel)
         {
             T entity = mapper.Map<T>(viewModel);
@@ -62,4 +70,4 @@ namespace BusinessLogicLayer.Services.Concrete
             Repository.Update(entity);
         }
     }
-}
+ }
