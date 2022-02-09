@@ -1,5 +1,5 @@
 ﻿using DataAccessLayer.Repositories.Abstract;
-using DataLayer.ViewModels.Product;
+using DataLayer.Product;
 using EntityLayer.Concrete;
 using System.Threading.Tasks;
 
@@ -9,6 +9,6 @@ namespace BusinessLogicLayer.Services.Abstract
     {
         public IProductRepository ProductRepository { get; set; }
 
-        public Task InsertAsync(CreateProductViewModel productModel);
+        public Task InsertAsync(CreateProductDTO productModel);
     }
 }

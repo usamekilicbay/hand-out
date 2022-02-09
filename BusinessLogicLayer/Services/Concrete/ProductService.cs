@@ -3,7 +3,7 @@ using BusinessLogicLayer.Services.Abstract;
 using DataAccessLayer;
 using DataAccessLayer.Repositories.Abstract;
 using DataAccessLayer.Repositories.Concrete;
-using DataLayer.ViewModels.Product;
+using DataLayer.Product;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -26,7 +26,7 @@ namespace BusinessLogicLayer.Services.Concrete
             Repository = ProductRepository;
         }
 
-        public async Task InsertAsync(CreateProductViewModel productModel)
+        public async Task InsertAsync(CreateProductDTO productModel)
         {
             StringBuilder photoURLBuilder = new();
 
