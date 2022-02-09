@@ -36,10 +36,10 @@ namespace DataAccessLayer.Repositories.Concrete
             SaveChanges();
         }
 
-        public T GetByID(int id) =>
+        public T GetById(int id) =>
             dbSet.Find(id);
 
-        public T GetByID(string id) =>
+        public T GetById(string id) =>
             dbSet.Find(id);
 
         public List<T> GetAll() =>

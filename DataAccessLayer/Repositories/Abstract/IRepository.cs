@@ -12,9 +12,9 @@ namespace DataAccessLayer.Repositories.Abstract
 
         void Delete(T p);
 
-        T GetByID(int id);
+        T GetById(int id);
 
-        T GetByID(string id);
+        T GetById(string id);
 
         List<T> GetAll();
 
