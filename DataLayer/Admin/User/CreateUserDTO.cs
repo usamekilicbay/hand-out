@@ -5,7 +5,7 @@ namespace DataLayer.Areas.Admin.User
 {
     public class CreateUserDTO
     {
-        public string Name { get; set; }
+        public string UserName { get; set; }
         public string Email { get; set; }
         public string Address { get; set; }
         [Display(Name = "Profile Photo URL")]
