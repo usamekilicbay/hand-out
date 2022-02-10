@@ -44,8 +44,11 @@ namespace BusinessLogicLayer.Services.Concrete
                     .Append(Path.GetExtension(photo.FileName)).ToString();
 
                 uploadPaths.Add(Path.Combine($"{Constant.Path.PRODUCT_IMAGES}", fileName));
+
                 photoURLBuilder.Append($"{fileName}|");
             }
+
+            photoURLBuilder.Remove(photoURLBuilder.Length - 1, 1);
 
             Product product = mapper.Map<Product>(productModel);
 
