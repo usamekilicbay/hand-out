@@ -84,12 +84,12 @@ namespace DataAccessLayer
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Grantor)
                 .WithMany(u => u.Products)
-                .HasForeignKey(p => p.GrantorID);
+                .HasForeignKey(p => p.GrantorId);
 
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Products)
-                .HasForeignKey(p => p.CategoryID);
+                .HasForeignKey(p => p.CategoryId);
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.Name)
