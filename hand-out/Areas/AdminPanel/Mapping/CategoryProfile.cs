@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DataLayer.Areas.Admin.Category;
 using EntityLayer.Concrete;
 using hand_out.Areas.Admin.Models.ViewModels.Category;
 
@@ -8,14 +9,21 @@ namespace hand_out.Areas.Admin.Mapping
     {
         public CategoryProfile()
         {
-            CreateMap<Category, ListCategoryViewModel>()
-               .ReverseMap();
+            #region Entity <---> DTO
+            CreateMap<Category, ListCategoryDTO>().ReverseMap();
 
-            CreateMap<Category, CreateCategoryViewModel>()
-                .ReverseMap();
+            CreateMap<Category, CreateCategoryDTO>().ReverseMap();
 
-            CreateMap<Category, UpdateCategoryViewModel>()
-                .ReverseMap();
+            CreateMap<Category, UpdateCategoryDTO>().ReverseMap();
+            #endregion
+
+            #region View Model <---> DTO
+            CreateMap<ListCategoryViewModel, ListCategoryDTO>().ReverseMap();
+
+            CreateMap<CreateCategoryViewModel, CreateCategoryDTO>().ReverseMap();
+
+            CreateMap<UpdateCategoryViewModel, UpdateCategoryDTO>().ReverseMap();
+            #endregion
         }
     }
 }

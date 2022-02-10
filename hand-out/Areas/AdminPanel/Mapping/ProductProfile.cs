@@ -1,18 +1,24 @@
 ﻿using AutoMapper;
+using DataLayer.Areas.Admin.Product;
 using EntityLayer.Concrete;
 using hand_out.Areas.Admin.Models.ViewModels.Product;
 
 namespace hand_out.Areas.Admin.Mapping
 {
-    public class ProductProfile: Profile
+    public class ProductProfile : Profile
     {
         public ProductProfile()
         {
-            CreateMap<Product, ListProductViewModel>()
-                .ReverseMap();
+            #region Entity <---> DTO
+            CreateMap<Product, ListProductDTO>().ReverseMap();
+            CreateMap<Product, UpdateProductDTO>().ReverseMap();
 
-            CreateMap<Product, UpdateProductViewModel>()
-                .ReverseMap();
+            #endregion
+
+            #region View Model <---> DTO
+            CreateMap<ListProductViewModel, ListProductDTO>().ReverseMap();
+            CreateMap<UpdateProductViewModel, UpdateProductDTO>().ReverseMap();
+            #endregion
         }
     }
 }
