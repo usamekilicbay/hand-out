@@ -8,7 +8,7 @@ namespace hand_out.Areas.Admin.Models.Validators.User
     {
         public CreateUserViewModelValitador()
         {
-            RuleFor(x => x.Name)
+            RuleFor(x => x.UserName)
                 .NotNull()
                 .NotEmpty()
                 .Length(Name.MIN_LENGTH, Name.MAX_LENGTH);
