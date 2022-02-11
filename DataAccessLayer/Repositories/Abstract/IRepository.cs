@@ -4,21 +4,29 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Abstract
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity> where TEntity : class
     {
-        void Insert(T p);
+        void Insert(TEntity entity);
 
-        void Update(T p);
+        void Update(TEntity entity);
 
-        void Delete(T p);
+        void Delete(TEntity entity);
 
-        T GetById(int id);
+        TEntity GetById(int id);
 
-        T GetById(string id);
+        TEntity GetById(string id);
 
-        List<T> GetAll();
+        abstract TEntity GetByIdWithRelations(int id);
 
-        List<T> GetAll(Expression<Func<T, bool>> filter);
+        abstract TEntity GetByIdWithRelations(string id);
+
+        List<TEntity> GetAll();
+
+        List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter);
+
+        abstract List<TEntity> GetAllWithRelations();
+
+        abstract List<TEntity> GetAllWithRelations(Expression<Func<TEntity, bool>> filter);
 
         void SaveChanges();
     }
