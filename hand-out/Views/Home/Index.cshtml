@@ -1,17 +1,26 @@
 ﻿@model IndexViewModel
 
-@{ 
+@{
     ViewData["Title"] = "Home/Index";
 }
 
 <div class="container-fluid">
     <div class="container pt-8">
+        <!-- Category Cards -->
         <div class="">
             <ul class="nav nav-justified">
+                <li class="nav-item me-2">
+                    <a class="card-link text-white" asp-action="Index">
+                        <div class="category-card rounded-3 shadow anim-grow bg-gradient-dark">
+                            <span class="fa fa-layer-group fa-2x"></span>
+                            <span class="category-card-title">All</span>
+                        </div>
+                    </a>
+                </li>
                 @foreach (ListCategoryViewModel category in @Model.ListCategoryViewModels)
                 {
                     <li class="nav-item me-2">
-                        <a class="card-link text-white" href="#">
+                        <a class="card-link text-white" asp-action="Index" asp-route-id="@category.Id">
                             <div class="category-card rounded-3 shadow anim-grow bg-gradient-dark">
                                 <span class="fa @category.FontAwesomeIconName fa-2x"></span>
                                 <span class="category-card-title">@category.Name</span>
@@ -21,32 +30,44 @@
                 }
             </ul>
         </div>
-
-        <div class="col-12 mt-4 shadow-lg">
-            <div class="card mb-4">
+        <!-- Category Cards End -->
+        <!------------------------------------------------------------>
+        <!-- Products -->
+        <div class="col-12 mt-4">
+            <div class="mb-4">
                 <div class="card-body p-3">
                     <div class="row">
-                        @*@foreach (var product in Model)*@
-                        @for (int i = 0; i < 10; i++)
+                        @foreach (var product in Model.ListProductViewModels)
+                        @*@for (int i = 0; i < 10; i++)*@
                         {
                             <div class="col-xl-4 col-md-6 mb-xl-0 my-6">
                                 <div class="card card-blog card-plain shadow-lg">
                                     <div class="position-relative">
                                         <a class="d-block shadow-xl border-radius-xl">
-                                            <img src="/assets/img/home-decor-1.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                                            <img src="~/images/product-images/@product.PhotoURL.Split("|")[0]" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">
+                                            @*<img src="/assets/img/home-decor-1.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-xl">*@
                                         </a>
                                     </div>
                                     <div class="card-body p-3">
-                                        <p class="text-gradient text-dark mb-2 text-sm">Address</p>
-                                        @*<p class="text-gradient text-dark mb-2 text-sm">@product.Address</p>*@
-                                        <a href="javascript:;">
-                                            @*<h5>@product.Name</h5>*@
-                                            <h5>Name</h5>
-                                        </a>
-                                        @*<p class="mb-4 text-sm">@product.Details</p>*@
-                                        <p class="mb-4 text-sm">Details</p>
+                                        @*<p class="text-gradient text-dark mb-2 text-sm">Address</p>*@
+                                        <div class="row mb-2">
+                                            <div class="col-6 text-gradient text-dark text-sm">
+                                                @product.Address
+                                                <span class="fa fa-map-marker"></span>
+                                            </div>
+                                            <div class="col-6 text-gradient text-dark text-end">
+                                                <span class="fa @product.CategoryFontAwesomeIconName"></span>
+                                                @product.CategoryName
+                                            </div>
+                                        </div>
+                                        <p>
+                                            <h5>@product.Name</h5>
+                                            @*<h5>Name</h5>*@
+                                        </p>
+                                        <p class="mb-4 text-sm">@product.Details</p>
+                                        @*<p class="mb-4 text-sm">Details</p>*@
                                         <div class="d-flex align-items-center justify-content-between">
-                                            <button type="button" class="btn btn-outline-primary btn-sm mb-0">View Project</button>
+                                            <a asp-route-id="@product.Id" asp-action="Details" asp-controller="Product" class="btn btn-outline-primary btn-sm mb-0">View Project</a>
                                             <div class="avatar-group mt-2">
                                                 <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Elena Morison">
                                                     <img alt="Image placeholder" src="../assets/img/team-1.jpg">
@@ -70,5 +91,6 @@
                 </div>
             </div>
         </div>
+        <!-- Products End -->
     </div>
 </div>
