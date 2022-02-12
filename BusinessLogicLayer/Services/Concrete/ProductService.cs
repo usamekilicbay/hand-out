@@ -53,7 +53,7 @@ namespace BusinessLogicLayer.Services.Concrete
             Product product = mapper.Map<Product>(productModel);
 
             product.PhotoURL = photoURLBuilder.ToString();
-            product.GrantorID = UnitOfWork.UserService.GetCurrentUserId();
+            product.GrantorId = UnitOfWork.UserService.GetCurrentUserId();
 
             ProductRepository.Insert(product);
 
