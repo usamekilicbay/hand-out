@@ -41,8 +41,8 @@
                                                     <img src="@user.ProfilePhotoURL" class="avatar avatar-sm me-3" alt="user6">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">@user.Name</h6>
-                                                    <p class="text-xs text-secondary mb-0">ID: @user.ID</p>
+                                                    <h6 class="mb-0 text-sm">@user.UserName</h6>
+                                                    <p class="text-xs text-secondary mb-0">ID: @user.Id</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -73,7 +73,7 @@
                                             <span class="badge badge-sm @styleClass">@user.Status</span>
                                         </td>
                                         <td class="align-middle">
-                                            <a asp-action="Edit" asp-route-id="@user.ID" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            <a asp-action="Edit" asp-route-id="@user.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                                 Edit
                                             </a>
                                         </td>
