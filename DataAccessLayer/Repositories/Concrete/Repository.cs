@@ -7,50 +7,59 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
-    public abstract class Repository<T> : IRepository<T> where T : class
+    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        protected DbSet<T> dbSet;
+        protected DbSet<TEntity> dbSet;
 
         public Repository(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
-            dbSet = _applicationDbContext.Set<T>();
+            dbSet = _applicationDbContext.Set<TEntity>();
         }
 
-        public void Insert(T p)
+        public void Insert(TEntity entity)
         {
-            dbSet.Add(p);
+            dbSet.Add(entity);
             SaveChanges();
         }
 
-        public void Update(T p)
+        public void Update(TEntity entity)
         {
-            dbSet.Update(p);
+            dbSet.Update(entity);
             SaveChanges();
         }
 
-        public void Delete(T p)
+        public void Delete(TEntity entity)
         {
-            dbSet.Remove(p);
+            dbSet.Remove(entity);
             SaveChanges();
         }
 
-        public T GetById(int id) =>
+        public TEntity GetById(int id) =>
             dbSet.Find(id);
 
-        public T GetById(string id) =>
+        public TEntity GetById(string id) =>
             dbSet.Find(id);
 
-        public List<T> GetAll() =>
+        public List<TEntity> GetAll() =>
             dbSet.ToList();
 
-        public List<T> GetAll(Expression<Func<T, bool>> filter) => 
+        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter) =>
             dbSet.Where(filter).ToList();
 
         public void SaveChanges()
         {
             _applicationDbContext.SaveChanges();
         }
+
+        public virtual TEntity GetByIdWithRelations(int id) { return null; }
+
+        public virtual TEntity GetByIdWithRelations(string id) { return null; }
+
+        public abstract List<TEntity> GetAllWithRelations();
+
+        public abstract List<TEntity> GetAllWithRelations(Expression<Func<TEntity, bool>> filter);
+
     }
 }
