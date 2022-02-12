@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 
 namespace BusinessLogicLayer.Services.Concrete
 {
-    public abstract class Service<T> : IService<T> where T : class
+    public abstract class Service<TEntity> : IService<TEntity> where TEntity : class
     {
-        public IRepository<T> Repository { get; set; }
+        public IRepository<TEntity> Repository { get; set; }
         public IUnitOfWork UnitOfWork { get; set; }
 
         protected IMapper mapper;
@@ -20,54 +20,66 @@ namespace BusinessLogicLayer.Services.Concrete
             UnitOfWork = unitOfWork;
         }
 
-        public virtual void Delete<ViewModel>(ViewModel viewModel)
+        public virtual void Delete<T>(T DTO)
         {
-            T entity = mapper.Map<T>(viewModel);
+            TEntity entity = mapper.Map<TEntity>(DTO);
             Repository.Delete(entity);
         }
 
-        public virtual List<ViewModel> GetAll<ViewModel>()
+        public virtual List<T> GetAll<T>()
         {
-            List<T> entities = Repository.GetAll();
-            List<ViewModel> viewModels = mapper.Map<List<ViewModel>>(entities);
+            List<TEntity> entities = Repository.GetAll();
+            List<T> DTOs = mapper.Map<List<T>>(entities);
 
-            return viewModels;
+            return DTOs;
         }
 
-        public virtual List<ViewModel> GetAll<ViewModel>(Expression<Func<T, bool>> filter)
+        public virtual List<T> GetAll<T>(Expression<Func<TEntity, bool>> filter)
         {
-            List<T> entities = Repository.GetAll(filter);
-            List<ViewModel> viewModels = mapper.Map<List<ViewModel>>(entities);
+            List<TEntity> entities = Repository.GetAll(filter);
+            List<T> DTOs = mapper.Map<List<T>>(entities);
 
-            return viewModels;
+            return DTOs;
         }
 
-        public virtual ViewModel GetById<ViewModel>(int id)
+        public virtual T GetById<T>(int id)
         {
-            T entity = Repository.GetById(id);
-            ViewModel viewModel = mapper.Map<ViewModel>(entity);
+            TEntity entity = Repository.GetById(id);
+            T DTO = mapper.Map<T>(entity);
 
-            return viewModel;
+            return DTO;
         }
 
-        public virtual ViewModel GetById<ViewModel>(string id)
+        public virtual T GetById<T>(string id)
         {
-            T entity = Repository.GetById(id);
-            ViewModel viewModel = mapper.Map<ViewModel>(entity);
+            TEntity entity = Repository.GetById(id);
+            T DTO = mapper.Map<T>(entity);
 
-            return viewModel;
+            return DTO;
         }
 
-        public virtual void Insert<ViewModel>(ViewModel viewModel)
+        public virtual void Insert<T>(T DTO)
         {
-            T entity = mapper.Map<T>(viewModel);
+            TEntity entity = mapper.Map<TEntity>(DTO);
             Repository.Insert(entity);
         }
 
-        public virtual void Update<ViewModel>(ViewModel viewModel)
+        public virtual void Update<T>(T DTO)
         {
-            T entity = mapper.Map<T>(viewModel);
+            TEntity entity = mapper.Map<TEntity>(DTO);
             Repository.Update(entity);
         }
+
+        public List<T> GetAllWithRelations<T>() =>
+            mapper.Map<List<T>>(Repository.GetAllWithRelations());
+
+        public T GetByIdWithRelations<T>(int id) =>
+            mapper.Map<T>(Repository.GetByIdWithRelations(id));
+
+        public T GetWithRelations<T>(string id) =>
+            mapper.Map<T>(Repository.GetByIdWithRelations(id));
+
+        public List<T> GetAllWithRelations<T>(Expression<Func<TEntity, bool>> filter) =>
+            mapper.Map<List<T>>(Repository.GetAllWithRelations(filter));
     }
- }
+}
