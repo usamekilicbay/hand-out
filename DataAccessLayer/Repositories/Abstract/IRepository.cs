@@ -16,9 +16,9 @@ namespace DataAccessLayer.Repositories.Abstract
 
         TEntity GetById(string id);
 
-        abstract TEntity GetByIdWithRelations(int id);
+        TEntity GetByIdWithRelations(int id);
 
-        abstract TEntity GetByIdWithRelations(string id);
+        TEntity GetByIdWithRelations(string id);
 
         List<TEntity> GetAll();
 
