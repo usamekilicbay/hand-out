@@ -6,13 +6,10 @@
         {
             ACTIVE,
             BANNED,
-            PASSIVE,
-        }
-
-        public enum UserActivityStatus
-        {
             OFFLINE,
-            ONLINE
+            ONLINE,
+            PASSIVE,
+            PENDING,
         }
 
         public enum ProductStatus
