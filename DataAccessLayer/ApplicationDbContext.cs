@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Sidekick.NET.Constant.Validation;
+using Rule = Sidekick.NET.Constant.Validation.Rule;
 
 namespace DataAccessLayer
 {
