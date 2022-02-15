@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DataLayer.Product;
+using System.Collections.Generic;
 using static Sidekick.NET.Types;
 
 namespace DataLayer.User
@@ -12,6 +13,6 @@ namespace DataLayer.User
         public string ProfilePhotoURL { get; set; }
         public UserStatus Status { get; set; }
 
-        public virtual IList<EntityLayer.Concrete.Product> Products { get; set; }
+        public virtual IList<ListProductDTO> Products { get; set; }
     }
 }
