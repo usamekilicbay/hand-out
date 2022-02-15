@@ -3,6 +3,11 @@ using DataLayer.User;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
@@ -29,12 +34,29 @@ namespace DataAccessLayer.Repositories.Concrete
 
         public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO) =>
             SignInManager.PasswordSignInAsync(
-                passwordSignInUserDTO.UserName, 
-                passwordSignInUserDTO.Password, 
-                passwordSignInUserDTO.RememberMe, 
+                passwordSignInUserDTO.UserName,
+                passwordSignInUserDTO.Password,
+                passwordSignInUserDTO.RememberMe,
                 false).Result;
 
         public IdentityResult SignUp(User user, string password) =>
             UserManager.CreateAsync(user, password).Result;
+
+        public override List<User> GetAllWithRelations()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override List<User> GetAllWithRelations(Expression<Func<User, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override User GetByIdWithRelations(string id)
+        {
+            return (User)dbSet
+                .Where(u => u.Id == id)
+                .Include(u => u.Products);
+        }
     }
 }
