@@ -1,27 +1,32 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer;
 using BusinessLogicLayer.Services.Abstract;
-using hand_out.Areas.AdminPanel.Models.ViewModels.User;
+using DataLayer.Areas.Admin.User;
+using hand_out.Areas.Admin.Models.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
-namespace hand_out.Areas.AdminPanel.Controllers
+namespace hand_out.Areas.Admin.Controllers
 {
     [Area("AdminPanel")]
     public class UserController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserController(DataAccessLayer.ApplicationDbContext applicationDbContext, IMapper mapper)
+        public UserController(IMapper mapper, IUserService userService, IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork(applicationDbContext, mapper);
-            _userService = _unitOfWork.UserService;
+            _mapper = mapper;
+            _userService = userService;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View(_userService.GetAll<ListUserViewModel>());
+            var vararara = _userService.GetAll<ListUserDTO>();
+            return View(_mapper.Map<List<ListUserViewModel>>(vararara));
         }
 
         [HttpGet]
@@ -36,15 +41,15 @@ namespace hand_out.Areas.AdminPanel.Controllers
             if (!ModelState.IsValid)
                 return Redirect("Create");
 
-            _userService.Insert(userCreateViewModel);
+            _userService.Insert(_mapper.Map<CreateUserDTO>(userCreateViewModel));
 
             return Redirect("Index");
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(string id)
         {
-            return View(_userService.GetByID<UpdateUserViewModel>(id));
+            return View(_mapper.Map<UpdateUserViewModel>(_userService.GetById<UpdateUserDTO>(id)));
         }
 
         [HttpPost]
@@ -53,7 +58,7 @@ namespace hand_out.Areas.AdminPanel.Controllers
             if (!ModelState.IsValid)
                 return Redirect("Edit");
 
-            _userService.Update(userUpdateViewModel);
+            _userService.Update(_mapper.Map<UpdateUserDTO>(userUpdateViewModel));
 
             return RedirectToAction("Index");
         }

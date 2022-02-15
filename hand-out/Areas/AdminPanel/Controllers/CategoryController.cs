@@ -1,28 +1,29 @@
 ﻿using AutoMapper;
-using BusinessLogicLayer;
 using BusinessLogicLayer.Services.Abstract;
+using DataLayer.Areas.Admin.Category;
 using EntityLayer.Concrete;
-using hand_out.Areas.AdminPanel.Models.ViewModels.Category;
+using hand_out.Areas.Admin.Models.ViewModels.Category;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
-namespace hand_out.Areas.AdminPanel.Controllers
+namespace hand_out.Areas.Admin.Controllers
 {
     [Area("AdminPanel")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public CategoryController(DataAccessLayer.ApplicationDbContext applicationDbContext, IMapper mapper)
+        public CategoryController(ICategoryService categoryService, IMapper mapper)
         {
-            _unitOfWork = new UnitOfWork(applicationDbContext, mapper);
-            _categoryService = _unitOfWork.CategoryService;
+            _categoryService = categoryService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View(_categoryService.GetAll<Category>());
+            return View(_mapper.Map<List<ListCategoryViewModel>>(_categoryService.GetAll<ListCategoryDTO>()));
         }
 
         [HttpGet]
@@ -34,7 +35,7 @@ namespace hand_out.Areas.AdminPanel.Controllers
         [HttpPost]
         public IActionResult Insert(CreateCategoryViewModel createCategoryViewModel)
         {
-            _categoryService.Insert(createCategoryViewModel);
+            _categoryService.Insert(_mapper.Map<CreateCategoryDTO>(createCategoryViewModel));
 
             return RedirectToAction("Index");
         }
@@ -42,7 +43,7 @@ namespace hand_out.Areas.AdminPanel.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return View(_categoryService.GetByID<UpdateCategoryViewModel>(id));
+            return View(_mapper.Map<UpdateCategoryViewModel>(_categoryService.GetById<UpdateCategoryDTO>(id)));
         }
 
         [HttpPost]
@@ -51,7 +52,7 @@ namespace hand_out.Areas.AdminPanel.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction("Edit");
 
-            _categoryService.Update(updateCategoryViewModel);
+            _categoryService.Update(_mapper.Map<UpdateCategoryDTO>(updateCategoryViewModel));
 
             return RedirectToAction("Index");
         }

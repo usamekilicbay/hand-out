@@ -1,33 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.Services.Abstract;
+using hand_out.Areas.Admin.Models.ViewModels.Product;
+using DataLayer.Areas.Admin.Product;
 using AutoMapper;
-using BusinessLogicLayer;
-using hand_out.Areas.AdminPanel.Models.ViewModels.Product;
+using System.Collections.Generic;
 
-namespace hand_out.Areas.AdminPanel.Controllers
+namespace hand_out.Areas.Admin.Controllers
 {
     [Area("AdminPanel")]
     public class ProductController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public ProductController(DataAccessLayer.ApplicationDbContext applicationDbContext, IMapper mapper)
+        public ProductController(IProductService productService, IMapper mapper)
         {
-            _unitOfWork = new UnitOfWork(applicationDbContext, mapper);
-            _productService = _unitOfWork.ProductService;
+            _productService = productService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return View(_productService.GetAll<ListProductViewModel>());
+            return View(_mapper.Map<List<ListProductViewModel>>(_productService.GetAll<ListProductDTO>()));
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            return View(_productService.GetByID<UpdateProductViewModel>(id));
+            return View(_mapper.Map<ListProductViewModel>(_productService.GetById<UpdateProductDTO>(id)));
         }
 
         [HttpPost]
@@ -36,7 +37,7 @@ namespace hand_out.Areas.AdminPanel.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction("Edit");
 
-            _productService.Update(updateProductViewModel);
+            _productService.Update(_mapper.Map<UpdateProductDTO>(updateProductViewModel));
 
             return RedirectToAction("Index");
         }
