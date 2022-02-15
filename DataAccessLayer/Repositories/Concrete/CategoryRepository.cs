@@ -1,5 +1,8 @@
 ﻿using DataAccessLayer.Repositories.Abstract;
 using EntityLayer.Concrete;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
@@ -7,6 +10,21 @@ namespace DataAccessLayer.Repositories.Concrete
     {
         public CategoryRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
+        }
+
+        public override List<Category> GetAllWithRelations()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override List<Category> GetAllWithRelations(Expression<Func<Category, bool>> filter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Category GetByIdWithRelations(int id)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
