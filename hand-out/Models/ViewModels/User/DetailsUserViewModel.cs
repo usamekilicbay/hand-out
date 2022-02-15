@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using hand_out.Models.ViewModels.Product;
+using System.Collections.Generic;
 using static Sidekick.NET.Types;
 
 namespace hand_out.Models.ViewModels.User
@@ -12,6 +13,6 @@ namespace hand_out.Models.ViewModels.User
         public string ProfilePhotoURL { get; set; }
         public UserStatus Status { get; set; }
 
-        public virtual IList<EntityLayer.Concrete.Product> Products { get; set; }
+        public virtual IList<ListProductViewModel> Products { get; set; }
     }
 }
