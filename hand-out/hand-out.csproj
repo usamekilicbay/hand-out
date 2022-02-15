@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="automapper" Version="10.1.1" />
-    <PackageReference Include="automapper.extensions.microsoft.dependencyinjection" Version="8.1.1" />
+    <PackageReference Include="automapper" Version="11.0.1" />
+    <PackageReference Include="automapper.extensions.microsoft.dependencyinjection" Version="11.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.12">
       <PrivateAssets>all</PrivateAssets>
@@ -20,14 +20,9 @@
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj" />
     <ProjectReference Include="..\Sidekick.NET\Sidekick.NET.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\AdminPanel\Data\" />
-    <Folder Include="wwwroot\images\product-photos\" />
-    <Folder Include="wwwroot\images\profile-photos\" />
   </ItemGroup>
 
 </Project>
