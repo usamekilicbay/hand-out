@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using DataLayer.Areas.Admin.User;
+using DataLayer.User;
 using EntityLayer.Concrete;
-using DataLayer.ViewModels.User;
+using hand_out.Models.ViewModels.User;
 
 namespace hand_out.Mapping
 {
@@ -8,14 +10,21 @@ namespace hand_out.Mapping
     {
         public UserProfile()
         {
-            CreateMap<User, DetailsUserViewModel>()
-                .ReverseMap();
+            #region Entity <---> DTO
+            CreateMap<User, DetailsUserDTO>().ReverseMap();
 
-            CreateMap<User, SignUpUserViewModel>()
-                .ReverseMap();
+            CreateMap<User, SignUpUserDTO>().ReverseMap();
 
-            CreateMap<User, SignInUserViewModel>()
-                .ReverseMap();
+            CreateMap<User, PasswordSignInUserDTO>().ReverseMap();
+            #endregion
+
+            #region View Model <---> DTO
+            CreateMap<DetailsUserViewModel, DetailsUserDTO>().ReverseMap();
+
+            CreateMap<SignUpUserViewModel, SignUpUserDTO>().ReverseMap();
+
+            CreateMap<PasswordSignInUserViewModel, PasswordSignInUserDTO>().ReverseMap();
+            #endregion
         }
     }
 }

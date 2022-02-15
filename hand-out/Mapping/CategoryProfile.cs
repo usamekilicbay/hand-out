@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using DataLayer.Category;
 using EntityLayer.Concrete;
-using DataLayer.ViewModels.Category;
+using hand_out.Models.ViewModels.Category;
 
 namespace hand_out.Mapping
 {
@@ -8,8 +9,17 @@ namespace hand_out.Mapping
     {
         public CategoryProfile()
         {
-            CreateMap<Category, ListCategoryViewModel>()
-                .ReverseMap();
+            #region Entity <---> DTO
+            CreateMap<Category, ListCategoryDTO>().ReverseMap();
+
+            CreateMap<Category, DropdownCategoryDTO>().ReverseMap();
+            #endregion
+
+            #region View Model <---> DTO
+            CreateMap<ListCategoryViewModel, ListCategoryDTO>().ReverseMap();
+
+            CreateMap<DropdownCategoryViewModel, DropdownCategoryDTO>().ReverseMap();
+            #endregion
         }
     }
 }
