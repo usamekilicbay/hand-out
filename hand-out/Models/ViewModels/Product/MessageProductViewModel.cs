@@ -4,14 +4,14 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string FirstPhotoURL { get; private set; }
+        public string PhotoURL { get; set; }
         public string GrantorId { get; set; }
         public string GrantorUserName { get; set; }
         public string GrantorProfilePhotoURL { get; set; }
 
-        public MessageProductViewModel(string url)
+        public string GetThumbnailURL()
         {
-            FirstPhotoURL = url.Split("|")[0];
+            return PhotoURL.Split("|")[0];
         }
     }
 }
