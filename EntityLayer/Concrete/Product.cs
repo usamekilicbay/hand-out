@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using static Sidekick.NET.Types;
 
 namespace EntityLayer.Concrete
@@ -15,5 +16,6 @@ namespace EntityLayer.Concrete
         public virtual User Grantor { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }
