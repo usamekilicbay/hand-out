@@ -62,6 +62,11 @@ namespace DataAccessLayer
                 .HasDefaultValueSql(Rule.Message.Id.DEFAULT_VALUE_SQL);
 
             modelBuilder.Entity<Message>()
+                .HasOne(m => m.Product)
+                .WithMany(p => p.Messages)
+                .HasForeignKey(m => m.ProductId);
+
+            modelBuilder.Entity<Message>()
                 .HasOne(m => m.Sender)
                 .WithMany(u => u.SentMessages)
                 .HasForeignKey(m => m.SenderId);
