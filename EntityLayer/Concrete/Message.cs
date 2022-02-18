@@ -8,6 +8,8 @@ namespace EntityLayer.Concrete
         public string Context { get; set; }
         public DateTime DateSent { get; set; }
 
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
         public string SenderId { get; set; }
         public User Sender { get; set; }
         public string ReceiverId { get; set; }
