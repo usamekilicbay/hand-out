@@ -4,9 +4,9 @@ namespace BusinessLogicLayer
 {
     public interface IUnitOfWork
     {
-        public ICategoryService CategoryService { get; }
-        public IMessageService MessageService { get; }
-        public IProductService ProductService { get; }
-        public IUserService UserService { get; }
+        ICategoryService CategoryService { get; }
+        IMessageService MessageService { get; }
+        IProductService ProductService { get; }
+        IUserService UserService { get; }
     }
 }
