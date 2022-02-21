@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>
-        Soft UI Dashboard by Creative Tim
+        Hand-Out
     </title>
 
     <!-- jQuery Libraries -->
@@ -53,28 +53,46 @@
                                         Home
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a asp-controller="User" asp-action="Details" asp-route-id="" class="nav-link me-2">
-                                        <i class="fa fa-user opacity-6 text-dark me-1"></i>
-                                        Profile
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="User" asp-action="SignUp" class="nav-link me-2">
-                                        <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
-                                        Sign Up
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-controller="User" asp-action="SignIn" class="nav-link">
-                                        <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                                        Sign In
-                                    </a>
-                                </li>
+                                @{
+                                    if (User.Identity.IsAuthenticated)
+                                    {
+                                        <li class="nav-item">
+                                            <a asp-controller="User" asp-action="Details" asp-route-id="" class="nav-link me-2">
+                                                <i class="fa fa-user opacity-6 text-dark me-1"></i>
+                                                Profile
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-controller="User" asp-action="SignOut" class="nav-link me-2">
+                                                <i class="fa fa-sign-out opacity-6 text-dark me-1"></i>
+                                                Sign Out
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                                @{
+                                    else
+                                    {
+                                        <li class="nav-item">
+                                            <a asp-controller="User" asp-action="SignUp" class="nav-link me-2">
+                                                <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                                                Sign Up
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-controller="User" asp-action="SignIn" class="nav-link">
+                                                <i class="fas fa-key opacity-6 text-dark me-1"></i>
+                                                Sign In
+                                            </a>
+                                        </li>
+                                    }
+                                }
                             </ul>
                             <ul class="navbar-nav d-lg-block d-none">
                                 <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/product/soft-ui-dashboard" class="btn btn-sm btn-round mb-0 me-1 bg-gradient-dark">Free download</a>
+                                    <a asp-controller="Message" asp-action="Index" class="me-1">
+                                        <i class="fa fa-comment-dots fa-lg opacity-8 text-dark"></i>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -89,60 +107,60 @@
 
     <!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
     @{ if (!ViewData["Title"].Equals("Message/Index"))
-                    {
-        <footer class="footer py-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 mb-4 mx-auto text-center">
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                            Company
-                        </a>
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                            About Us
-                        </a>
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                            Team
-                        </a>
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                            Products
-                        </a>
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                            Blog
-                        </a>
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                            Pricing
-                        </a>
+        {
+            <footer class="footer py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mb-4 mx-auto text-center">
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+                                Company
+                            </a>
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+                                About Us
+                            </a>
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+                                Team
+                            </a>
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+                                Products
+                            </a>
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+                                Blog
+                            </a>
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+                                Pricing
+                            </a>
+                        </div>
+                        <div class="col-lg-8 mx-auto text-center mb-4 mt-2">
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+                                <span class="text-lg fab fa-dribbble"></span>
+                            </a>
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+                                <span class="text-lg fab fa-twitter"></span>
+                            </a>
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+                                <span class="text-lg fab fa-instagram"></span>
+                            </a>
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+                                <span class="text-lg fab fa-pinterest"></span>
+                            </a>
+                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+                                <span class="text-lg fab fa-github"></span>
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-lg-8 mx-auto text-center mb-4 mt-2">
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                            <span class="text-lg fab fa-dribbble"></span>
-                        </a>
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                            <span class="text-lg fab fa-twitter"></span>
-                        </a>
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                            <span class="text-lg fab fa-instagram"></span>
-                        </a>
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                            <span class="text-lg fab fa-pinterest"></span>
-                        </a>
-                        <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
-                            <span class="text-lg fab fa-github"></span>
-                        </a>
+                    <div class="row">
+                        <div class="col-8 mx-auto text-center mt-1">
+                            <p class="mb-0 text-secondary">
+                                Copyright ©
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script> Soft by Creative Tim.
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-8 mx-auto text-center mt-1">
-                        <p class="mb-0 text-secondary">
-                            Copyright ©
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script> Soft by Creative Tim.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </footer> } }
+            </footer> } }
     <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
     <!--   Core JS Files   -->
     <script src="../assets/js/core/popper.min.js"></script>
