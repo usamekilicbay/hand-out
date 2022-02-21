@@ -15,5 +15,8 @@ namespace DataAccessLayer.Repositories.Abstract
         public User GetCurrentUser();
         public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
         public IdentityResult SignUp(User user, string password);
+        public void SignOut();
+        public User GetByIdWithMessages(string id);
+        public User GetByIdWithMessages(string id, int productId);
     }
 }
