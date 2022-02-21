@@ -33,6 +33,7 @@ namespace BusinessLogicLayer.Services.Concrete
             return mapper.Map<DetailsUserDTO>(user);
         }
 
+        #region Authentication
         public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO) =>
             UserRepository.PasswordSignIn(passwordSignInUserDTO);
 
@@ -42,5 +43,11 @@ namespace BusinessLogicLayer.Services.Concrete
 
             return UserRepository.SignUp(user, signUpUserDTO.Password);
         }
+
+        public void SignOut()
+        {
+            UserRepository.SignOut();
+        }
+        #endregion
     }
 }
