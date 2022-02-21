@@ -32,16 +32,6 @@ namespace DataAccessLayer.Repositories.Concrete
         public User GetCurrentUser() =>
              UserManager.FindByIdAsync(GetCurrentUserId()).Result;
 
-        public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO) =>
-            SignInManager.PasswordSignInAsync(
-                passwordSignInUserDTO.UserName,
-                passwordSignInUserDTO.Password,
-                passwordSignInUserDTO.RememberMe,
-                false).Result;
-
-        public IdentityResult SignUp(User user, string password) =>
-            UserManager.CreateAsync(user, password).Result;
-
         public override List<User> GetAllWithRelations()
         {
             throw new System.NotImplementedException();
@@ -56,7 +46,42 @@ namespace DataAccessLayer.Repositories.Concrete
         {
             return (User)dbSet
                 .Where(u => u.Id == id)
-                .Include(u => u.Products);
+                .Include(u => u.Products)
+                .Include(u => u.SentMessages)
+                .Include(u => u.ReceivedMessages);
         }
+
+        public User GetByIdWithMessages(string id)
+        {
+            return (User)dbSet
+                .Where(u => u.Id == id)
+                .Include(u => u.SentMessages)
+                .Include(u => u.ReceivedMessages);
+        }
+
+        public User GetByIdWithMessages(string id, int productId)
+        {
+            return (User)dbSet
+                .Where(u => u.Id == id)
+                .Include(u => u.SentMessages.Where(m => m.ProductId == productId))
+                .Include(u => u.ReceivedMessages.Where(m => m.ProductId == productId));
+        }
+
+        #region Authentication
+        public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO) =>
+          SignInManager.PasswordSignInAsync(
+              passwordSignInUserDTO.UserName,
+              passwordSignInUserDTO.Password,
+              passwordSignInUserDTO.RememberMe,
+              false).Result;
+
+        public IdentityResult SignUp(User user, string password) =>
+            UserManager.CreateAsync(user, password).Result;
+
+        public void SignOut()
+        {
+            SignInManager.SignOutAsync();
+        }
+        #endregion
     }
 }
