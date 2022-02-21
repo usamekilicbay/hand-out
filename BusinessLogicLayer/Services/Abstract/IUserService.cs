@@ -13,5 +13,6 @@ namespace BusinessLogicLayer.Services.Abstract
         public DetailsUserDTO GetCurrentUserDetails();
         public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
         public IdentityResult SignUp(SignUpUserDTO signUpUserDTO);
+        public void SignOut();
     }
 }
