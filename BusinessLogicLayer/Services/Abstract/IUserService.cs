@@ -7,12 +7,12 @@ namespace BusinessLogicLayer.Services.Abstract
 {
     public interface IUserService : IService<User>
     {
-        public IUserRepository UserRepository { get; set; }
+        IUserRepository UserRepository { get; set; }
 
-        public string GetCurrentUserId();
-        public DetailsUserDTO GetCurrentUserDetails();
-        public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
-        public IdentityResult SignUp(SignUpUserDTO signUpUserDTO);
-        public void SignOut();
+        string GetCurrentUserId();
+        DetailsUserDTO GetCurrentUserDetails();
+        SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
+        IdentityResult SignUp(SignUpUserDTO signUpUserDTO);
+        void SignOut();
     }
 }
