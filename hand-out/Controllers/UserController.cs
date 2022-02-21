@@ -92,6 +92,8 @@ namespace hand_out.Controllers
             return RedirectToAction("Details");
         }
 
+
+        #region Authentication
         [HttpGet]
         public IActionResult SignIn()
         {
@@ -123,5 +125,6 @@ namespace hand_out.Controllers
         {
             return RedirectToAction("Details");
         }
+        #endregion
     }
 }
