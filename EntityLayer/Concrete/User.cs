@@ -15,6 +15,7 @@ namespace EntityLayer.Concrete
         public UserStatus Status { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Chat> Chats { get; set; }
         public virtual ICollection<Message> SentMessages { get; set; }
         public virtual ICollection<Message> ReceivedMessages { get; set; }
     }

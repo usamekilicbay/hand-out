@@ -16,6 +16,6 @@ namespace EntityLayer.Concrete
         public virtual User Grantor { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
-        public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<Chat> Chats { get; set; }
     }
 }
