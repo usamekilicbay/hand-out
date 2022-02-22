@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.Services.Abstract;
+using DataAccessLayer;
 using DataAccessLayer.Repositories.Abstract;
+using DataAccessLayer.Repositories.Concrete;
 using EntityLayer.Concrete;
 
 namespace BusinessLogicLayer.Services.Concrete
@@ -9,8 +11,10 @@ namespace BusinessLogicLayer.Services.Concrete
     {
         public IChatRepository ChatRepository { get; set; }
 
-        public ChatService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
+        public ChatService(ApplicationDbContext applicationDbContext, IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
+            ChatRepository = new ChatRepository(applicationDbContext);
+            Repository = ChatRepository;
         }
     }
 }
