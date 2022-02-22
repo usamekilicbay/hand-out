@@ -68,12 +68,12 @@ namespace DataAccessLayer
 
             modelBuilder.Entity<Chat>()
                 .HasOne(c => c.GrantorParticipant)
-                .WithMany(u => u.Chats)
+                .WithMany(u => u.ChatsAsGrantorParticipant)
                 .HasForeignKey(c => c.GrantorParticipantId);
 
             modelBuilder.Entity<Chat>()
                 .HasOne(c => c.NeedyParticipant)
-                .WithMany(u => u.Chats)
+                .WithMany(u => u.ChatsAsNeedyParticipant)
                 .HasForeignKey(c => c.NeedyParticipantId);
 
             modelBuilder.Entity<Chat>()
