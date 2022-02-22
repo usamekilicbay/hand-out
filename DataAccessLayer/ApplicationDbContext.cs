@@ -1,7 +1,6 @@
 ﻿using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Sidekick.NET.Constant.Validation;
 using Rule = Sidekick.NET.Constant.Validation.Rule;
 
 namespace DataAccessLayer
@@ -15,6 +14,7 @@ namespace DataAccessLayer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetCategory(modelBuilder);
+            SetChat(modelBuilder);
             SetMessage(modelBuilder);
             SetProduct(modelBuilder);
             SetUser(modelBuilder);
@@ -55,6 +55,33 @@ namespace DataAccessLayer
                 .IsRequired();
         }
 
+        private static void SetChat(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Chat>()
+                .Property(c => c.Id)
+                .HasDefaultValueSql(Rule.Chat.Id.DEFAULT_VALUE_SQL);
+
+            modelBuilder.Entity<Chat>()
+                .HasOne(c => c.Product)
+                .WithMany(p => p.Chats)
+                .HasForeignKey(c => c.ProductId);
+
+            modelBuilder.Entity<Chat>()
+                .HasOne(c => c.GrantorParticipant)
+                .WithMany(u => u.Chats)
+                .HasForeignKey(c => c.GrantorParticipantId);
+
+            modelBuilder.Entity<Chat>()
+                .HasOne(c => c.NeedyParticipant)
+                .WithMany(u => u.Chats)
+                .HasForeignKey(c => c.NeedyParticipantId);
+
+            modelBuilder.Entity<Chat>()
+                .Property(c => c.DateCreated)
+                .HasColumnType(Rule.Chat.DateCreated.DATA_TYPE)
+                .HasDefaultValueSql(Rule.Chat.DateCreated.DEFAULT_VALUE_SQL);
+        }
+
         private static void SetMessage(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Message>()
@@ -62,9 +89,9 @@ namespace DataAccessLayer
                 .HasDefaultValueSql(Rule.Message.Id.DEFAULT_VALUE_SQL);
 
             modelBuilder.Entity<Message>()
-                .HasOne(m => m.Product)
-                .WithMany(p => p.Messages)
-                .HasForeignKey(m => m.ProductId);
+                .HasOne(m => m.Chat)
+                .WithMany(c => c.Messages)
+                .HasForeignKey(m => m.ChatId);
 
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Sender)
@@ -174,6 +201,7 @@ namespace DataAccessLayer
         }
 
         public DbSet<Category> Category { get; set; }
+        public DbSet<Chat> Chat { get; set; }
         public DbSet<Message> Message { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<User> User { get; set; }
