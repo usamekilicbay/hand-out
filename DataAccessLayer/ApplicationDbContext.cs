@@ -44,9 +44,9 @@ namespace DataAccessLayer
                 .HasDefaultValueSql(Rule.Category.DateCreated.DEFAULT_VALUE_SQL);
 
             modelBuilder.Entity<Category>()
-               .Property(c => c.DateModified)
-               .HasColumnType(Rule.Category.DateModified.DATA_TYPE)
-               .HasDefaultValueSql(Rule.Category.DateModified.DEFAULT_VALUE_SQL);
+                .Property(c => c.DateModified)
+                .HasColumnType(Rule.Category.DateModified.DATA_TYPE)
+                .HasDefaultValueSql(Rule.Category.DateModified.DEFAULT_VALUE_SQL);
 
             modelBuilder.Entity<Category>()
                 .Property(c => c.Status)
@@ -151,14 +151,14 @@ namespace DataAccessLayer
                 .HasDefaultValueSql(Rule.Product.DatePublished.DEFAULT_VALUE_SQL);
 
             modelBuilder.Entity<Product>()
-              .Property(u => u.DateCreated)
-              .HasColumnType(Rule.User.DateCreated.DATA_TYPE)
-              .HasDefaultValueSql(Rule.User.DateCreated.DEFAULT_VALUE_SQL);
+                .Property(u => u.DateCreated)
+                .HasColumnType(Rule.User.DateCreated.DATA_TYPE)
+                .HasDefaultValueSql(Rule.User.DateCreated.DEFAULT_VALUE_SQL);
 
             modelBuilder.Entity<Product>()
-               .Property(u => u.DateModified)
-               .HasColumnType(Rule.User.DateModified.DATA_TYPE)
-               .HasDefaultValueSql(Rule.User.DateModified.DEFAULT_VALUE_SQL);
+                .Property(u => u.DateModified)
+                .HasColumnType(Rule.User.DateModified.DATA_TYPE)
+                .HasDefaultValueSql(Rule.User.DateModified.DEFAULT_VALUE_SQL);
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.Status)
@@ -170,9 +170,9 @@ namespace DataAccessLayer
         private static void SetUser(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
-              .Property(u => u.Address)
-              .HasMaxLength(Rule.User.Address.MAX_LENGTH)
-              .IsUnicode();
+                .Property(u => u.Address)
+                .HasMaxLength(Rule.User.Address.MAX_LENGTH)
+                .IsUnicode();
 
             modelBuilder.Entity<User>()
                 .Property(u => u.ProfilePhotoURL)
