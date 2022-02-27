@@ -21,10 +21,5 @@ namespace DataAccessLayer.Repositories.Concrete
         {
             throw new NotImplementedException();
         }
-
-        public override Category GetByIdWithRelations(int id)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

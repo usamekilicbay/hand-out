@@ -53,10 +53,6 @@ namespace DataAccessLayer.Repositories.Concrete
             _applicationDbContext.SaveChanges();
         }
 
-        public virtual TEntity GetByIdWithRelations(int id) { return null; }
-
-        public virtual TEntity GetByIdWithRelations(string id) { return null; }
-
         public abstract List<TEntity> GetAllWithRelations();
 
         public abstract List<TEntity> GetAllWithRelations(Expression<Func<TEntity, bool>> filter);

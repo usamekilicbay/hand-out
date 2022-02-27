@@ -25,10 +25,5 @@ namespace DataAccessLayer.Repositories.Concrete
         {
             throw new NotImplementedException();
         }
-
-        public override Message GetByIdWithRelations(string id)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -20,10 +20,6 @@ namespace BusinessLogicLayer.Services.Abstract
 
         T GetById<T>(string id);
 
-        T GetByIdWithRelations<T>(int id);
-
-        T GetByIdWithRelations<T>(string id);
-
         List<T> GetAll<T>();
 
         List<T> GetAll<T>(Expression<Func<TEntity, bool>> filter);

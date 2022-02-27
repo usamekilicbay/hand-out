@@ -16,10 +16,6 @@ namespace DataAccessLayer.Repositories.Abstract
 
         TEntity GetById(string id);
 
-        TEntity GetByIdWithRelations(int id);
-
-        TEntity GetByIdWithRelations(string id);
-
         List<TEntity> GetAll();
 
         List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter);

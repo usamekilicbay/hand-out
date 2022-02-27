@@ -30,13 +30,5 @@ namespace DataAccessLayer.Repositories.Concrete
                 .Include(p => p.Chats)
                 .ToList();
         }
-
-        public override Product GetByIdWithRelations(int id)
-        {
-            return (Product)dbSet
-                .Where(p => p.Id == id)
-                .Include(p => p.Category)
-                .Include(p => p.Grantor);
-        }
     }
 }

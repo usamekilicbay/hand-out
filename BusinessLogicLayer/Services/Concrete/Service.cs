@@ -73,16 +73,7 @@ namespace BusinessLogicLayer.Services.Concrete
         public virtual List<T> GetAllWithRelations<T>() =>
             mapper.Map<List<T>>(Repository.GetAllWithRelations());
 
-        public virtual T GetWithRelations<T>(string id) =>
-            mapper.Map<T>(Repository.GetByIdWithRelations(id));
-
         public virtual List<T> GetAllWithRelations<T>(Expression<Func<TEntity, bool>> filter) =>
             mapper.Map<List<T>>(Repository.GetAllWithRelations(filter));
-
-        public virtual T GetByIdWithRelations<T>(int id) =>
-            mapper.Map<T>(Repository.GetByIdWithRelations(id));
-
-        public virtual T GetByIdWithRelations<T>(string id) =>
-            mapper.Map<T>(Repository.GetByIdWithRelations(id));
     }
 }
