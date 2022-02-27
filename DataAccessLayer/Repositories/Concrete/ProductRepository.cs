@@ -15,12 +15,11 @@ namespace DataAccessLayer.Repositories.Concrete
         }
 
         public override List<Product> GetAllWithRelations()
-        {
-            return dbSet
+            => dbSet
                 .Include(p => p.Category)
                 .Include(p => p.Grantor)
+                .Include(p => p.Chats)
                 .ToList();
-        }
 
         public override List<Product> GetAllWithRelations(Expression<Func<Product, bool>> filter)
         {
@@ -28,6 +27,7 @@ namespace DataAccessLayer.Repositories.Concrete
                 .Where(filter)
                 .Include(p => p.Category)
                 .Include(p => p.Grantor)
+                .Include(p => p.Chats)
                 .ToList();
         }
 
