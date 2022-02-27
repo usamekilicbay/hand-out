@@ -3,10 +3,8 @@ using DataLayer.User;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
@@ -40,31 +38,6 @@ namespace DataAccessLayer.Repositories.Concrete
         public override List<User> GetAllWithRelations(Expression<Func<User, bool>> filter)
         {
             throw new NotImplementedException();
-        }
-
-        public override User GetByIdWithRelations(string id)
-        {
-            return (User)dbSet
-                .Where(u => u.Id == id)
-                .Include(u => u.Products)
-                .Include(u => u.SentMessages)
-                .Include(u => u.ReceivedMessages);
-        }
-
-        public User GetByIdWithMessages(string id)
-        {
-            return (User)dbSet
-                .Where(u => u.Id == id)
-                .Include(u => u.SentMessages)
-                .Include(u => u.ReceivedMessages);
-        }
-
-        public User GetByIdWithMessages(string id, int productId)
-        {
-            return (User)dbSet
-                .Where(u => u.Id == id)
-                .Include(u => u.SentMessages.Where(m => m.ProductId == productId))
-                .Include(u => u.ReceivedMessages.Where(m => m.ProductId == productId));
         }
 
         #region Authentication
