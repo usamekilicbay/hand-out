@@ -58,10 +58,11 @@ namespace hand_out
 
             services.AddSignalR();
 
-            services.AddSingleton(p => GetUnitOfWorkInstance(services));
-            services.AddSingleton(p => GetProductServiceInstance(services));
-            services.AddSingleton(p => GetCategoryServiceInstance(services));
-            services.AddSingleton(p => GetUserServiceInstance(services));
+            services.AddTransient(p => GetUnitOfWorkInstance(services));
+            services.AddTransient(p => GetProductServiceInstance(services));
+            services.AddTransient(p => GetCategoryServiceInstance(services));
+            services.AddTransient(p => GetChatServiceInstance(services));
+            services.AddTransient(p => GetUserServiceInstance(services));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -132,6 +133,16 @@ namespace hand_out
             provider.GetService<ApplicationDbContext>(),
             provider.GetService<IMapper>(),
             provider.GetService<IUnitOfWork>());
+        }
+
+        private static IChatService GetChatServiceInstance(IServiceCollection services)
+        {
+            IServiceProvider provider = services.BuildServiceProvider();
+
+            return new ChatService(
+                provider.GetService<ApplicationDbContext>(),
+                provider.GetService<IMapper>(),
+                provider.GetService<IUnitOfWork>());
         }
 
         private static IUserService GetUserServiceInstance(IServiceCollection services)
