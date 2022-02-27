@@ -116,8 +116,9 @@ namespace hand_out.Controllers
             return RedirectToAction("Details");
         }
 
-        public IActionResult LogOut()
+        public new IActionResult SignOut()
         {
+            _userService.SignOut();
             return RedirectToAction("SignIn");
         }
 
