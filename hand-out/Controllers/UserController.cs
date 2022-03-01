@@ -14,6 +14,8 @@ using AutoMapper;
 using hand_out.Models.ViewModels.User;
 using hand_out.Models.ViewModels.Shared;
 using hand_out.Models.ViewModels.Product;
+using DataLayer.General.User;
+using Microsoft.AspNetCore.Http;
 
 namespace hand_out.Controllers
 {
@@ -66,6 +68,16 @@ namespace hand_out.Controllers
                 //Address = "Turkey",
                 //ProfilePicURL = "https://media-exp1.licdn.com/dms/image/C5603AQEoe9--htofaA/profile-displayphoto-shrink_800_800/0/1576480070508?e=1644451200&v=beta&t=UBn25UjZZOMD16JzYKJtWGukEhFohlRe59w462JZy18",
             });
+        }
+
+        public void UpdateProfilePhoto(IFormFile photo)
+        {
+            _userService.UpdateProfilePhoto(photo);
+        }
+
+        public void Update(UpdateUserDTO updateUserDTO)
+        {
+            _userService.Update(updateUserDTO);
         }
 
         [HttpGet]
