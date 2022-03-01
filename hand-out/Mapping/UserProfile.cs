@@ -12,6 +12,8 @@ namespace hand_out.Mapping
         {
             #region Entity <---> DTO
             CreateMap<User, DetailsUserDTO>().ReverseMap();
+            
+            CreateMap<User, UpdateUserDTO>().ReverseMap();
 
             CreateMap<User, SignUpUserDTO>().ReverseMap();
 
