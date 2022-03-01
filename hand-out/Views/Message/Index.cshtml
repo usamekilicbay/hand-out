@@ -1,5 +1,4 @@
-﻿@model ChatViewModel
-@{
+﻿@{
     ViewData["Title"] = "Message/Index";
 }
 
@@ -15,21 +14,8 @@
                     <h6 class="mb-0">Messages</h6>
                 </div>
                 <div class="card-body py-0 px-md-3 overflow-auto">
-                    <ul class="list-group">
-                        @{ for (int i = 0; i < 40; i++)
-                            {
-                                <li class="list-group-item border-0 d-flex align-items-center px-0 my-1">
-                                    <div class="avatar me-3">
-                                        <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
-                                    </div>
-                                    <div class="d-flex align-items-start flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">Sophie B.</h6>
-                                        <p class="mb-0 text-xs">Hi! I need more information..</p>
-                                    </div>
-                                    <button class="chat-reply-btn btn btn-link pe-3 ps-0 mb-0 ms-auto" data-bs-toggle="collapse">Reply</button>
-                                </li>
-                            }
-                        }
+                    <ul id="chat-list-area" class="list-group">
+                        <!-- Chatlist will create here -->
                     </ul>
                 </div>
             </div>
@@ -47,16 +33,15 @@
                             <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
                         </div>
                         <div class="d-flex align-items-start flex-column justify-content-center">
-                            @*<h6 class="mb-0 text-sm">Sophie B.</h6>*@
-                            <h6 class="mb-0 text-sm">@Model.ActiveChatViewModel.ProductMessageViewModel.GrantorUserName</h6>
+                            <h6 id="receiver-user-name" class="mb-0 text-sm"></h6>
                         </div>
                     </div>
                     <div class="d-flex col justify-content-end">
                         <div class="my-auto me-2">
-                            <h6 class="mb-0 text-sm">@Model.ActiveChatViewModel.ProductMessageViewModel.Name</h6>
+                            <h6 id="product-name" class="mb-0 text-sm"></h6>
                         </div>
                         <div class="avatar">
-                            <img src="~/images/product-images/@Model.ActiveChatViewModel.ProductMessageViewModel.FirstPhotoURL" alt="kal" class="border-radius-lg shadow h-100">
+                            <img id="product-img" src="" alt="kal" class="border-radius-lg shadow h-100">
                         </div>
                         <a class="my-auto ms-lg-5 ms-2">
                             <span class="fa fa-ellipsis-v fa-lg"></span>
@@ -79,10 +64,53 @@
 </div>
 
 <script>
-        $(function () {
+    {
+        $(document).ready(function () {
+            const chatSection = $("#chat");
+            const chatListSection = $("#chat-list");
+            const chatListArea = $("#chat-list-area");
+            const messageArea = $("#message-area");
+            const receiverUserName = $("#receiver-user-name");
+            const productName = $("#product-name");
+            const productImg = $("#product-img");
+  
+            const mdSize = 768;
+            const lgSize = 992;
+
+            let width;
+            let currentProductId = @ViewBag.ProductId;
+
+            let chats = getChats();
+            createChatList();
+            let activeChat;
+
+            class Message {
+                constructor(chatId, productId, receiverId, context) {
+                    this.chatId = chatId;
+                    this.productId = productId;
+                    this.receiverId = receiverId;
+                    this.context = context;
+                }
+            }
+
+           class ActiveChat {
+               constructor(id, prodcutId, productName, productPhotoURL,
+                   receiverParticipantId, receiverParticipantUserName, receiverParticipantPhotoURL,
+                   messages) {
+                   this.id = id;
+                   this.prodcutId = prodcutId;
+                   this.productName = productName;
+                   this.productPhotoURL = productPhotoURL;
+                   this.receiverParticipantId = receiverParticipantId;
+                   this.receiverParticipantUserName = receiverParticipantUserName;
+                   this.receiverParticipantPhotoURL = receiverParticipantPhotoURL;
+                   this.messages = messages;
+                }
+            }
+
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("http://localhost:44888/chathub")
-                @*.withUrl("http://localhost:5000/chathub")*@
+        @*.withUrl("http://localhost:5000/chathub")*@
                 .withAutomaticReconnect()
                 .build();
 
@@ -96,82 +124,187 @@
 
             startConnection();
 
-            const messageArea = $("#message-area");
+            if (currentProductId !== 0) {
+                activeChat = getActiveChat();
+                updateActiveChatUI(activeChat);
+            }
+            else
+                chatSection.hide();
+
 
             $("#message-send-btn").click(() => {
                 let messageBox = $("#message-box");
                 let messageContext = messageBox.val();
 
-                if (!messageContext) {
+                if (!messageContext)
                     return;
-                }
 
                 messageBox.val("");
-                connection.invoke("SendMessageAsync", "@Model.ActiveChatViewModel.ProductMessageViewModel.GrantorId", messageContext);
-                messageArea.append($($("#sent-message-bubble").html()));
-                $(".sent-message-bubble .message-content:last").text(messageContext);
+
+                connection.invoke("SendMessageAsync", activeChat.receiverParticipantId, messageContext);
+                createSentMessage(messageContext);
+                saveMessage(new Message(activeChat.Id, currentProductId, activeChat.receiverParticipantId, messageContext));
             });
 
             connection.on("receiveMessage", messageContext => {
-                messageArea.append($("#received-message-bubble").html());
+                createReceivedMessage(messageContext);
+            });
+
+            function createReceivedMessage(messageContext) {
+                messageArea.append($("#received-message-prefab").html());
                 $(".received-message-bubble .message-content:last").text(messageContext);
-            })
+                $(".received-message-bubble .message-sent-date:last").text(new Date().toLocaleTimeString());
+            }
 
-            let width;
-            let isSinked = false;
-            const chatSection = $("#chat");
-            const chatListSection = $("#chat-list");
+            function createSentMessage(messageContext) {
+                messageArea.append($("#sent-message-prefab").html());
+                $(".sent-message-bubble .message-content:last").text(messageContext);
+                $(".sent-message-bubble .message-sent-date:last").text(new Date().toLocaleTimeString());
+            }
 
-            const mdSize = 768;
-            const lgSize = 992;
+            function createChatList() {
+                for (let i = 0; i < chats.length; i++) {
+                    let currentItem = chats[i];
+                    chatListArea.append($("#chat-list-item-prefab").html());
+                    $(".chat-list-item .receiver-user-name:last").text(currentItem.receiverParticipantUserName);
+                    $(".chat-list-item .chat-reply-btn:last").val(currentItem.productId);
+                }
+            }
 
             $(window).resize(resize);
 
             function resize() {
                 width = $(window).width();
                 if (width >= lgSize) {
-                    if (@Model.ActiveChatViewModel != null) {
                     chatSection.show();
-                    }
                     chatListSection.show();
                     isSinked = false;
                 }
                 else {
-                    if (isSinked) return;
+
                     chatSection.hide();
                     chatListSection.show();
                     isSinked = true;
                 }
             }
 
-            $(".chat-reply-btn").click(() => {
-                chatSection.show();
-                if (width < lgSize) {
-                    chatListSection.hide();
-                }
+            $(function () {
+                $(".chat-reply-btn").click(function() {
+                    chatSection.show();
+                    if (width < lgSize) {
+                        chatListSection.hide();
+                    }
+                    currentProductId = $(this).val();
+                    activeChat = getActiveChat();
+                    updateActiveChatUI(activeChat);
+                });
             });
+
+
+            function getChats() {
+                let chatsReturn = new Array();
+                $.ajax({
+                    url: "/message/getChats",
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        chatsReturn = JSON.parse(JSON.stringify(data));
+                    }
+                });
+                return chatsReturn;
+            }
+
+            function getActiveChat() {
+                let activeChatReturn;
+                $.ajax({
+                    url: "/message/getActiveChatViewModel",
+                    dataType: "json",
+                    data: { productId: currentProductId },
+                    async: false,
+                    success: function (data) {
+                        activeChatReturn = JSON.parse(JSON.stringify(data));
+                    }
+                });
+
+                return activeChatReturn;
+                @*return new ActiveChat(
+                    activeChatReturn.id,
+                    activeChatReturn.productId,
+                    activeChatReturn.productName,
+                    activeChatReturn.productPhotoURL,
+                    activeChatReturn.receiverParticipantId,
+                    activeChatReturn.receiverParticipantUserName,
+                    activeChatReturn.receiverParticipantUserProfilePhotoURL,
+                    activeChatReturn.messages);*@
+            }
+
+            function updateActiveChatUI(activeChat) {
+                console.log(activeChat);
+                productName.text(activeChat.productName);
+                let url = activeChat.productPhotoURL.split("|")[0];
+                productImg.attr("src", `images/product-images/${url}`);
+                receiverUserName.text(activeChat.receiverParticipantUserName);
+
+                messageArea.empty();
+
+                if (activeChat.messages == null)
+                    return;
+
+                let messageList = activeChat.messages;
+                for (let i = 0; i < messageList.length; i++) {
+                    let currentItem = messageList[i]
+                    if (currentItem.isYourMessage) {
+                        createSentMessage(currentItem.context);
+                    }
+                    else
+                        createReceivedMessage(currentItem.context);
+                }
+            }
+
+            function saveMessage(message) {
+                $.ajax({
+                    type: "POST",
+                    url: "/message/saveMessage",
+                    dataType: "json",
+                    data: { createMessageDTO: message }
+                });
+            }
 
             $("#cancel-chat-btn").click(() => {
                 chatSection.hide();
                 chatListSection.show();
             });
         });
+    }
 </script>
 
-<script type="text/html" id="sent-message-bubble">
+<script type="text/html" id="sent-message-prefab">
     <div class="sent-message-bubble d-flex my-1 ms-5 justify-content-end">
         <div class="card d-inline-block float-end py-2 ps-3 pe-4 rounded-3 border text-dark">
             <p class="message-content mb-1 text-end"></p>
-            <p class="mb-0 text-secondary text-xs">20:04</p>
+            <p class="message-sent-date mb-0 text-secondary text-xs">20:04</p>
         </div>
     </div>
 </script>
 
-<script type="text/html" id="received-message-bubble">
+<script type="text/html" id="received-message-prefab">
     <div class="received-message-bubble d-flex my-2 me-5">
         <div class="card d-inline-block py-2 ps-3 pe-4 rounded-3 bg-gradient-dark text-white">
             <p class="message-content mb-1"></p>
-            <p class="mb-0 text-secondary text-xs text-end">20:04</p>
+            <p class="message-sent-date mb-0 text-secondary text-xs text-end">20:04</p>
         </div>
     </div>
+</script>
+
+<script type="text/html" id="chat-list-item-prefab">
+    <li class="chat-list-item list-group-item border-0 d-flex align-items-center px-0 my-1">
+        <div class="avatar me-3">
+            <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="receiver-photo border-radius-lg shadow">
+        </div>
+        <div class="d-flex align-items-start flex-column justify-content-center">
+            <h6 class="receiver-user-name mb-0 text-sm">Sophie B.</h6>
+            <p class="last-message mb-0 text-xs">Hi! I need more information..</p>
+        </div>
+        <button class="chat-reply-btn btn btn-link pe-3 ps-0 mb-0 ms-auto" data-bs-toggle="collapse">Reply</button>
+    </li>
 </script>
