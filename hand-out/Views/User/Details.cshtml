@@ -11,8 +11,13 @@
     <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
         <div class="row gx-4">
             <div class="col-auto">
-                <div class="avatar avatar-xl position-relative">
-                    <img src="~/images/" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                <div class="avatar-xxl shadow-lg position-relative">
+                    <img src="~/images/profile-images/@Model.DetailsUserViewModel.ProfilePhotoURL" alt="profile_image" id="profile-photo"
+                         class="img-cover w-100 h-100 border-radius-lg text-center">
+                    <div id="upload-profile-img" class="file-btn rounded-circle">
+                        <span class="fa fa-pen fa-xs text-white"></span>
+                        <input type="file" id="profile-photo-upload" class="position-absolute p-0 m-0 opacity-0 w-100 h-100" style="cursor:pointer !important;">
+                    </div>
                 </div>
             </div>
             <div class="col-auto my-auto">
@@ -338,8 +343,8 @@
                                         {
                                             <div class="position-relative border-radius-lg">
                                                 <img class="uploaded-img-preview border-radius-lg shadow text-center" />
-                                                <div class="rounded-circle file-remove-btn z-index-1">
-                                                    <span class="fa fa-trash text-white"></span>
+                                                <div class="file-btn rounded-circle z-index-1">
+                                                    <span class="fa fa-trash fa-xs text-white"></span>
                                                 </div>
                                                 <input asp-for="CreateProductViewModel.Photos" type="file" class="img-upload z-index-0 position-absolute start-0 bottom-0 opacity-0 h-100 w-100">
                                             </div>
@@ -381,27 +386,63 @@
 </div>
 
 <script>
-    {
-        let defaultPhotoURL = "https://www.freeiconspng.com/uploads/upload-icon-30.png";
+    $(document).ready(function () {
+        {
+            //class VM {
+            //    constructor(userName, email, address, profilePhotoUrl, lastSeen, status) {
+            //        this.userName = userName;
+            //        this.email = email;
+            //        this.address = address;
+            //        this.profilePhotoUrl = profilePhotoUrl;
+            //        this.lastSeen = lastSeen;
+            //        this.status = status;
+            //    }
+            //}
 
-        $(document).ready(function () {
-            $(".file-remove-btn").hide();
+            let formm = new FormData();
+            let uploadPhoto = function () {
+                $.ajax({
+                    method: "POST",
+                    url: "/user/updateProfilePhoto",
+                    data: formm,
+                    async: false,
+                    processData: false,
+                    contentType: false
+                });
+            };
+
+            $(function () {
+                $("#profile-photo-upload").change(function (event) {
+                    let profilePhoto = $("#profile-photo")
+                    let photo = event.target.files[0]
+                    let photoURL = URL.createObjectURL(photo);
+                    $(profilePhoto).attr("src", photoURL);
+                    formm.append("photo", photo);
+
+                    uploadPhoto();
+                });
+            });
+        }
+
+        {
+            let defaultPhotoURL = "https://www.freeiconspng.com/uploads/upload-icon-30.png";
+            $(".file-btn").not("#upload-profile-img").hide();
             $(".uploaded-img-preview").attr("src", defaultPhotoURL);
-        });
 
-        $(function () {
-            $(".img-upload").change(function (event) {
-                let url = URL.createObjectURL(event.target.files[0]);
-                $(this).siblings("img").attr("src", url);
-                $(this).siblings(".file-remove-btn").show(1000);
+            $(function () {
+                $(".img-upload").change(function (event) {
+                    let url = URL.createObjectURL(event.target.files[0]);
+                    $(this).siblings("img").attr("src", url);
+                    $(this).siblings(".file-btn").show(1000);
+                });
             });
-        });
 
-        $(function () {
-            $(".file-remove-btn").click(function () {
-                $(this).hide(1000);
-                $(this).siblings(".uploaded-img-preview").attr("src", defaultPhotoURL);
+            $(function () {
+                $(".file-btn").not("#upload-profile-img").click(function () {
+                    $(this).hide(1000);
+                    $(this).siblings(".uploaded-img-preview").attr("src", defaultPhotoURL);
+                });
             });
-        });
-    }
+        }
+    });
 </script>
