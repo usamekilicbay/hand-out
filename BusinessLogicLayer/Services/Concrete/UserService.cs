@@ -7,6 +7,9 @@ using DataLayer.User;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Sidekick.NET;
+using Sidekick.NET.Constant;
+using System.Collections.Generic;
 
 namespace BusinessLogicLayer.Services.Concrete
 {
@@ -31,6 +34,17 @@ namespace BusinessLogicLayer.Services.Concrete
             User user = UserRepository.GetCurrentUser();
 
             return mapper.Map<DetailsUserDTO>(user);
+        }
+
+        public void UpdateProfilePhoto(IFormFile photo)
+        {
+            User user = UserRepository.GetCurrentUser();
+
+            FileOperations.RemoveOldPhotos(user.ProfilePhotoURL, Path.PROFILE_IMAGES);
+
+            user.ProfilePhotoURL = FileOperations.SavePhoto(photo, Path.PROFILE_IMAGES);
+
+            UserRepository.Update(user);
         }
 
         #region Authentication
