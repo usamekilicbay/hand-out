@@ -15,6 +15,14 @@ namespace DataAccessLayer.Repositories.Concrete
 
         }
 
+        public new Chat Insert(Chat chat)
+        {
+            dbSet.Add(chat);
+            SaveChanges();
+
+            return chat;
+        }
+
         public override List<Chat> GetAllWithRelations()
         {
             throw new NotImplementedException();
@@ -26,6 +34,7 @@ namespace DataAccessLayer.Repositories.Concrete
             .Include(c => c.Product)
             .Include(c => c.GrantorParticipant)
             .Include(c => c.NeedyParticipant)
+            .Include(c => c.Messages)
             .ToList();
     }
 }
