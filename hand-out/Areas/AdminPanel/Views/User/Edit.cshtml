@@ -18,7 +18,7 @@
         <form method="post" asp-action="Update" asp-route-id="@Model.Id" asp-route-data="@Model">
             <div class="row mb-3 px-5 text-center">
                 <div class="col-6">
-                    <img class="border-radius-lg shadow" style="width: 9rem; height: 9rem;" src="@Model.ProfilePhotoURL" />
+                    <img class="border-radius-lg shadow" style="width: 9rem; height: 9rem;" src="~/images/profile-images/@Model.ProfilePhotoURL" />
                 </div>
                 <div class="col-6 text-end">
                     <button type="submit" class="btn bg-gradient-info">Update</button>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="ProfilePhotoURL" class="control-label"></label>
-                        <input type="url" asp-for="ProfilePhotoURL" class="form-control" />
+                        <input type="url" asp-for="ProfilePhotoURL" class="form-control" readonly/>
                         <span asp-validation-for="ProfilePhotoURL" class="text-danger"></span>
                     </div>
                 </div>
