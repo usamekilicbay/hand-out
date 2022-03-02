@@ -3,11 +3,13 @@ using BusinessLogicLayer;
 using BusinessLogicLayer.Services.Abstract;
 using DataLayer.Areas.Admin.User;
 using hand_out.Areas.Admin.Models.ViewModels.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace hand_out.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("AdminPanel")]
     public class UserController : Controller
     {

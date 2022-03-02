@@ -4,9 +4,11 @@ using hand_out.Areas.Admin.Models.ViewModels.Product;
 using DataLayer.Areas.Admin.Product;
 using AutoMapper;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace hand_out.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("AdminPanel")]
     public class ProductController : Controller
     {

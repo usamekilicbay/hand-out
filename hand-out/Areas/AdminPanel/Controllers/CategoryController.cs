@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer.Services.Abstract;
 using DataLayer.Areas.Admin.Category;
-using EntityLayer.Concrete;
 using hand_out.Areas.Admin.Models.ViewModels.Category;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace hand_out.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("AdminPanel")]
     public class CategoryController : Controller
     {
