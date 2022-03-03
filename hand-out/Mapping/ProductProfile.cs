@@ -13,8 +13,11 @@ namespace hand_out.Mapping
             CreateMap<Product, ListProductDTO>().ReverseMap();
 
             CreateMap<Product, CreateProductDTO>().ReverseMap();
-            
-            CreateMap<Product, DetailsProductDTO>().ReverseMap();
+
+            CreateMap<Product, DetailsProductDTO>().ForMember(entity =>
+            entity.CategoryIcon, 
+            opt => opt.MapFrom(dto => dto.Category.FontAwesomeIconName))
+                .ReverseMap();
 
             CreateMap<Product, MessageProductDTO>().ReverseMap();
             #endregion
