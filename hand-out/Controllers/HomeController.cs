@@ -33,5 +33,10 @@ namespace hand_out.Controllers
 
             return View(indexViewModel);
         }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
