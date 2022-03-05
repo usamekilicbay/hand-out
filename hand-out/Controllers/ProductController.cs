@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using BusinessLogicLayer;
 using BusinessLogicLayer.Services.Abstract;
 using DataLayer.Product;
 using hand_out.Models.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace hand_out.Controllers
@@ -12,11 +13,13 @@ namespace hand_out.Controllers
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProductController(IProductService productService, IMapper mapper)
+        public ProductController(IProductService productService, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _productService = productService;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost]
@@ -33,9 +36,10 @@ namespace hand_out.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            //DetailsProductDTO detailsProductDTO = _productService.GetById<DetailsProductDTO>(new Random().Next(2, 6));
-            DetailsProductDTO detailsProductDTO = _productService.GetById<DetailsProductDTO>(id);
-            //DetailsProductDTO detailsProductDTO = _productService.GetById<DetailsProductDTO>(6);
+            DetailsProductDTO detailsProductDTO = _productService.GetAllWithRelations<DetailsProductDTO>(p => p.Id == id).FirstOrDefault();
+
+            ViewBag.IsYourWare = _unitOfWork.UserService.GetCurrentUserId() == detailsProductDTO.GrantorId;
+
             return View(_mapper.Map(detailsProductDTO, new DetailsProductViewModel(detailsProductDTO.PhotoURL)));
         }
     }
