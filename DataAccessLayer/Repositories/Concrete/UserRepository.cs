@@ -3,8 +3,10 @@ using DataLayer.User;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
@@ -37,7 +39,9 @@ namespace DataAccessLayer.Repositories.Concrete
 
         public override List<User> GetAllWithRelations(Expression<Func<User, bool>> filter)
         {
-            throw new NotImplementedException();
+            return dbSet.Where(filter)
+                .Include(u => u.Products)
+                .ToList();
         }
 
         #region Authentication
