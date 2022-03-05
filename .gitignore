@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /hand-out/wwwroot/images/product-images
+/hand-out/wwwroot/images/profile-images
