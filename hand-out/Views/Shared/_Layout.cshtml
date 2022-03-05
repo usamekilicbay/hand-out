@@ -35,7 +35,7 @@
                 <!-- Navbar -->
                 <nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-5 py-2 start-0 end-0 mx-4">
                     <div class="container-fluid">
-                        <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="../pages/dashboard.html">
+                        <a asp-controller="Home" asp-action="Index" class="navbar-brand font-weight-bolder ms-lg-0 ms-3 ">
                             Hand-Out
                         </a>
                         <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,6 +68,15 @@
                                                 Sign Out
                                             </a>
                                         </li>
+                                        if (User.IsInRole("Admin"))
+                                        {
+                                            <li class="nav-item">
+                                                <a asp-controller="User" asp-action="Index" asp-area="AdminPanel" class="nav-link me-2">
+                                                    <i class="fa fa-user-ninja opacity-6 text-dark me-1"></i>
+                                                    Admin Dashboard
+                                                </a>
+                                            </li>
+                                        }
                                     }
                                 }
                                 @{
