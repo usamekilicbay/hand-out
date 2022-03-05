@@ -64,9 +64,12 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="col d-flex justify-content-end">
-                                <a asp-route-id="@Model.Id" asp-action="Index" asp-controller="Message" class="btn btn-outline-primary btn-sm w-75 my-auto">Message</a>
-                            </div>
+                            @if (!ViewBag.IsYourWare)
+                            {
+                                <div class="col d-flex justify-content-end">
+                                    <a asp-route-id="@Model.Id" asp-action="Index" asp-controller="Message" class="btn btn-outline-primary btn-sm w-75 my-auto">Message</a>
+                                </div>
+                            }
                         </div>
                         <div class="col-md-auto col-sm-12">
                             <div class="avatar-group mt-2">
