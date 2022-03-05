@@ -54,6 +54,23 @@ body {
         background: #555;
     }
 
+#categories-scrollbar {
+    overflow-x: scroll !important;
+    overflow-y: hidden !important;
+}
+
+    #categories-scrollbar ::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    #categories-scrollbar::-webkit-scrollbar-track {
+        display: none !important;
+    }
+
+    #categories-scrollbar::-webkit-scrollbar-thumb {
+        display: none !important;
+    }
+
 .px-main-container {
     padding: 10em 2em;
 }
@@ -63,25 +80,34 @@ body {
     background-size: cover;
 }
 
+.img-cover {
+    object-fit: cover !important;
+}
+
 .uploaded-img-preview {
     object-fit: cover;
     height: 10em;
     width: 10em;
 }
 
-.file-remove-btn {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 0px;
-    right: 0px;
-    height: 25%;
-    width: 25%;
-    background: rgba(0,0,0,0.1);
+.img-upload:hover, input::-webkit-file-upload-button:hover {
+    cursor: pointer !important;
 }
 
-    .file-remove-btn:hover {
+.file-btn {
+    position: absolute;
+    display: flex;
+    padding: 15px;
+    align-items: center;
+    justify-content: center;
+    top: 5%;
+    right: 5%;
+    height: 1em;
+    width: 1em;
+    background: rgba(0,0,0,0.4);
+}
+
+    .file-btn:hover {
         cursor: pointer;
     }
 
