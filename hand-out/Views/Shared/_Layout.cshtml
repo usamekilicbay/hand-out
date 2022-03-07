@@ -63,9 +63,9 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a asp-controller="User" asp-action="SignOut" class="nav-link me-2">
-                                                <i class="fa fa-sign-out opacity-6 text-dark me-1"></i>
-                                                Sign Out
+                                            <a asp-controller="Message" asp-action="Index" class="nav-link">
+                                                <i class="fa fa-comment-dots opacity-6 text-dark me-1"></i>
+                                                Messages
                                             </a>
                                         </li>
                                         if (User.IsInRole("Admin"))
@@ -77,6 +77,12 @@
                                                 </a>
                                             </li>
                                         }
+                                        <li class="nav-item">
+                                            <a asp-controller="User" asp-action="SignOut" class="nav-link me-2">
+                                                <i class="fa fa-sign-out opacity-6 text-dark me-1"></i>
+                                                Sign Out
+                                            </a>
+                                        </li>
                                     }
                                 }
                                 @{
@@ -96,13 +102,6 @@
                                         </li>
                                     }
                                 }
-                            </ul>
-                            <ul class="navbar-nav d-lg-block d-none">
-                                <li class="nav-item">
-                                    <a asp-controller="Message" asp-action="Index" class="me-1">
-                                        <i class="fa fa-comment-dots fa-lg opacity-8 text-dark"></i>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
