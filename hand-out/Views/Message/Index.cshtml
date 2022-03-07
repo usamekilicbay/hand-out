@@ -30,7 +30,7 @@
                     </div>
                     <div class="d-flex col">
                         <div class="avatar me-lg-3 me-1">
-                            <img src="../assets/img/kal-visuals-square.jpg" alt="kal" class="border-radius-lg shadow">
+                            <img src="../assets/img/kal-visuals-square.jpg" id="receiver-img" alt="kal" class="border-radius-lg shadow">
                         </div>
                         <div class="d-flex align-items-start flex-column justify-content-center">
                             <h6 id="receiver-user-name" class="mb-0 text-sm"></h6>
@@ -71,14 +71,16 @@
             const chatListArea = $("#chat-list-area");
             const messageArea = $("#message-area");
             const receiverUserName = $("#receiver-user-name");
+            const receiverImg = $("#receiver-img");
             const productName = $("#product-name");
             const productImg = $("#product-img");
-  
+
             const mdSize = 768;
             const lgSize = 992;
 
             let width;
             let currentProductId = @ViewBag.ProductId;
+            console.log(currentProductId);
 
             let chats = getChats();
             createChatList();
@@ -109,23 +111,23 @@
             }
 
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("http://localhost:44888/chathub")
-        @*.withUrl("http://localhost:5000/chathub")*@
+                .withUrl("http://localhost:44398/chathub")
                 .withAutomaticReconnect()
                 .build();
 
-            async function startConnection() {
+            @*async function startConnection() {
                 try {
                     await connection.start();
                 } catch (error) {
                     setTimeout(() => connection.start(), 2000);
                 }
-            }
+            }*@
 
-            startConnection();
+            @*startConnection();*@
 
             if (currentProductId !== 0) {
                 activeChat = getActiveChat();
+                console.log(typeof(activeChat));
                 updateActiveChatUI(activeChat);
             }
             else
@@ -167,10 +169,11 @@
                     let currentItem = chats[i];
                     chatListArea.append($("#chat-list-item-prefab").html());
                     $(".chat-list-item .receiver-user-name:last").text(currentItem.receiverParticipantUserName);
+                    $(".chat-list-item .receiver-photo:last").attr("src", `images/profile-images/${currentItem.receiverParticipantPhotoURL}`);
                     $(".chat-list-item .chat-reply-btn:last").val(currentItem.productId);
                 }
             }
-
+            resize();
             $(window).resize(resize);
 
             function resize() {
@@ -178,13 +181,19 @@
                 if (width >= lgSize) {
                     chatSection.show();
                     chatListSection.show();
-                    isSinked = false;
                 }
                 else {
-
-                    chatSection.hide();
-                    chatListSection.show();
-                    isSinked = true;
+                    console.log(typeof (activeChat));
+                    if ($.isEmptyObject(activeChat)) {
+                        chatSection.hide();
+                        chatListSection.show();
+                        console.log("bos amg")
+                    }
+                    else {
+                        console.log("filled")
+                        chatSection.show();
+                        chatListSection.hide();
+                    }
                 }
             }
 
@@ -244,6 +253,7 @@
                 let url = activeChat.productPhotoURL.split("|")[0];
                 productImg.attr("src", `images/product-images/${url}`);
                 receiverUserName.text(activeChat.receiverParticipantUserName);
+                receiverImg.attr("src", `images/profile-images/${activeChat.receiverParticipantPhotoURL}`);
 
                 messageArea.empty();
 
