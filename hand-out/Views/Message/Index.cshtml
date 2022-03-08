@@ -125,14 +125,6 @@
 
             @*startConnection();*@
 
-            if (currentProductId !== 0) {
-                activeChat = getActiveChat();
-                console.log(typeof(activeChat));
-                updateActiveChatUI(activeChat);
-            }
-            else
-                chatSection.hide();
-
 
             $("#message-send-btn").click(() => {
                 let messageBox = $("#message-box");
@@ -152,16 +144,28 @@
                 createReceivedMessage(messageContext);
             });
 
-            function createReceivedMessage(messageContext) {
+            function createReceivedMessage(messageContext, dateSent) {
                 messageArea.append($("#received-message-prefab").html());
                 $(".received-message-bubble .message-content:last").text(messageContext);
-                $(".received-message-bubble .message-sent-date:last").text(new Date().toLocaleTimeString());
+
+                if (dateSent === "") {
+                    $(".received-message-bubble .message-sent-date:last").text(new Date().toLocaleTimeString());
+                }
+                else {
+                    $(".received-message-bubble .message-sent-date:last").text(dateSent);
+                }
             }
 
-            function createSentMessage(messageContext) {
+            function createSentMessage(messageContext, dateSent) {
                 messageArea.append($("#sent-message-prefab").html());
                 $(".sent-message-bubble .message-content:last").text(messageContext);
-                $(".sent-message-bubble .message-sent-date:last").text(new Date().toLocaleTimeString());
+
+                if (dateSent === "") {
+                    $(".sent-message-bubble .message-sent-date:last").text(new Date().toLocaleTimeString());
+                }
+                else {
+                    $(".sent-message-bubble .message-sent-date:last").text(dateSent.slice(10,15));
+                }
             }
 
             function createChatList() {
@@ -170,30 +174,34 @@
                     chatListArea.append($("#chat-list-item-prefab").html());
                     $(".chat-list-item .receiver-user-name:last").text(currentItem.receiverParticipantUserName);
                     $(".chat-list-item .receiver-photo:last").attr("src", `images/profile-images/${currentItem.receiverParticipantPhotoURL}`);
-                    $(".chat-list-item .chat-reply-btn:last").val(currentItem.productId);
+                    $(".chat-list-item .chat-reply-btn:last").attr("data-productId", currentItem.productId);
+                    $(".chat-list-item .chat-reply-btn:last").attr("data-receiverId", currentItem.receiverParticipantId);
                 }
             }
-            resize();
-            $(window).resize(resize);
+
+            if (currentProductId !== 0) {
+                activeChat = getActiveChat();
+                console.log(typeof (activeChat));
+                updateActiveChatUI(activeChat);
+            }
+                resize();
+                $(window).resize(resize);
 
             function resize() {
                 width = $(window).width();
-                if (width >= lgSize) {
+
+                chatSection.hide();
+                chatListSection.hide();
+
+                if (!$.isEmptyObject(activeChat)) {
                     chatSection.show();
-                    chatListSection.show();
+
+                    if (width >= lgSize) {
+                        chatListSection.show();
+                    }
                 }
                 else {
-                    console.log(typeof (activeChat));
-                    if ($.isEmptyObject(activeChat)) {
-                        chatSection.hide();
-                        chatListSection.show();
-                        console.log("bos amg")
-                    }
-                    else {
-                        console.log("filled")
-                        chatSection.show();
-                        chatListSection.hide();
-                    }
+                    chatListSection.show();
                 }
             }
 
@@ -203,8 +211,8 @@
                     if (width < lgSize) {
                         chatListSection.hide();
                     }
-                    currentProductId = $(this).val();
-                    activeChat = getActiveChat();
+                    currentProductId = $(this).attr("data-productId");
+                    activeChat = getActiveChat($(this).attr("data-receiverId"));
                     updateActiveChatUI(activeChat);
                 });
             });
@@ -223,12 +231,13 @@
                 return chatsReturn;
             }
 
-            function getActiveChat() {
+            function getActiveChat(receiverId) {
                 let activeChatReturn;
+                console.log(receiverId);
                 $.ajax({
                     url: "/message/getActiveChatViewModel",
                     dataType: "json",
-                    data: { productId: currentProductId },
+                    data: { productId: currentProductId, receiverId: receiverId },
                     async: false,
                     success: function (data) {
                         activeChatReturn = JSON.parse(JSON.stringify(data));
@@ -264,10 +273,10 @@
                 for (let i = 0; i < messageList.length; i++) {
                     let currentItem = messageList[i]
                     if (currentItem.isYourMessage) {
-                        createSentMessage(currentItem.context);
+                        createSentMessage(currentItem.context, currentItem.dateSent);
                     }
                     else
-                        createReceivedMessage(currentItem.context);
+                        createReceivedMessage(currentItem.context, currentItem.dateSent);
                 }
             }
 
@@ -283,6 +292,7 @@
             $("#cancel-chat-btn").click(() => {
                 chatSection.hide();
                 chatListSection.show();
+                activeChat = null;
             });
         });
     }
@@ -315,6 +325,6 @@
             <h6 class="receiver-user-name mb-0 text-sm">Sophie B.</h6>
             <p class="last-message mb-0 text-xs">Hi! I need more information..</p>
         </div>
-        <button class="chat-reply-btn btn btn-link pe-3 ps-0 mb-0 ms-auto" data-bs-toggle="collapse">Reply</button>
+        <button class="chat-reply-btn btn btn-link pe-3 ps-0 mb-0 ms-auto" data-productId="" data-receiverId="" data-bs-toggle="collapse">Reply</button>
     </li>
 </script>
