@@ -23,7 +23,7 @@ namespace BusinessLogicLayer.Services.Concrete
 
         public List<ChatDTO> GetAllWithRelations(Expression<Func<Chat, bool>> filter)
         {
-            List<Chat> entities = Repository.GetAllWithRelations(filter);
+            List<Chat> entities = ChatRepository.GetAllWithRelations(filter);
             List<ChatDTO> DTOs = mapper.Map<List<ChatDTO>>(entities);
 
             string currentUserId = UnitOfWork.UserService.GetCurrentUserId();
