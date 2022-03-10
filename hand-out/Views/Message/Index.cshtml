@@ -6,7 +6,7 @@
     <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
 </head>
 
-<div class="container pt-8">
+<div class="container pt-7">
     <div class="row">
         <div id="chat-list" class="col-lg-4">
             <div class="card max-height-vh-80 vh-100 shadow-lg">
@@ -111,19 +111,20 @@
             }
 
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("http://localhost:44398/chathub")
+                .withUrl("http://localhost:44888/chathub")
                 .withAutomaticReconnect()
                 .build();
 
-            @*async function startConnection() {
+            startConnection();
+
+            async function startConnection() {
                 try {
                     await connection.start();
                 } catch (error) {
                     setTimeout(() => connection.start(), 2000);
                 }
-            }*@
+            }
 
-            @*startConnection();*@
 
 
             $("#message-send-btn").click(() => {
@@ -144,27 +145,27 @@
                 createReceivedMessage(messageContext);
             });
 
-            function createReceivedMessage(messageContext, dateSent) {
-                messageArea.append($("#received-message-prefab").html());
-                $(".received-message-bubble .message-content:last").text(messageContext);
-
-                if (dateSent === "") {
-                    $(".received-message-bubble .message-sent-date:last").text(new Date().toLocaleTimeString());
-                }
-                else {
-                    $(".received-message-bubble .message-sent-date:last").text(dateSent);
-                }
-            }
-
             function createSentMessage(messageContext, dateSent) {
                 messageArea.append($("#sent-message-prefab").html());
                 $(".sent-message-bubble .message-content:last").text(messageContext);
 
-                if (dateSent === "") {
-                    $(".sent-message-bubble .message-sent-date:last").text(new Date().toLocaleTimeString());
+                if (typeof (dateSent) === "undefined") {
+                    $(".sent-message-bubble .message-sent-date:last").text(new Date().toLocaleTimeString().slice(0, 5));
                 }
                 else {
-                    $(".sent-message-bubble .message-sent-date:last").text(dateSent.slice(10,15));
+                    $(".sent-message-bubble .message-sent-date:last").text(dateSent.slice(11, 16));
+                }
+            }
+
+            function createReceivedMessage(messageContext, dateSent) {
+                messageArea.append($("#received-message-prefab").html());
+                $(".received-message-bubble .message-content:last").text(messageContext);
+
+                if (typeof (dateSent) === "undefined") {
+                    $(".received-message-bubble .message-sent-date:last").text(new Date().toLocaleTimeString().slice(0, 5));
+                }
+                else {
+                    $(".received-message-bubble .message-sent-date:last").text(dateSent.slice(11, 16));
                 }
             }
 
