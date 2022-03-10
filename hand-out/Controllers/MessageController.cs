@@ -53,11 +53,9 @@ namespace hand_out.Controllers
             return chatlist;
         }
 
-        public ChatViewModel GetActiveChatViewModel(int productId = 3)
+        public ChatViewModel GetActiveChatViewModel(int productId, string receiverId)
         {
-            Product product = _unitOfWork.ProductService.GetAllWithRelations<Product>(p => p.Id == productId).FirstOrDefault();
-
-            ChatDTO chatDTO = GetChatDTO(productId);
+            ChatDTO chatDTO = GetChatDTO(productId, receiverId);
 
             if (chatDTO != null)
             {
@@ -65,6 +63,8 @@ namespace hand_out.Controllers
                 chatview.Messages.ForEach(x => x.IsYourMessage = x.SenderId == currentUserId);
                 return chatview;
             }
+
+            Product product = _unitOfWork.ProductService.GetAllWithRelations<Product>(p => p.Id == productId).FirstOrDefault();
 
             return new()
             {
@@ -79,7 +79,7 @@ namespace hand_out.Controllers
 
         public void SaveMessage(CreateMessageDTO createMessageDTO)
         {
-            ChatDTO chatDTO = GetChatDTO(createMessageDTO.ProductId);
+            ChatDTO chatDTO = GetChatDTO(createMessageDTO.ProductId, createMessageDTO.ReceiverId);
 
             createMessageDTO.ChatId = chatDTO == null
                 ? CreateChat(createMessageDTO.ProductId, createMessageDTO.ReceiverId).Id
@@ -88,11 +88,12 @@ namespace hand_out.Controllers
             _unitOfWork.MessageService.Insert(createMessageDTO);
         }
 
-        private ChatDTO GetChatDTO(int productId)
+        private ChatDTO GetChatDTO(int productId, string receiverId)
           => _unitOfWork.ChatService.GetAllWithRelations(
               c => c.ProductId == productId &&
-              c.GrantorParticipantId == currentUserId ||
-              c.NeedyParticipantId == currentUserId).FirstOrDefault();
+              (c.GrantorParticipantId == currentUserId || c.NeedyParticipantId == currentUserId) &&
+              (c.GrantorParticipantId == receiverId || c.NeedyParticipantId == receiverId))
+            .FirstOrDefault();
 
         public ChatDTO CreateChat(int productId, string grantorParticipantId)
         {
