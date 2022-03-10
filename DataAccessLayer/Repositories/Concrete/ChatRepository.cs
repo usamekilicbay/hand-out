@@ -34,7 +34,7 @@ namespace DataAccessLayer.Repositories.Concrete
             .Include(c => c.Product)
             .Include(c => c.GrantorParticipant)
             .Include(c => c.NeedyParticipant)
-            .Include(c => c.Messages)
-            .ToList();
+            .Include(c => c.Messages.OrderBy(x => x.DateSent))
+            .OrderByDescending(x => x.DateCreated).ToList();
     }
 }
