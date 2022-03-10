@@ -3,7 +3,7 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="mt-8">
+<div class="mt-7">
     <div class="col-xl-7 col-lg-8 col-11 mx-auto card shadow-lg">
         <div class="card-body py-md-5 px-md-6 p-3 mb-xl-0">
             <div class="card card-blog card-plain">
@@ -21,7 +21,8 @@
                             @foreach (string link in Model.PhotoURLs)
                             {
                                 <div class="carousel-item @(Model.PhotoURLs.First() == link ? "active" : "")">
-                                    <img src="~/images/product-images/@link" class="w-100" style="height: 400px;" alt="...">
+                                    <img src="~/images/product-images/@link"
+                                         class="w-100 min-vh-50 max-height-vh-50 img-cover shadow border-radius-xl">
                                 </div>
                             }
                         </div>
@@ -49,13 +50,14 @@
                     <h5>@Model.Name</h5>
                     <p class="mb-4 text-sm">@Model.Details</p>
                     <div class="row">
-                        <div class="col-md-10 col-sm-12 d-flex pe-3">
+                        <div class="col-md-10 col-sm-12 d-flex pe-sm-3 pe-1">
                             <div class="col-auto">
                                 <a asp-controller="User" asp-action="Details" asp-route-id="@Model.GrantorId">
                                     <div class="row">
                                         <div class="col-auto">
-                                            <div class="avatar rounded-circle d-flex">
-                                                <img src="~/images/profile-images/@Model.GrantorProfilePhotoURL" alt="profile_image" class="w-100 mb-0 border-radius-lg shadow-sm">
+                                            <div class="avatar-xl d-flex">
+                                                <img src="~/images/profile-images/@Model.GrantorProfilePhotoURL" alt="profile_image"
+                                                     class="w-100 img-cover mb-0 rounded-circle">
                                             </div>
                                         </div>
                                         <div class="col-auto my-auto">
