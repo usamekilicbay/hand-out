@@ -12,7 +12,5 @@ namespace hand_out.Models.ViewModels.User
         public string Address { get; set; }
         public string ProfilePhotoURL { get; set; }
         public UserStatus Status { get; set; }
-
-        public virtual IList<ListProductViewModel> Products { get; set; }
     }
 }
