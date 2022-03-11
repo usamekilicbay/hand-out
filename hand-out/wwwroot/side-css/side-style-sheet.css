@@ -84,12 +84,6 @@ body {
     object-fit: cover !important;
 }
 
-.uploaded-img-preview {
-    object-fit: cover;
-    height: 10em;
-    width: 10em;
-}
-
 .img-upload:hover, input::-webkit-file-upload-button:hover {
     cursor: pointer !important;
 }
