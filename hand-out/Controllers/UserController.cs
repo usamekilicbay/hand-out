@@ -16,6 +16,7 @@ using hand_out.Models.ViewModels.Shared;
 using hand_out.Models.ViewModels.Product;
 using DataLayer.General.User;
 using Microsoft.AspNetCore.Http;
+using DataLayer.Shared;
 
 namespace hand_out.Controllers
 {
@@ -33,28 +34,26 @@ namespace hand_out.Controllers
         }
 
         [Authorize()]
-        public IActionResult Details(string id = "own")
+        public IActionResult Details(string id)
         {
             ProfileViewModel profileViewModel;
+            ProfileDTO profileDTO;
 
-            if (id.Equals("own"))
+            if (string.IsNullOrEmpty(id) || id.Equals(_userService.GetCurrentUserId()))
             {
+                profileDTO = _userService.GetCurrentUserProfile();
                 ViewBag.IsOwnProfile = true;
-
-                profileViewModel = new(
-                    detailsUserViewModel: _mapper.Map<DetailsUserViewModel>(_userService.GetCurrentUserDetails()),
-                    createProductViewModel: new CreateProductViewModel());
-
                 ViewBag.Categories = new SelectList(_unitOfWork.CategoryService.GetAll<DropdownCategoryDTO>(), "Id", "Name");
             }
             else
             {
+                profileDTO = _userService.GetUserProfile(id);
                 ViewBag.IsOwnProfile = false;
-
-                profileViewModel = new(
-                    detailsUserViewModel: _mapper.Map<DetailsUserViewModel>(_userService.GetById<DetailsUserDTO>(id)),
-                    createProductViewModel: null);
             }
+
+            profileViewModel = new(
+                detailsUserViewModel: _mapper.Map<DetailsUserViewModel>(profileDTO.DetailsUserDTO),
+                listProductViewModels: _mapper.Map<List<ListProductViewModel>>(profileDTO.ListProductDTOs));
 
             return View(profileViewModel);
         }
