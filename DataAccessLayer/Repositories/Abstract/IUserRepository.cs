@@ -11,6 +11,7 @@ namespace DataAccessLayer.Repositories.Abstract
         SignInManager<User> SignInManager { get; set; }
         IHttpContextAccessor HttpContextAccessor { get; set; }
 
+        public User GetUser(string userId);
         string GetCurrentUserId();
         User GetCurrentUser();
         SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);

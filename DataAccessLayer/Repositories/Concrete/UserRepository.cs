@@ -26,6 +26,9 @@ namespace DataAccessLayer.Repositories.Concrete
             HttpContextAccessor = httpContextAccessor;
         }
 
+        public User GetUser(string userId) =>
+          UserManager.FindByIdAsync(userId).Result;
+
         public string GetCurrentUserId() =>
             UserManager.GetUserId(HttpContextAccessor.HttpContext.User);
 
@@ -36,7 +39,6 @@ namespace DataAccessLayer.Repositories.Concrete
         {
             throw new System.NotImplementedException();
         }
-
         public override List<User> GetAllWithRelations(Expression<Func<User, bool>> filter)
         {
             return dbSet.Where(filter)
