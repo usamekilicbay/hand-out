@@ -1,17 +1,18 @@
 ﻿using DataLayer.User;
 using DataLayer.Product;
+using System.Collections.Generic;
 
 namespace DataLayer.Shared
 {
     public class ProfileDTO
     {
-        public DetailsUserDTO DetailsUserViewModel { get; private set; }
-        public CreateProductDTO CreateProductViewModel { get; private set; }
+        public DetailsUserDTO DetailsUserDTO { get; private set; }
+        public IList<ListProductDTO> ListProductDTOs { get; private set; }
 
-        public ProfileDTO(DetailsUserDTO detailsUserViewModel, CreateProductDTO createProductViewModel)
+        public ProfileDTO(DetailsUserDTO detailsUserDTO, IList<ListProductDTO> listProductDTOs)
         {
-            DetailsUserViewModel = detailsUserViewModel;
-            CreateProductViewModel = createProductViewModel;
+            DetailsUserDTO = detailsUserDTO;
+            ListProductDTOs = listProductDTOs;
         }
     }
 }
