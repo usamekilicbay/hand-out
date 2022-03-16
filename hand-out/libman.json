@@ -26,6 +26,10 @@
       "provider": "unpkg",
       "library": "@microsoft/signalr@6.0.1",
       "destination": "wwwroot/microsoft/signalr/"
+    },
+    {
+      "library": "jqueryui@1.12.1",
+      "destination": "wwwroot/lib/jqueryui/"
     }
   ]
 }
