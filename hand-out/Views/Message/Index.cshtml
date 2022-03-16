@@ -83,9 +83,19 @@
             console.log("%s Current Product", currentProductId);
 
             let chats = getChats();
-            console.log(chats);
+            let chatElements = new Array();
+            @*console.log(chats);*@
             createChatList();
             let activeChat;
+
+
+            let CHATITEM = function (id, productPhotoURL, receiverUserName, receiverPhotoURL, lastMessage) {
+                this.id = id;
+                this.productPhotoURL = productPhotoURL;
+                this.receiverUserName = receiverUserName;
+                this.receiverPhotoURL = this.receiverPhotoURL;
+                this.lastMessage = lastMessage;
+            }
 
             class Message {
                 constructor(chatId, productId, receiverId, context) {
@@ -96,23 +106,23 @@
                 }
             }
 
-           class ActiveChat {
-               constructor(id, prodcutId, productName, productPhotoURL,
-                   receiverParticipantId, receiverParticipantUserName, receiverParticipantPhotoURL,
-                   messages) {
-                   this.id = id;
-                   this.prodcutId = prodcutId;
-                   this.productName = productName;
-                   this.productPhotoURL = productPhotoURL;
-                   this.receiverParticipantId = receiverParticipantId;
-                   this.receiverParticipantUserName = receiverParticipantUserName;
-                   this.receiverParticipantPhotoURL = receiverParticipantPhotoURL;
-                   this.messages = messages;
+            class ActiveChat {
+                constructor(id, prodcutId, productName, productPhotoURL,
+                    receiverParticipantId, receiverParticipantUserName, receiverParticipantPhotoURL,
+                    messages) {
+                    this.id = id;
+                    this.prodcutId = prodcutId;
+                    this.productName = productName;
+                    this.productPhotoURL = productPhotoURL;
+                    this.receiverParticipantId = receiverParticipantId;
+                    this.receiverParticipantUserName = receiverParticipantUserName;
+                    this.receiverParticipantPhotoURL = receiverParticipantPhotoURL;
+                    this.messages = messages;
                 }
             }
 
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("http://localhost:44888/chathub")
+                .withUrl("/chathub")
                 .withAutomaticReconnect()
                 .build();
 
@@ -134,29 +144,57 @@
                     return;
 
                 messageBox.val("");
+                createSentMessage(messageContext);
+                saveMessage(new Message(activeChat.Id, currentProductId, activeChat.receiverParticipantId, messageContext));
 
                 let chatSendMessageDTO = new Object();
-                chatSendMessageDTO.id = activeChat.id;
+                if (activeChat.id === "" || activeChat.id === "undefined" || activeChat.id === null) {
+                    chatSendMessageDTO.id = getChatId(activeChat.productId, activeChat.receiverParticipantId);
+                    activeChat = getActiveChat(chatSendMessageDTO.id);
+                    updateActiveChatUI(activeChat);
+                    let chatItem = {
+                        id: chatSendMessageDTO.id,
+                        receiverParticipantUserName: activeChat.receiverParticipantUserName,
+                        receiverParticipantPhotoURL: activeChat.receiverParticipantPhotoURL,
+                        productPhotoURL: activeChat.productPhotoURL,
+                        lastMessage: messageContext
+                    }
+
+                    createChatItem(chatItem);
+                }
+                else {
+                    chatSendMessageDTO.id = activeChat.id;
+                }
+
                 chatSendMessageDTO.productId = activeChat.productId;
                 chatSendMessageDTO.receiverId = activeChat.receiverParticipantId;
-                chatSendMessageDTO.senderId = "@hand_out.Controllers.HomeController.currentUserId";
+                chatSendMessageDTO.senderId = "@ViewBag.CurrentUserId";
+                console.log(chatSendMessageDTO.id);
+                let currentChatElement = chatElements.find(x => x.attr("id") === chatSendMessageDTO.id);
+                chatListArea.prepend(currentChatElement);
 
                 connection.invoke("SendMessageAsync", chatSendMessageDTO, messageContext);
-                createSentMessage(messageContext);
-                @*saveMessage(new Message(activeChat.Id, currentProductId, activeChat.receiverParticipantId, messageContext));*@
             });
 
             connection.on("receiveMessage", (messageContext, chatSendMessageDTO) => {
-                for (let i = 0; i < chats.length; i++) {
-                    let chat = chats[i];
-                    if (chat.id === chatSendMessageDTO.id) {
-                        let indexOfChat = chats.indexOf(chat);
-                        chats.splice(indexOfChat, 1);
-                        chats.unshift(chat);
+                console.log(chatSendMessageDTO.id);
+                if ($.inArray(chatSendMessageDTO.id, chatElements) === -1) {
+                    let chitChat = getActiveChat(chatSendMessageDTO.id, "");
+
+                    let chatItem = {
+                        id: chitChat.id,
+                        receiverParticipantUserName: chitChat.receiverParticipantUserName,
+                        receiverParticipantPhotoURL: chitChat.receiverParticipantPhotoURL,
+                        productPhotoURL: chitChat.productPhotoURL,
+                        lastMessage: messageContext
                     }
+
+                    createChatItem(chatItem);
                 }
 
-                createChatList();
+                let currentChatElement = chatElements.find(x => x.attr("id") === chatSendMessageDTO.id);
+                chatListArea.prepend(currentChatElement);
+
                 $(".chat-list-item .last-message:first").text(messageContext);
                 $(".chat-list-item:first").effect("highlight", { color: "#fbcf33" }, 3000);
 
@@ -175,6 +213,8 @@
                 else {
                     $(".sent-message-bubble .message-sent-date:last").text(dateSent.slice(11, 16));
                 }
+
+                $("#message-area").scrollTop($("#message-area")[0].scrollHeight);
             }
 
             function createReceivedMessage(messageContext, dateSent) {
@@ -187,32 +227,40 @@
                 else {
                     $(".received-message-bubble .message-sent-date:last").text(dateSent.slice(11, 16));
                 }
+
+                $("#message-area").scrollTop($("#message-area")[0].scrollHeight);
             }
 
             function createChatList() {
-                @*chatListArea.empty();*@
+                chatListArea.empty();
                 for (let i = 0; i < chats.length; i++) {
                     let currentItem = chats[i];
                     createChatItem(currentItem);
                 }
             }
 
-            function createChatItem(currentItem) {
+            function createChatItem(chatItem) {
                 chatListArea.append($("#chat-list-item-prefab").html());
-                $(".chat-list-item .receiver-user-name:last").text(currentItem.receiverParticipantUserName);
-                $(".chat-list-item .receiver-photo:last").attr("src", `images/profile-images/${currentItem.receiverParticipantPhotoURL}`);
-                $(".chat-list-item .product-photo:last").attr("src", `images/product-images/${returnProductThumbnail(currentItem.productPhotoURL)}`);
-                $(".chat-list-item .last-message:last").text(currentItem.lastMessage);
-                $(".chat-list-item .chat-reply-btn:last").attr("data-chat-id", currentItem.id);
+                $(".chat-list-item:last").attr("id", chatItem.id);
+                $(".chat-list-item .receiver-user-name:last").text(chatItem.receiverParticipantUserName);
+                $(".chat-list-item .receiver-photo:last").attr("src", `images/profile-images/${chatItem.receiverParticipantPhotoURL}`);
+                $(".chat-list-item .product-photo:last").attr("src", `images/product-images/${returnProductThumbnail(chatItem.productPhotoURL)}`);
+                $(".chat-list-item .last-message:last").text(chatItem.lastMessage);
+                $(".chat-list-item .chat-reply-btn:last").attr("data-chat-id", chatItem.id);
+
+                let chatElement = $(".chat-list-item:last");
+                chatElements.push(chatElement);
             }
+
+            console.log(chatElements);
 
             if (currentProductId !== 0) {
                 activeChat = getActiveChat();
                 console.log(typeof (activeChat));
                 updateActiveChatUI(activeChat);
             }
-                resize();
-                $(window).resize(resize);
+            resize();
+            $(window).resize(resize);
 
             function resize() {
                 width = $(window).width();
@@ -233,7 +281,7 @@
             }
 
             $(function () {
-                $(".chat-reply-btn").click(function() {
+                $(".chat-reply-btn").click(function () {
                     chatSection.show();
                     if (width < lgSize) {
                         chatListSection.hide();
@@ -258,6 +306,21 @@
                     }
                 });
                 return chatsReturn;
+            }
+
+            function getChatId(productId, receiverId) {
+                let chatIdReturn;
+                $.ajax({
+                    url: "/message/getChatId",
+                    dataType: "json",
+                    data: { productId: productId, receiverId: receiverId },
+                    async: false,
+                    success: function (data) {
+                        chatIdReturn = data;
+                    }
+                });
+
+                return chatIdReturn;
             }
 
             function getActiveChat(chatId) {
@@ -306,6 +369,8 @@
                     else
                         createReceivedMessage(currentItem.context, currentItem.dateSent);
                 }
+
+                $("#message-area").scrollTop($("#message-area")[0].scrollHeight);
             }
 
             function saveMessage(message) {
@@ -313,6 +378,7 @@
                     type: "POST",
                     url: "/message/saveMessage",
                     dataType: "json",
+                    async : false,
                     data: { createMessageDTO: message }
                 });
             }
