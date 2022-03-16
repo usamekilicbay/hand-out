@@ -14,27 +14,28 @@ namespace hand_out.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        public static string currentUserId;
+        private string _currentUserId;
 
         public MessageController(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            currentUserId = unitOfWork.UserService.GetCurrentUserId();
+            _currentUserId = unitOfWork.UserService.GetCurrentUserId();
         }
 
         [HttpGet]
         public IActionResult Index(int id = 0)
         {
             ViewBag.ProductId = id;
+            ViewBag.CurrentUserId = _currentUserId;
             return View();
         }
 
         public List<ListChatViewModel> GetChats()
         {
             List<ChatDTO> chatDTOs = _unitOfWork.ChatService.GetAllWithRelations(
-                c => c.GrantorParticipantId == currentUserId
-                || c.NeedyParticipantId == currentUserId);
+                c => c.GrantorParticipantId == _currentUserId
+                || c.NeedyParticipantId == _currentUserId);
 
             List<ListChatViewModel> chatlist = new();
 
@@ -44,23 +45,24 @@ namespace hand_out.Controllers
                 ProductId = x.ProductId,
                 ProductName = x.ProductName,
                 ProductPhotoURL = x.ProductPhotoURL,
-                SenderParticipantId = currentUserId,
+                SenderParticipantId = _currentUserId,
                 ReceiverParticipantId = x.ReceiverParticipantId,
                 ReceiverParticipantUserName = x.ReceiverParticipantUserName,
-                ReceiverParticipantPhotoURL = x.ReceiverParticipantPhotoURL
-            }));
+                ReceiverParticipantPhotoURL = x.ReceiverParticipantPhotoURL,
+                LastMessage = x.Messages.OrderByDescending(m => m.DateSent).FirstOrDefault().Context
+            })); ;
 
             return chatlist;
         }
 
-        public ChatViewModel GetActiveChatViewModel(int productId, string receiverId)
+        public ChatViewModel GetActiveChatViewModel(string chatId, int productId)
         {
-            ChatDTO chatDTO = GetChatDTO(productId, receiverId);
+            ChatDTO chatDTO = GetChatDTO(chatId);
 
             if (chatDTO != null)
             {
                 ChatViewModel chatview = _mapper.Map<ChatViewModel>(chatDTO);
-                chatview.Messages.ForEach(x => x.IsYourMessage = x.SenderId == currentUserId);
+                chatview.Messages.ForEach(x => x.IsYourMessage = x.SenderId == _currentUserId);
                 return chatview;
             }
 
@@ -88,10 +90,23 @@ namespace hand_out.Controllers
             _unitOfWork.MessageService.Insert(createMessageDTO);
         }
 
+        public JsonResult GetChatId(int productId, string receiverId)
+        {
+            ChatDTO chatDTO = GetChatDTO(productId, receiverId);
+
+            return new JsonResult(chatDTO == null
+                ? ""
+                : chatDTO.Id);
+        }
+
+        private ChatDTO GetChatDTO(string chatId)
+          => _unitOfWork.ChatService.GetAllWithRelations(
+              c => c.Id == chatId).FirstOrDefault();
+
         private ChatDTO GetChatDTO(int productId, string receiverId)
           => _unitOfWork.ChatService.GetAllWithRelations(
               c => c.ProductId == productId &&
-              (c.GrantorParticipantId == currentUserId || c.NeedyParticipantId == currentUserId) &&
+              (c.GrantorParticipantId == _currentUserId || c.NeedyParticipantId == _currentUserId) &&
               (c.GrantorParticipantId == receiverId || c.NeedyParticipantId == receiverId))
             .FirstOrDefault();
 
