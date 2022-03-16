@@ -3,6 +3,8 @@ using BusinessLogicLayer.Services.Abstract;
 using DataAccessLayer;
 using DataAccessLayer.Repositories.Abstract;
 using DataAccessLayer.Repositories.Concrete;
+using DataLayer.Product;
+using DataLayer.Shared;
 using DataLayer.User;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
@@ -29,6 +31,30 @@ namespace BusinessLogicLayer.Services.Concrete
         public string GetCurrentUserId() =>
             UserRepository.GetCurrentUserId();
 
+        public DetailsUserDTO GetUserDetails(string userId)
+        {
+            User user = UserRepository.GetUser(userId);
+
+            return mapper.Map<DetailsUserDTO>(user);
+        }
+
+        public ProfileDTO GetUserProfile(string userId)
+        {
+            DetailsUserDTO detailsUserDTO = GetUserDetails(userId);
+            List<Product> Products = UnitOfWork.ProductService.GetAll<Product>(x => x.GrantorId == detailsUserDTO.Id);
+
+            return new ProfileDTO(detailsUserDTO, mapper.Map<List<ListProductDTO>>(Products));
+        }
+
+        public ProfileDTO GetCurrentUserProfile()
+        {
+            DetailsUserDTO detailsUserDTO = GetCurrentUserDetails();
+            List<Product> Products = UnitOfWork.ProductService.GetAll<Product>(x => x.GrantorId == detailsUserDTO.Id);
+
+            return new ProfileDTO(detailsUserDTO, mapper.Map<List<ListProductDTO>>(Products));
+        }
+
+        
         public DetailsUserDTO GetCurrentUserDetails()
         {
             User user = UserRepository.GetCurrentUser();
