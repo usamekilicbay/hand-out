@@ -10,5 +10,6 @@
         public string ReceiverParticipantId { get; set; }
         public string ReceiverParticipantUserName { get; set; }
         public string ReceiverParticipantPhotoURL { get; set; }
+        public string LastMessage { get; set; }
     }
 }
