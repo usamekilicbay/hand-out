@@ -15,37 +15,41 @@
                 </div>
                 <div class="card-body py-0 px-lg-3 px-2 overflow-auto">
                     <ul id="chat-list-area" class="list-group">
-                        <!-- Chatlist will be created here -->
+                        Chatlist will be created here
                     </ul>
                 </div>
             </div>
         </div>
         <div id="chat" class="col-lg-8">
-            <div class="card max-height-vh-80 vh-100 shadow-lg py-3 px-lg-5 px-1">
-                <div class="card-header d-flex border-bottom border-dark">
-                    <div id="cancel-chat-btn" class="d-flex col-1 me-md-3 me-1">
-                        <button class="btn shadow-none mb-0 p-0">
-                            <span class="fa fa-arrow-left fa-lg"></span>
-                        </button>
-                    </div>
-                    <div class="d-flex col">
-                        <div class="avatar me-lg-3 me-1">
-                            <img src="../assets/img/kal-visuals-square.jpg" id="receiver-img" alt="kal" class="border-radius-lg shadow">
+            <div class="card max-height-vh-80 vh-100 shadow-lg py-lg-3 px-lg-5 d-flex">
+                <div class="card-header border-bottom border-dark  px-0">
+                    <div class="d-flex align-items-center px-md-4 px-2">
+                        <div id="cancel-chat-btn" class="col-auto d-flex align-items-center me-lg-4 me-2">
+                            <button class="btn shadow-none mb-0 p-0">
+                                <span class="fa fa-arrow-left fa-lg"></span>
+                            </button>
                         </div>
-                        <div class="d-flex align-items-start flex-column justify-content-center">
-                            <h6 id="receiver-user-name" class="mb-0 text-sm"></h6>
+                        <div class="col-auto">
+                            <div class="avatar d-flex align-items-center">
+                                <img src="../assets/img/kal-visuals-square.jpg" id="receiver-img" alt="kal"
+                                     class="img-cover w-100 h-100 border-radius-lg shadow">
+                            </div>
                         </div>
-                    </div>
-                    <div class="d-flex col justify-content-end">
-                        <div class="my-auto me-2">
-                            <h6 id="product-name" class="mb-0 text-sm"></h6>
+                        <div class="col-lg-8 col-6 text-nowrap overflow-hidden ms-md-3 ms-2 me-auto">
+                            <h6 id="receiver-user-name" class="mb-0 text-sm">Receivesdddddddddddddddddrrrrrr</h6>
+                            <h6 id="product-name" class="mb-0 text">PRODUCTtttttttt</h6>
                         </div>
-                        <div class="avatar">
-                            <img id="product-img" src="" alt="kal" class="border-radius-lg shadow h-100">
+                        <div class="col-auto ms-md-2 ms-1 me-lg-4 me-2">
+                            <div class="avatar d-flex align-items-center">
+                                <img src="/images/product-images/kidstudydesk-0112b4046d0a4769a9764c328552b19b.jpg" id="product-img" alt="kal"
+                                     class="img-cover w-100 h-100 border-radius-lg shadow">
+                            </div>
                         </div>
-                        <a class="my-auto ms-lg-5 ms-2">
-                            <span class="fa fa-ellipsis-v fa-lg"></span>
-                        </a>
+                        <div class="col-auto">
+                            <a>
+                                <span class="fa fa-ellipsis-v fa-lg"></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div id="message-area" class="card-body p-3 overflow-auto">
@@ -82,12 +86,12 @@
             let currentProductId = @ViewBag.ProductId;
             console.log("%s Current Product", currentProductId);
 
-            let chats = getChats();
-            let chatElements = new Array();
-            @*console.log(chats);*@
-            createChatList();
+            let assignReplyButtonClick;
+
             let activeChat;
 
+            let chats = getChats();
+            let chatElements = new Array();
 
             let CHATITEM = function (id, productPhotoURL, receiverUserName, receiverPhotoURL, lastMessage) {
                 this.id = id;
@@ -136,6 +140,20 @@
                 }
             }
 
+            assignReplyButtonClick = function () {
+                chatSection.show();
+                if (width < lgSize) {
+                    chatListSection.hide();
+                }
+                let chatId = $(this).attr("data-chat-id");
+                activeChat = getActiveChat(chatId);
+                console.log(activeChat);
+                currentProductId = activeChat.productId;
+                updateActiveChatUI(activeChat);
+            }
+
+            createChatList();
+
             $("#message-send-btn").click(() => {
                 let messageBox = $("#message-box");
                 let messageContext = messageBox.val();
@@ -170,17 +188,19 @@
                 chatSendMessageDTO.receiverId = activeChat.receiverParticipantId;
                 chatSendMessageDTO.senderId = "@ViewBag.CurrentUserId";
                 console.log(chatSendMessageDTO.id);
+
                 let currentChatElement = chatElements.find(x => x.attr("id") === chatSendMessageDTO.id);
                 chatListArea.prepend(currentChatElement);
+
+                $(".chat-list-item .last-message:first").text(messageContext);
+                $(".chat-list-item:first").effect("highlight", { color: "#fbcf33" }, 3000);
 
                 connection.invoke("SendMessageAsync", chatSendMessageDTO, messageContext);
             });
 
             connection.on("receiveMessage", (messageContext, chatSendMessageDTO) => {
-                console.log(chatSendMessageDTO.id);
-                if ($.inArray(chatSendMessageDTO.id, chatElements) === -1) {
+                if (typeof (chatElements.find(x => x.attr("id") === chatSendMessageDTO.id)) === "undefined") {
                     let chitChat = getActiveChat(chatSendMessageDTO.id, "");
-
                     let chatItem = {
                         id: chitChat.id,
                         receiverParticipantUserName: chitChat.receiverParticipantUserName,
@@ -250,6 +270,8 @@
 
                 let chatElement = $(".chat-list-item:last");
                 chatElements.push(chatElement);
+
+                $(".chat-list-item .chat-reply-btn:last").click(assignReplyButtonClick);
             }
 
             console.log(chatElements);
@@ -259,6 +281,7 @@
                 console.log(typeof (activeChat));
                 updateActiveChatUI(activeChat);
             }
+
             resize();
             $(window).resize(resize);
 
@@ -279,21 +302,6 @@
                     chatListSection.show();
                 }
             }
-
-            $(function () {
-                $(".chat-reply-btn").click(function () {
-                    chatSection.show();
-                    if (width < lgSize) {
-                        chatListSection.hide();
-                    }
-                    let chatId = $(this).attr("data-chat-id");
-                    activeChat = getActiveChat(chatId);
-                    console.log(activeChat);
-                    currentProductId = activeChat.productId;
-                    updateActiveChatUI(activeChat);
-                });
-            });
-
 
             function getChats() {
                 let chatsReturn = new Array();
