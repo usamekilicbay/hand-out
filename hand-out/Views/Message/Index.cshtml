@@ -30,20 +30,28 @@
                             </button>
                         </div>
                         <div class="col-auto">
-                            <div class="avatar d-flex align-items-center">
-                                <img src="../assets/img/kal-visuals-square.jpg" id="receiver-img" alt="kal"
-                                     class="img-cover w-100 h-100 border-radius-lg shadow">
-                            </div>
+                            <a class="receiver-link" asp-controller="User" asp-action="Details" asp-route-id="">
+                                <div class="avatar d-flex align-items-center">
+                                    <img src="../assets/img/kal-visuals-square.jpg" id="receiver-img" alt="kal"
+                                         class="img-cover w-100 h-100 border-radius-lg shadow">
+                                </div>
+                            </a>
                         </div>
                         <div class="col-lg-8 col-6 text-nowrap overflow-hidden ms-md-3 ms-2 me-auto">
-                            <h6 id="receiver-user-name" class="mb-0 text-sm">Receivesdddddddddddddddddrrrrrr</h6>
-                            <h6 id="product-name" class="mb-0 text">PRODUCTtttttttt</h6>
+                            <a class="receiver-link" asp-controller="User" asp-action="Details" asp-route-id="">
+                                <h6 id="receiver-user-name" class="mb-0 text-sm">Receivesdddddddddddddddddrrrrrr</h6>
+                            </a>
+                            <a class="product-link" asp-controller="Product" asp-action="Details" asp-route-id="">
+                                <h6 id="product-name" class="mb-0 text">PRODUCTtttttttt</h6>
+                            </a>
                         </div>
                         <div class="col-auto ms-md-2 ms-1 me-lg-4 me-2">
-                            <div class="avatar d-flex align-items-center">
-                                <img src="/images/product-images/kidstudydesk-0112b4046d0a4769a9764c328552b19b.jpg" id="product-img" alt="kal"
-                                     class="img-cover w-100 h-100 border-radius-lg shadow">
-                            </div>
+                            <a class="product-link" asp-controller="Product" asp-action="Details" asp-route-id="">
+                                <div class="avatar d-flex align-items-center">
+                                    <img src="/images/product-images/kidstudydesk-0112b4046d0a4769a9764c328552b19b.jpg" id="product-img" alt="kal"
+                                         class="img-cover w-100 h-100 border-radius-lg shadow">
+                                </div>
+                            </a>
                         </div>
                         <div class="col-auto">
                             <a>
@@ -76,6 +84,8 @@
             const messageArea = $("#message-area");
             const receiverUserName = $("#receiver-user-name");
             const receiverImg = $("#receiver-img");
+            const receiverLink = $(".receiver-link");
+            const productLink = $(".product-link");
             const productName = $("#product-name");
             const productImg = $("#product-img");
 
@@ -262,16 +272,16 @@
             function createChatItem(chatItem) {
                 chatListArea.append($("#chat-list-item-prefab").html());
                 $(".chat-list-item:last").attr("id", chatItem.id);
+                $(".chat-list-item:last").attr("data-chat-id", chatItem.id);
                 $(".chat-list-item .receiver-user-name:last").text(chatItem.receiverParticipantUserName);
                 $(".chat-list-item .receiver-photo:last").attr("src", `images/profile-images/${chatItem.receiverParticipantPhotoURL}`);
                 $(".chat-list-item .product-photo:last").attr("src", `images/product-images/${returnProductThumbnail(chatItem.productPhotoURL)}`);
                 $(".chat-list-item .last-message:last").text(chatItem.lastMessage);
-                $(".chat-list-item .chat-reply-btn:last").attr("data-chat-id", chatItem.id);
 
                 let chatElement = $(".chat-list-item:last");
                 chatElements.push(chatElement);
 
-                $(".chat-list-item .chat-reply-btn:last").click(assignReplyButtonClick);
+                $(".chat-list-item:last").click(assignReplyButtonClick);
             }
 
             console.log(chatElements);
@@ -358,11 +368,14 @@
             function updateActiveChatUI(activeChat) {
                 console.log(activeChat);
                 productName.text(activeChat.productName);
-                let url = activeChat.productPhotoURL.split("|")[0];
-                productImg.attr("src", `images/product-images/${url}`);
+                let productImgURL = activeChat.productPhotoURL.split("|")[0];
+                productImg.attr("src", `images/product-images/${productImgURL}`);
                 receiverUserName.text(activeChat.receiverParticipantUserName);
                 receiverImg.attr("src", `images/profile-images/${activeChat.receiverParticipantPhotoURL}`);
-
+                let receiverURL = `User/Details?id=${activeChat.receiverParticipantId}`;
+                let productURL = `Product/Details?id=${activeChat.productId}`;
+                receiverLink.attr("href", receiverURL);
+                productLink.attr("href", productURL);
                 messageArea.empty();
 
                 if (activeChat.messages == null)
@@ -423,19 +436,20 @@
 </script>
 
 <script type="text/html" id="chat-list-item-prefab">
-    <li class="chat-list-item list-group-item d-flex align-items-center px-0 my-1 border-0">
-        <div class="avatar w-15 me-2">
+    <li class="chat-list-item list-group-item d-flex align-items-center px-0 my-1 border-0" 
+        data-chat-id="" data-bs-toggle="collapse">
+        <div class="avatar col-auto me-2">
             <img src="../assets/img/kal-visuals-square.jpg" alt="kal"
                  class="receiver-photo h-100 w-100 img-cover border-radius-lg shadow">
         </div>
-        <div class="d-flex w-50 me-2 align-items-start flex-column justify-content-center overflow-hidden">
+        <div class="d-flex col-6 me-2 align-items-start flex-column justify-content-center overflow-hidden">
             <h6 class="receiver-user-name mb-0 text-sm">Sophie B.</h6>
             <p class="last-message mb-0 text-xs text-nowrap">Hi! I Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velitn.</p>
         </div>
-        <div class="avatar w-15 ms-auto me-md-2 me-1">
+        <div class="avatar col-auto ms-auto me-md-2 me-1">
             <img src="../assets/img/kal-visuals-square.jpg" alt="kal"
                  class="product-photo h-100 w-100 img-cover border-radius-lg shadow">
         </div>
-        <button class="chat-reply-btn w-15 btn btn-link p-0 m-0" data-chat-id="" data-bs-toggle="collapse">Reply</button>
+        <span class="chat-reply-btn col-auto btn btn-link p-0 m-0">Reply</span>
     </li>
 </script>
