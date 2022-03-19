@@ -1,0 +1,100 @@
+﻿@model UpdateProductViewModel
+
+@using static Sidekick.NET.Types
+
+@{
+    ViewData["Title"] = "Product/Edit";
+}
+
+<div class="container min-vh-100 d-flex pt-7">
+    <form method="post" enctype="multipart/form-data" asp-action="Update" class="my-auto">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="d-flex justify-content-center mb-lg-2">
+            <div class="col-lg-4 col-md-9 col-11">
+                <div class="form-group">
+                    <div id="previewImageContainer" class="d-flex justify-content-around mb-3">
+                        @{
+                            for (var i = 0; i < 3; i++)
+                            {
+                                <div class="col-4 position-relative border-radius-lg  @(i == 1 ? "mx-lg-3 mx-md-2 mx-1" : "")">
+                                    @if (i <= Model.PhotoURLs.Count - 1)
+                                    {
+                                        <img class="w-100 h-100 img-cover uploaded-img-preview border-radius-lg shadow text-center"
+                                             src="~/images/product-images/@Model.PhotoURLs[i]" />
+                                    }
+                                    else
+                                    {
+                                        <img class="w-100 h-100 img-cover uploaded-img-preview border-radius-lg shadow text-center"
+                                             src="https://www.freeiconspng.com/uploads/upload-icon-30.png" />
+                                    }
+                                    <div class="file-btn rounded-circle z-index-1">
+                                        <span class="fa fa-trash fa-xs text-white"></span>
+                                    </div>
+                                    <input asp-for="Photos" type="file"
+                                           class="img-upload z-index-0 position-absolute start-0 bottom-0 opacity-0 h-100 w-100">
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-4 col-md-9 col-11">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <select asp-for="CategoryId" class="form-control form-select" asp-items="ViewBag.Categories"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Details" class="control-label"></label>
+                    <textarea asp-for="Details" class="form-control" ></textarea>
+                    <span asp-validation-for="Details" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <select asp-for="Status" asp-items="Html.GetEnumSelectList<ProductStatus>()" class="form-control form-select"></select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-0">
+                    <input type="submit" value="Save" class="btn btn-outline-success w-100" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        let defaultPhotoURL = "https://www.freeiconspng.com/uploads/upload-icon-30.png";
+        $(".file-btn").hide();
+
+        $(function () {
+            $(".img-upload").change(function (event) {
+                let url = URL.createObjectURL(event.target.files[0]);
+                $(this).siblings("img").attr("src", url);
+                $(this).siblings(".file-btn").show(1000);
+            });
+        });
+
+        $(function () {
+            $(".file-btn").not("#upload-profile-img").click(function () {
+                $(this).hide(1000);
+                $(this).siblings(".uploaded-img-preview").attr("src", defaultPhotoURL);
+            });
+        });
+
+    });
+</script>
