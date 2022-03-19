@@ -38,5 +38,10 @@ namespace hand_out.Controllers
         {
             return View();
         }
+
+        public List<ListProductViewModel> GetProducts(string nameIncludes)
+        {
+            return _mapper.Map<List<ListProductViewModel>>(_unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>(x => x.Name.Contains(nameIncludes)));
+        }
     }
 }
