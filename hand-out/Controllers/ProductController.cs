@@ -1,11 +1,17 @@
 ﻿using AutoMapper;
 using BusinessLogicLayer;
 using BusinessLogicLayer.Services.Abstract;
+using DataLayer.Category;
 using DataLayer.Product;
+using EntityLayer.Concrete;
 using hand_out.Models.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Sidekick.NET.Types;
 
 namespace hand_out.Controllers
 {
@@ -23,12 +29,12 @@ namespace hand_out.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Insert([Bind(Prefix = "CreateProductViewModel")] CreateProductViewModel createProductViewModel)
+        public IActionResult Insert([Bind(Prefix = "CreateProductViewModel")] CreateProductViewModel createProductViewModel)
         {
             if (!ModelState.IsValid)
                 return null;
 
-            await _productService.InsertAsync(_mapper.Map<CreateProductDTO>(createProductViewModel));
+            _productService.Insert(_mapper.Map<CreateProductDTO>(createProductViewModel));
 
             return RedirectToAction("Details", "User");
         }
@@ -41,6 +47,23 @@ namespace hand_out.Controllers
             ViewBag.IsYourWare = _unitOfWork.UserService.GetCurrentUserId() == detailsProductDTO.GrantorId;
 
             return View(_mapper.Map(detailsProductDTO, new DetailsProductViewModel(detailsProductDTO.PhotoURL)));
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            UpdateProductDTO updateProductDTO = _productService.GetAllWithRelations<UpdateProductDTO>(p => p.Id == id).FirstOrDefault();
+            ViewBag.Categories = new SelectList(_unitOfWork.CategoryService.GetAll<DropdownCategoryDTO>(), "Id", "Name");
+
+            return View(_mapper.Map(updateProductDTO, new UpdateProductViewModel(updateProductDTO.PhotoURL)));
+        }
+
+        [HttpPost]
+        public IActionResult Update(UpdateProductViewModel updateProductViewModel)
+        {
+            _unitOfWork.ProductService.Update(_mapper.Map(updateProductViewModel, new UpdateProductDTO()));
+
+            return RedirectToAction("Details");
         }
     }
 }
