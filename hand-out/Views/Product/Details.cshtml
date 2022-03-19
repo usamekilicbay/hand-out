@@ -69,7 +69,16 @@
                             @if (!ViewBag.IsYourWare)
                             {
                                 <div class="col d-flex justify-content-end">
-                                    <a asp-route-id="@Model.Id" asp-action="Index" asp-controller="Message" class="btn btn-outline-primary btn-sm w-75 my-auto">Message</a>
+                                    <a asp-route-id="@Model.Id" asp-action="Index" asp-controller="Message" 
+                                       class="btn btn-outline-primary btn-sm w-75 my-auto">Message</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col d-flex justify-content-end">
+                                    <a asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Product" 
+                                       class="btn btn-outline-primary btn-sm w-75 my-auto">
+                                    Edit</a>
                                 </div>
                             }
                         </div>
