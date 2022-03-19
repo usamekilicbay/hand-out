@@ -2,6 +2,7 @@
 using DataLayer.Product;
 using EntityLayer.Concrete;
 using hand_out.Models.ViewModels.Product;
+using System.Linq;
 
 namespace hand_out.Mapping
 {
@@ -14,10 +15,12 @@ namespace hand_out.Mapping
 
             CreateMap<Product, CreateProductDTO>().ReverseMap();
 
-            CreateMap<Product, DetailsProductDTO>().ForMember(entity =>
-            entity.CategoryIcon, 
-            opt => opt.MapFrom(dto => dto.Category.FontAwesomeIconName))
+            CreateMap<Product, DetailsProductDTO>().ForMember(dto =>
+            dto.CategoryIcon, opt =>
+            opt.MapFrom(entity => entity.Category.FontAwesomeIconName))
                 .ReverseMap();
+
+            CreateMap<Product, UpdateProductDTO>().ReverseMap();
 
             CreateMap<Product, MessageProductDTO>().ReverseMap();
             #endregion
@@ -28,6 +31,8 @@ namespace hand_out.Mapping
             CreateMap<CreateProductViewModel, CreateProductDTO>().ReverseMap();
 
             CreateMap<DetailsProductViewModel, DetailsProductDTO>().ReverseMap();
+
+            CreateMap<UpdateProductDTO, UpdateProductViewModel>().ReverseMap();
 
             CreateMap<MessageProductViewModel, MessageProductDTO>().ReverseMap();
             #endregion
