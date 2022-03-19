@@ -123,7 +123,7 @@
 
 
     <!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
-    @{ if (!ViewData["Title"].Equals("Message/Index"))
+    @{ if (!ViewData["Title"].Equals("Message/Index") && !ViewData["Title"].Equals("Product/Edit"))
         {
             <footer class="footer py-5">
                 <div class="container">
