@@ -53,7 +53,7 @@ namespace hand_out.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction("Edit");
 
-            _categoryService.Update(_mapper.Map<UpdateCategoryDTO>(updateCategoryViewModel));
+            _categoryService.Update(_mapper.Map<UpdateCategoryDTO>(updateCategoryViewModel), updateCategoryViewModel.Id);
 
             return RedirectToAction("Index");
         }
