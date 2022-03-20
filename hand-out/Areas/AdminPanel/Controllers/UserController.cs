@@ -60,7 +60,7 @@ namespace hand_out.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return Redirect("Edit");
 
-            _userService.Update(_mapper.Map<UpdateUserDTO>(userUpdateViewModel));
+            _userService.Update(_mapper.Map<UpdateUserDTO>(userUpdateViewModel), userUpdateViewModel.Id);
 
             return RedirectToAction("Index");
         }
