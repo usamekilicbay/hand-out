@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
-    public class MessageRepository : Repository<Message>, IMessageRepository
+    public class MessageRepository : Repository<Message, string>, IMessageRepository
     {
         public MessageRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class CategoryRepository : Repository<Category, int>, ICategoryRepository
     {
         public CategoryRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {

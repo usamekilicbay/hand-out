@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class Repository<TEntity, TId> : IRepository<TEntity, TId> where TEntity : class
     {
         private readonly ApplicationDbContext _applicationDbContext;
         protected DbSet<TEntity> dbSet;
@@ -36,10 +36,7 @@ namespace DataAccessLayer.Repositories.Concrete
             SaveChanges();
         }
 
-        public TEntity GetById(int id) =>
-            dbSet.Find(id);
-
-        public TEntity GetById(string id) =>
+        public TEntity GetById(TId id) =>
             dbSet.Find(id);
 
         public List<TEntity> GetAll() =>

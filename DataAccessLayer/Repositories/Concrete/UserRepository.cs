@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    public class UserRepository : Repository<User, string>, IUserRepository
     {
         public UserManager<User> UserManager { get; set; }
         public SignInManager<User> SignInManager { get; set; }

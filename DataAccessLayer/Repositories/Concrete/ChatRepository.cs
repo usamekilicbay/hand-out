@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
-    public class ChatRepository : Repository<Chat>, IChatRepository
+    public class ChatRepository : Repository<Chat, string>, IChatRepository
     {
         public ChatRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {

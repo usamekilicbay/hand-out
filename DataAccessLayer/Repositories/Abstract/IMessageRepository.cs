@@ -2,7 +2,7 @@
 
 namespace DataAccessLayer.Repositories.Abstract
 {
-    public interface IMessageRepository : IRepository<Message>
+    public interface IMessageRepository : IRepository<Message, string>
     {
     }
 }

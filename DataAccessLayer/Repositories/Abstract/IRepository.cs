@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Abstract
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity, TId> where TEntity : class
     {
         void Insert(TEntity entity);
 
@@ -12,9 +12,7 @@ namespace DataAccessLayer.Repositories.Abstract
 
         void Delete(TEntity entity);
 
-        TEntity GetById(int id);
-
-        TEntity GetById(string id);
+        TEntity GetById(TId id);
 
         List<TEntity> GetAll();
 

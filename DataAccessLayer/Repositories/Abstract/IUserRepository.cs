@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DataAccessLayer.Repositories.Abstract
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IRepository<User, string>
     {
         UserManager<User> UserManager { get; set; }
         SignInManager<User> SignInManager { get; set; }

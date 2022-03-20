@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
-    public class ProductRepository : Repository<Product>, IProductRepository
+    public class ProductRepository : Repository<Product, int>, IProductRepository
     {
         public ProductRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
