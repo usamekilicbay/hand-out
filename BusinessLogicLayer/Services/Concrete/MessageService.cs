@@ -7,7 +7,7 @@ using EntityLayer.Concrete;
 
 namespace BusinessLogicLayer.Services.Concrete
 {
-    class MessageService : Service<Message>, IMessageService
+    class MessageService : Service<Message, string>, IMessageService
     {
         private readonly IMessageRepository _messageRepository;
 

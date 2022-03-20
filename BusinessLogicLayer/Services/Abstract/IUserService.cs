@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BusinessLogicLayer.Services.Abstract
 {
-    public interface IUserService : IService<User>
+    public interface IUserService : IService<User, string>
     {
         IUserRepository UserRepository { get; set; }
 
-        public DetailsUserDTO GetUserDetails(string userId);
-        public ProfileDTO GetUserProfile(string userId);
+        DetailsUserDTO GetUserDetails(string userId);
+        ProfileDTO GetUserProfile(string userId);
         string GetCurrentUserId();
         DetailsUserDTO GetCurrentUserDetails();
-        public ProfileDTO GetCurrentUserProfile();
+        ProfileDTO GetCurrentUserProfile();
         void UpdateProfilePhoto(IFormFile photo);
         SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
         IdentityResult SignUp(SignUpUserDTO signUpUserDTO);

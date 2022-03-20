@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 
 namespace BusinessLogicLayer.Services.Concrete
 {
-    public abstract class Service<TEntity> : IService<TEntity> where TEntity : class
+    public abstract class Service<TEntity, TId> : IService<TEntity, TId> where TEntity : class
     {
-        public IRepository<TEntity> Repository { get; set; }
+        public IRepository<TEntity, TId> Repository { get; set; }
         public IUnitOfWork UnitOfWork { get; set; }
 
         protected IMapper mapper;
@@ -42,15 +42,7 @@ namespace BusinessLogicLayer.Services.Concrete
             return DTOs;
         }
 
-        public virtual T GetById<T>(int id)
-        {
-            TEntity entity = Repository.GetById(id);
-            T DTO = mapper.Map<T>(entity);
-
-            return DTO;
-        }
-
-        public virtual T GetById<T>(string id)
+        public virtual T GetById<T>(TId id)
         {
             TEntity entity = Repository.GetById(id);
             T DTO = mapper.Map<T>(entity);
@@ -64,9 +56,10 @@ namespace BusinessLogicLayer.Services.Concrete
             Repository.Insert(entity);
         }
 
-        public virtual void Update<T>(T DTO)
+        public virtual void Update<T>(T DTO, TId id)
         {
-            TEntity entity = mapper.Map<TEntity>(DTO);
+            TEntity entity = GetById<TEntity>(id);
+            entity = mapper.Map(DTO, entity);
             Repository.Update(entity);
         }
 

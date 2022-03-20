@@ -5,20 +5,18 @@ using System.Linq.Expressions;
 
 namespace BusinessLogicLayer.Services.Abstract
 {
-    public interface IService<TEntity> where TEntity : class
+    public interface IService<TEntity, TId> where TEntity : class
     {
-        IRepository<TEntity> Repository { get; set; }
+        IRepository<TEntity, TId> Repository { get; set; }
         IUnitOfWork UnitOfWork { get; set; }
 
         void Insert<T>(T DTO);
 
-        void Update<T>(T DTO);
+        void Update<T>(T DTO, TId id);
 
         void Delete<T>(T DTO);
 
-        T GetById<T>(int id);
-
-        T GetById<T>(string id);
+        T GetById<T>(TId id);
 
         List<T> GetAll<T>();
 

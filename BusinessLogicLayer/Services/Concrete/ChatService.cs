@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace BusinessLogicLayer.Services.Concrete
 {
-    public class ChatService : Service<Chat>, IChatService
+    public class ChatService : Service<Chat, string>, IChatService
     {
         public IChatRepository ChatRepository { get; set; }
 

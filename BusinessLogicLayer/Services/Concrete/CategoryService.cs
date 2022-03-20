@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace BusinessLogicLayer.Services.Concrete
 {
-    public class CategoryService : Service<Category>, ICategoryService
+    public class CategoryService : Service<Category, int>, ICategoryService
     {
         public ICategoryRepository CategoryRepository { get; set; }
 

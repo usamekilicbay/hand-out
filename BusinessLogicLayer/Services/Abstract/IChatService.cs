@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace BusinessLogicLayer.Services.Abstract
 {
-    public interface IChatService : IService<Chat>
+    public interface IChatService : IService<Chat, string>
     {
         IChatRepository ChatRepository { get; set; }
 

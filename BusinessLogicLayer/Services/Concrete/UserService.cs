@@ -15,7 +15,7 @@ using System.Collections.Generic;
 
 namespace BusinessLogicLayer.Services.Concrete
 {
-    public class UserService : Service<User>, IUserService
+    public class UserService : Service<User, string>, IUserService
     {
         public IUserRepository UserRepository { get; set; }
 

@@ -2,7 +2,7 @@
 
 namespace BusinessLogicLayer.Services.Abstract
 {
-    public interface IMessageService : IService<Message>
+    public interface IMessageService : IService<Message, string>
     {
     }
 }
