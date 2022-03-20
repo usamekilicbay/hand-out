@@ -76,7 +76,7 @@ namespace hand_out.Controllers
 
         public void Update(UpdateUserDTO updateUserDTO)
         {
-            _userService.Update(updateUserDTO);
+            _userService.Update(updateUserDTO, _unitOfWork.UserService.GetCurrentUserId());
         }
 
         [HttpGet]
