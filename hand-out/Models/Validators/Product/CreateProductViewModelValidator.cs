@@ -8,7 +8,7 @@ namespace hand_out.Models.Validators.Product
     {
         public CreateProductViewModelValidator()
         {
-            RuleFor(x => x.Name)
+            RuleFor(p => p.Name)
                 .NotNull()
                 .NotEmpty()
                 .Length(Name.MIN_LENGTH, Name.MAX_LENGTH);
