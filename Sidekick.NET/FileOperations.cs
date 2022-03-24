@@ -2,12 +2,39 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Sidekick.NET
 {
     public static class FileOperations
     {
+        public static string UpdatePhotos(List<IFormFile> photos, List<string> unchangedPhotoNames, string oldPhotoURL, string path)
+        {
+            StringBuilder finalPhotoURLBuilder = new();
+            List<string> oldPhotos = oldPhotoURL.Split("|").ToList();
+
+            foreach (string photoName in unchangedPhotoNames)
+            {
+                if (oldPhotos.Contains(photoName))
+                    oldPhotos.Remove(photoName);
+
+                finalPhotoURLBuilder.Append($"{photoName}|");
+            }
+
+            if (photos.Count <= 0)
+            {
+                finalPhotoURLBuilder.Remove(finalPhotoURLBuilder.Length - 1, 1);
+                return finalPhotoURLBuilder.ToString();
+            }
+
+            RemoveOldPhotos(string.Join("|", oldPhotos), path);
+
+            finalPhotoURLBuilder.Append(SavePhotos(photos, path));
+
+            return finalPhotoURLBuilder.ToString();
+        }
+
         public static string SavePhotos(List<IFormFile> photos, string directoryPath)
         {
             CreateDirectoryIfNotExist(directoryPath);
