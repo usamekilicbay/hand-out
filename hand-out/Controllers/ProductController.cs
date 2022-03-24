@@ -5,10 +5,12 @@ using DataLayer.Category;
 using DataLayer.Product;
 using EntityLayer.Concrete;
 using hand_out.Models.ViewModels.Product;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static Sidekick.NET.Types;
@@ -52,18 +54,46 @@ namespace hand_out.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            UpdateProductDTO updateProductDTO = _productService.GetAllWithRelations<UpdateProductDTO>(p => p.Id == id).FirstOrDefault();
             ViewBag.Categories = new SelectList(_unitOfWork.CategoryService.GetAll<DropdownCategoryDTO>(), "Id", "Name");
 
-            return View(_mapper.Map(updateProductDTO, new UpdateProductViewModel(updateProductDTO.PhotoURL)));
+            UpdateProductDTO updateProductDTO = _productService.GetAllWithRelations<UpdateProductDTO>(p => p.Id == id).FirstOrDefault();
+            updateProductDTO.SetPhotoURLs();
+
+            UpdateProductViewModel updateProductViewModel = _mapper.Map<UpdateProductViewModel>(updateProductDTO);
+
+            return View(updateProductViewModel);
         }
 
         [HttpPost]
         public IActionResult Update(UpdateProductViewModel updateProductViewModel)
         {
-            _unitOfWork.ProductService.Update(_mapper.Map(updateProductViewModel, new UpdateProductDTO()));
+            if (!ModelState.IsValid)
+                return RedirectToAction("Edit", new { id = updateProductViewModel.Id });
 
-            return RedirectToAction("Details");
+            updateProductViewModel.PhotoURLs = new();
+
+            FormCollection requestForm = (FormCollection)Request.Form;
+
+            foreach (string key in requestForm.Keys)
+            {
+                if (!key.Contains("img-name"))
+                    continue;
+
+                string val = requestForm[key];
+
+                if (!string.IsNullOrEmpty(val))
+                    updateProductViewModel.PhotoURLs.Add(val);
+            }
+
+            if (updateProductViewModel.Photos == null && updateProductViewModel.PhotoURLs.Count <= 0)
+                return RedirectToAction("Edit", new { id = updateProductViewModel.Id });
+
+
+            UpdateProductDTO updateProductDTO = _mapper.Map(updateProductViewModel, new UpdateProductDTO());
+
+            _unitOfWork.ProductService.Update(updateProductDTO);
+
+            return RedirectToAction("Details", new { id = updateProductViewModel.Id });
         }
     }
 }
