@@ -12,30 +12,32 @@
         <div class="d-flex justify-content-center mb-lg-2">
             <div class="col-lg-4 col-md-9 col-11">
                 <div class="form-group">
-                    <div id="previewImageContainer" class="d-flex justify-content-around mb-3">
+                    <div id="previewImageContainer" class="d-flex justify-content-around mb-3 max-height-100">
                         @{
-                            for (var i = 0; i < 3; i++)
+                            for (int i = 0; i < 3; i++)
                             {
-                                <div class="col-4 position-relative border-radius-lg  @(i == 1 ? "mx-lg-3 mx-md-2 mx-1" : "")">
+                                <div data-order="@i" class="col position-relative border-radius-lg @(i == 1 ? "mx-lg-3 mx-md-2 mx-1" : "")">
                                     @if (i <= Model.PhotoURLs.Count - 1)
                                     {
                                         <img class="w-100 h-100 img-cover uploaded-img-preview border-radius-lg shadow text-center"
                                              src="~/images/product-images/@Model.PhotoURLs[i]" />
+
+                                        <input formenctype="multipart/form-data" name="@($"img-name-{@i}")" type="hidden" class="img-name z-index-0 position-absolute start-0 bottom-0 opacity-0 h-100 w-100">
                                     }
                                     else
                                     {
-                                        <img class="w-100 h-100 img-cover uploaded-img-preview border-radius-lg shadow text-center"
-                                             src="https://www.freeiconspng.com/uploads/upload-icon-30.png" />
+                                        <img class="w-100 h-100 img-cover uploaded-img-preview border-radius-lg shadow text-center" src="" />
                                     }
                                     <div class="file-btn rounded-circle z-index-1">
                                         <span class="fa fa-trash fa-xs text-white"></span>
                                     </div>
-                                    <input asp-for="Photos" type="file"
+                                    <input type="file" accept="image/*" asp-for="Photos"
                                            class="img-upload z-index-0 position-absolute start-0 bottom-0 opacity-0 h-100 w-100">
                                 </div>
                             }
                         }
                     </div>
+                    <span id="img-warning" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -54,7 +56,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Details" class="control-label"></label>
-                    <textarea asp-for="Details" class="form-control" ></textarea>
+                    <textarea asp-for="Details" class="form-control"></textarea>
                     <span asp-validation-for="Details" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -68,7 +70,7 @@
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-0">
-                    <input type="submit" value="Save" class="btn btn-outline-success w-100" />
+                    <input id="submit-button" type="submit" value="Update" class="btn btn-outline-success w-100" />
                 </div>
             </div>
         </div>
@@ -79,22 +81,78 @@
 <script>
     $(document).ready(function () {
         let defaultPhotoURL = "https://www.freeiconspng.com/uploads/upload-icon-30.png";
-        $(".file-btn").hide();
+
+        $(".uploaded-img-preview").each(function (index) {
+            let src = $(this).attr("src");
+            if (src === "") {
+                $(this).attr("src", defaultPhotoURL);
+                $(this).siblings(".file-btn").hide();
+            } else {
+                let imgNameInput = $(this).siblings(".img-name");
+                imgNameInput.val(src.slice(23, src.length));
+            }
+        });
 
         $(function () {
             $(".img-upload").change(function (event) {
-                let url = URL.createObjectURL(event.target.files[0]);
-                $(this).siblings("img").attr("src", url);
-                $(this).siblings(".file-btn").show(1000);
+                let uploadedImg = event.target.files[0];
+                let url = URL.createObjectURL(uploadedImg);
+                let img = new Image();
+                img.src = url;
+                img.onload = () => {
+                    if (img.height > 2048 || img.width > 2048 || img.width / img.height < 1) {
+                        alert("Image resolution can not be more than 2048 X 2048 and height can not be more than width");
+                        return;
+                    }
+
+                    $(this).siblings("img").attr("src", url);
+                    $(this).siblings(".file-btn").show(1000);
+                    $(this).siblings(".img-name").val("");
+                    $("#img-warning").text("");
+                }
             });
         });
 
         $(function () {
-            $(".file-btn").not("#upload-profile-img").click(function () {
+            $(".file-btn").click(function () {
                 $(this).hide(1000);
                 $(this).siblings(".uploaded-img-preview").attr("src", defaultPhotoURL);
+                $(this).siblings(".img-upload").removeClass("valid");
+                $(this).siblings(".img-upload").val("");
+                console.log($(this).siblings(".img-name").val());
+                $(this).siblings(".img-name").val("");
+                console.log($(this).siblings(".img-name").val());
+
+                if (isAnyImgExist() === false) {
+                    $("#img-warning").text("You must add at least 1 image!");
+                }
             });
         });
 
+        function isAnyImgExist() {
+            let returnVal = false;
+
+            $(".img-upload").each(function () {
+                console.log($(this).val().length);
+                if ($(this).prop("files").length > 0) {
+                    returnVal = true;
+                }
+            });
+
+            $(".img-name").each(function () {
+                let val = $(this).val();
+                if (val.length > 0 && val !== "") {
+                    returnVal = true;
+                }
+            });
+
+            return returnVal;
+        }
+
+        $(function () {
+            $("#submit-button").click(function () {
+
+            });
+        });
     });
 </script>
