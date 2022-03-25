@@ -5,6 +5,7 @@ using DataLayer.Areas.Admin.Product;
 using AutoMapper;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using X.PagedList;
 
 namespace hand_out.Areas.Admin.Controllers
 {
@@ -22,9 +23,12 @@ namespace hand_out.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            return View(_mapper.Map<List<ListProductViewModel>>(_productService.GetAll<ListProductDTO>()));
+            List<ListProductDTO> listProductDTOs = _productService.GetAllWithRelations<ListProductDTO>();
+            List<ListProductViewModel> listProductViewModels = _mapper.Map<List<ListProductViewModel>>(listProductDTOs);
+
+            return View(listProductViewModels.ToPagedList(page, 7));
         }
 
         [HttpGet]

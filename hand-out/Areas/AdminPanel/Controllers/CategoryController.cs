@@ -5,6 +5,7 @@ using hand_out.Areas.Admin.Models.ViewModels.Category;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using X.PagedList;
 
 namespace hand_out.Areas.Admin.Controllers
 {
@@ -22,9 +23,11 @@ namespace hand_out.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int page = 1)
         {
-            return View(_mapper.Map<List<ListCategoryViewModel>>(_categoryService.GetAll<ListCategoryDTO>()));
+            List<ListCategoryDTO> listCategoryDTOs = _categoryService.GetAll<ListCategoryDTO>();
+            List<ListCategoryViewModel> listCategoryViewModels = _mapper.Map<List<ListCategoryViewModel>>(listCategoryDTOs);
+            return View(listCategoryViewModels.ToPagedList(page, 8));
         }
 
         [HttpGet]
