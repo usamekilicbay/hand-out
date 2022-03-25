@@ -1,98 +1,116 @@
 ﻿@using static Sidekick.NET.Types
-@model IEnumerable<ListProductViewModel>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model IPagedList<ListProductViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<div class="">
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <div class="row mb-4 me-4">
-                        <h6 class="col">Products</h6>
-                        @*<a asp-action="Create" class="col-auto btn bg-gradient-success text-end">
-                            <span class="fa fa-user-plus">&nbsp;</span>
-                            Create New User
-                        </a>*@
-                    </div>
-                </div>
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Address</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Grantor</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created/Modified</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Published</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                    <th class="text-secondary opacity-7"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (ListProductViewModel product in Model)
-                                {
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="@product.PhotoURL" class="avatar avatar-sm me-3" alt="user6">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">@product.Name</h6>
-                                                <p class="text-xs text-secondary mb-0">@product.Details</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">@product.Address</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">@product.GrantorName</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold mb-0">@product.CategoryName</p>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        @{
-                                            string styleClass = "badge badge-sm ";
-                                            switch (product.Status)
-                                            {
-                                                case ProductStatus.ACTIVE:
-                                                    styleClass += "bg-gradient-success";
-                                                    break;
-                                                case ProductStatus.GIVEN:
-                                                    styleClass += "bg-gradient-warning";
-                                                    break;
-                                                case ProductStatus.PASSIVE:
-                                                    styleClass += "bg-gradient-secondary";
-                                                    break;
-                                                default:
-                                                    break;
-                                            }
-                                            <span class="badge badge-sm @styleClass">@product.Status</span>
-                                        }
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <p class="text-xs text-secondary mb-0">@product.DateCreated</p>
-                                        <p class="text-xs text-secondary mb-0">@product.DateModified</p>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a asp-action="Edit" asp-route-id="@product.ID" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                            Edit
-                                        </a>
-                                    </td>
-                                </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<div class="row col-12">
+    <div class="card mb-2">
+        <div class="card-header pb-0">
+            <div class="row mb-2 me-4">
+                <h6 class="col">Products</h6>
             </div>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Address</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Grantor</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created/Modified</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Published</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                            <th class="text-secondary opacity-7"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (ListProductViewModel product in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="~/images/product-images/@product.PhotoURL.Split("|")[0]"
+                                                 class="avatar me-3" alt="user6">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-sm">@product.Name</h6>
+                                            <p class="text-xs text-secondary mb-0 text-nowrap">
+                                                @(
+                                                            product.Details.Length < 20
+                                                                 ? product.Details
+                                                                 : $"{product.Details.Substring(0, 20)}..."
+                                                        )
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">
+                                        <span class="fa fa-map-marker"></span>
+                                        @product.Address
+                                    </p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">@product.GrantorUserName</p>
+                                </td>
+                                <td class="text-center">
+                                    <span class="fa @product.CategoryFontAwesomeIconName"></span>
+                                    <p class="text-xs font-weight-bold mb-0">
+                                        @product.CategoryName
+                                    </p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    @{
+                                        string styleClass = "badge badge-sm ";
+                                        switch (product.Status)
+                                        {
+                                            case ProductStatus.ACTIVE:
+                                                styleClass += "bg-gradient-success";
+                                                break;
+                                            case ProductStatus.GIVEN:
+                                                styleClass += "bg-gradient-warning";
+                                                break;
+                                            case ProductStatus.PASSIVE:
+                                                styleClass += "bg-gradient-secondary";
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                        <span class="badge badge-sm @styleClass">@product.Status</span>
+                                    }
+                                </td>
+                                <td class="align-middle text-center">
+                                    <p class="text-xs text-secondary mb-0">@product.DateCreated</p>
+                                    <p class="text-xs text-secondary mb-0">@product.DateModified</p>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <a asp-action="Edit" asp-route-id="@product.ID" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer py-0">
+            @(Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        UlElementClasses = new string [] { "pagination" },
+                        LiElementClasses = new string [] { "page-item" },
+                        PageClasses = new string [] { "page-link" },
+                        Display = PagedListDisplayMode.IfNeeded
+                    }))
         </div>
     </div>
 </div>
