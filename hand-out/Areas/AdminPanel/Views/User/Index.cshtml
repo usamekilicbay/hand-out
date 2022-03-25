@@ -1,89 +1,105 @@
 ﻿@using static Sidekick.NET.Types
-@model List<ListUserViewModel>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+@using X.PagedList.Web.Common
+@model IPagedList<ListUserViewModel>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<div class="">
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <div class="row mb-4 me-4">
-                        <h6 class="col">Active Users</h6>
-                        <a asp-action="Create" class="col-auto btn bg-gradient-success text-end">
-                            <span class="fa fa-user-plus">&nbsp;</span>
-                            Create New User
-                        </a>
-                    </div>
-                </div>
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Address</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created/Modified</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Last Seen</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                    <th class="text-secondary opacity-7"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (ListUserViewModel user in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="~/images/profile-images/@user.ProfilePhotoURL" class="avatar avatar-sm me-3" alt="user6">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">@user.UserName</h6>
-                                                    <p class="text-xs text-secondary mb-0">ID: @user.Id</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">@user.Address</p>
-                                            <p class="text-xs text-secondary mb-0">@user.Email</p>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">@user.DateCreated</p>
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">@user.DateModified</p>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <p class="text-xs text-secondary font-weight-bold mb-0">@user.LastSeen</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            @{
-                                                string styleClass = user.Status switch
-                                                {
-                                                    UserStatus.ACTIVE => "bg-gradient-success",
-                                                    UserStatus.BANNED => "bg-gradient-danger",
-                                                    UserStatus.OFFLINE => "bg-gradient-secondary",
-                                                    UserStatus.ONLINE => "bg-gradient-primary",
-                                                    UserStatus.PASSIVE => "bg-gradient-light",
-                                                    UserStatus.PENDING => "bg-gradient-warning",
-                                                    _ => "bg-gradient-light"
-                                                };
-                                            }
-                                            <span class="badge badge-sm @styleClass">@user.Status</span>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a asp-action="Edit" asp-route-id="@user.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                Edit
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<div class="row col-12 mx-auto">
+    <div class="card mb-4">
+        <div class="card-header pb-0">
+            <div class="row mb-4 me-4">
+                <h6 class="col">Active Users</h6>
+                <a asp-action="Create" class="col-auto btn bg-gradient-success text-end">
+                    <span class="fa fa-user-plus">&nbsp;</span>
+                    Create New User
+                </a>
             </div>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">User</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Address</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date Created/Modified</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Last Seen</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                            <th class="text-secondary opacity-7"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (ListUserViewModel user in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="~/images/profile-images/@user.ProfilePhotoURL" class="avatar avatar-sm me-3" alt="user6">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-sm">@user.UserName</h6>
+                                            <p class="text-xs text-secondary mb-0">id: @user.Id</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">
+                                        <span class="fa fa-map-marker fa-sm"></span>
+                                        @user.Address
+                                    </p>
+                                    <p class="text-xs text-secondary mb-0">
+                                        <span class="fa fa-at fa-sm"></span>
+                                        @user.Email
+                                    </p>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <p class="text-xs text-secondary font-weight-bold mb-0">@user.DateCreated</p>
+                                    <p class="text-xs text-secondary font-weight-bold mb-0">@user.DateModified</p>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <p class="text-xs text-secondary font-weight-bold mb-0">@user.LastSeen</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    @{
+                                        string styleClass = user.Status switch
+                                        {
+                                            UserStatus.ACTIVE => "bg-gradient-success",
+                                            UserStatus.BANNED => "bg-gradient-danger",
+                                            UserStatus.OFFLINE => "bg-gradient-secondary",
+                                            UserStatus.ONLINE => "bg-gradient-primary",
+                                            UserStatus.PASSIVE => "bg-gradient-light",
+                                            UserStatus.PENDING => "bg-gradient-warning",
+                                            _ => "bg-gradient-light"
+                                        };
+                                    }
+                                    <span class="badge badge-sm @styleClass">@user.Status</span>
+                                </td>
+                                <td class="align-middle">
+                                    <a asp-action="Edit" asp-route-id="@user.Id" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                        Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer py-0">
+            @(Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page = page }),
+                    new PagedListRenderOptions
+                    {
+                        UlElementClasses = new string[] { "pagination" },
+                        LiElementClasses = new string[] { "page-item" },
+                        PageClasses = new string[] { "page-link" },
+                        MaximumPageNumbersToDisplay = 5,
+                        Display = PagedListDisplayMode.IfNeeded
+                    }))
         </div>
     </div>
 </div>
