@@ -21,8 +21,9 @@ namespace hand_out.Areas.Admin.Models.ViewModels.Product
         public ProductStatus Status { get; set; }
 
         [Display(Name = "Grantor Name")]
-        public string GrantorName { get; set; }
+        public string GrantorUserName { get; set; }
         [Display(Name = "Category Name")]
         public string CategoryName { get; set; }
+        public string CategoryFontAwesomeIconName { get; set; }
     }
 }

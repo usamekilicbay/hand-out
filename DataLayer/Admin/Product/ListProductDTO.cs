@@ -14,7 +14,8 @@ namespace DataLayer.Areas.Admin.Product
         public DateTime DateModified { get; set; }
         public DateTime DatePublished { get; set; }
         public ProductStatus Status { get; set; }
-        public string GrantorName { get; set; }
+        public string GrantorUserName { get; set; }
         public string CategoryName { get; set; }
+        public string CategoryFontAwesomeIconName { get; set; }
     }
 }
