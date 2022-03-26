@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using static Sidekick.NET.Types;
 
 namespace hand_out.Models.ViewModels.Product
@@ -17,15 +16,5 @@ namespace hand_out.Models.ViewModels.Product
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
         public ProductStatus Status { get; set; }
-
-        public UpdateProductViewModel(string photoURL)
-        {
-            PhotoURLs = photoURL.Split("|").ToList();
-        }
-
-        public UpdateProductViewModel()
-        {
-
-        }
     }
 }
