@@ -10,39 +10,81 @@
         <span class="mask bg-gradient-primary opacity-6"></span>
     </div>
     <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
-        <div class="row gx-4 d-flex align-items-center">
-            <div class="col-md-auto col-6">
-                <div class="avatar-xxl position-relative">
-                    <img src="~/images/profile-images/@Model.DetailsUserViewModel.ProfilePhotoURL" alt="profile_image" id="profile-photo"
-                         class="img-cover w-100 h-100 border-radius-lg text-center">
-                    @if (ViewBag.IsOwnProfile)
-                    {
-                        <div id="upload-profile-img" class="file-btn rounded-circle">
+        <div class="row d-flex align-items-center">
+            @if (ViewBag.IsOwnProfile)
+            {
+                <div class="col-md-auto col-5">
+                    <div class="avatar-xxl position-relative">
+                        <img src="~/images/profile-images/@Model.DetailsUserViewModel.ProfilePhotoURL" alt="profile_image" id="profile-photo"
+                             class="img-cover w-100 h-100 border-radius-lg text-center">
+                        <div id="upload-profile-img" class="file-btn edit-btn rounded-circle">
                             <span class="fa fa-pen fa-xs text-white"></span>
                             <input type="file" id="profile-photo-upload" class="position-absolute p-0 m-0 opacity-0 w-100 h-100">
                         </div>
-                    }
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-auto col-6">
-                <h4 class="mb-1">@Model.DetailsUserViewModel.UserName</h4>
-                @if (ViewBag.IsOwnProfile)
-                {
-                    <p class="d-md-inline d-none mb-0 font-weight-lighter text-xs">id: @Model.DetailsUserViewModel.Id</p>
-                }
-            </div>
-            @if (ViewBag.IsOwnProfile)
-            {
+                <div class="col-md-auto col-7 me-auto">
+                    <div class="profile-detail-block">
+                        <h4 class="d-inline-block position-relative mb-1">
+                            @Model.DetailsUserViewModel.UserName
+                            <button class="edit-trigger-btn btn btn-dark edit-btn-sm rounded-circle">
+                                <span class="fa fa-pen text-white"></span>
+                            </button>
+                        </h4>
+                    </div>
+                    <div class="input-block" style="display:none;">
+                        <div class="w-75 position-relative">
+                            <input type="text" id="user-name-input" class="form-control-sm w-100 h-100 mb-md-2 mb-0 border-1 shadow-lg" />
+                            <button id="update-user-name-btn" class="edit-done-btn btn bg-success edit-btn-sm rounded-circle">
+                                <span class="fa fa-check text-white"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="d-md-flex d-none mb-0 font-weight-lighter text-xs">id: @Model.DetailsUserViewModel.Id</p>
+                </div>
                 <div class="d-md-none col-auto mt-md-0 mt-2">
                     <p class="mb-0 font-weight-lighter text-xs">id: @Model.DetailsUserViewModel.Id</p>
                 </div>
+                <div class="col-auto mb-md-auto mt-md-0 mt-2 ms-md-auto me-md-4">
+                    <div class="profile-detail-block">
+                        <h6 class="d-inline-block position-relative font-weight-light">
+                            <span class="fa fa-map-marker"></span>
+                            @Model.DetailsUserViewModel.Address
+                            <button class="edit-trigger-btn btn btn-dark edit-btn-sm rounded-circle">
+                                <span class="fa fa-pen text-white"></span>
+                            </button>
+                        </h6>
+                    </div>
+                    <div class="input-block" style="display:none;">
+                        <div class="d-flex position-relative">
+                            <input type="text" id="address-input" class="form-control-sm w-100 h-100 mb-2 border-1 shadow-lg" />
+                            <button id="update-address-btn" class="edit-done-btn btn bg-success edit-btn-sm rounded-circle">
+                                <span class="fa fa-check text-white"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             }
-            <div class="col-auto mt-md-0 mt-2 ms-md-auto me-md-4">
-                <h6 class="font-weight-light">
-                    <span class="fa fa-map-marker"></span>
-                    @Model.DetailsUserViewModel.Address
-                </h6>
-            </div>
+            else
+            {
+                <!-- #region Stranger Profile -->
+                <div class="col-md-auto col-6">
+                    <div class="avatar-xxl position-relative">
+                        <img src="~/images/profile-images/@Model.DetailsUserViewModel.ProfilePhotoURL" alt="profile_image" id="profile-photo"
+                             class="img-cover w-100 h-100 border-radius-lg text-center">
+                    </div>
+                </div>
+                <div class="col-md-auto col-6">
+                    <h4 class="mb-1">@Model.DetailsUserViewModel.UserName</h4>
+                </div>
+                <div class="col-auto mt-md-0 mt-2 ms-md-auto me-md-4">
+                    <h6 class="font-weight-light">
+                        <span class="fa fa-map-marker"></span>
+                        @Model.DetailsUserViewModel.Address
+                    </h6>
+                </div>
+                <!-- #endregion-->
+            }
             <!------------------------------------------------------------>
             <!-- #region Nav Tabs -->
             @*<div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
@@ -404,6 +446,49 @@
 <script>
     $(document).ready(function () {
         {
+            let nameInput = $("#user-name-input");
+            let addressInput = $("#address-input");
+            let inputBlockSelector = ".input-block";
+            let profileDetailBlockSelector = ".profile-detail-block";
+
+            $(".edit-trigger-btn").click(function () {
+                $(this).parents(profileDetailBlockSelector).siblings(inputBlockSelector).show(500);
+                $(this).parents(profileDetailBlockSelector).hide(500);
+            });
+
+            $(".edit-done-btn").click(function () {
+                let inputVal = $(this).siblings("input").val();
+                if ($(this).attr("id") === "update-user-name-btn") {
+                    updateUserName(inputVal);
+                } else if ($(this).attr("id") === "update-address-btn") {
+                    updateAddress(inputVal);
+                }
+
+                $(this).parents(inputBlockSelector).hide(500);
+                $(this).parents(inputBlockSelector).siblings(profileDetailBlockSelector).show(500);
+            });
+
+            let updateUserName = function (newUserName) {
+                $.ajax({
+                    method: "POST",
+                    url: "/user/updateUserName",
+                    data: { newUserName: newUserName },
+                    async: false,
+                });
+            };
+
+            let updateAddress = function (newAddress) {
+                $.ajax({
+                    method: "POST",
+                    url: "/user/updateAddress",
+                    data: { newAddress: newAddress },
+                    async: false,
+                });
+            };
+
+
+
+
             //class VM {
             //    constructor(userName, email, address, profilePhotoUrl, lastSeen, status) {
             //        this.userName = userName;
