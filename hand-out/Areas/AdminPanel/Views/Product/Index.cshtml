@@ -35,21 +35,25 @@
                         {
                             <tr>
                                 <td>
-                                    <div class="d-flex px-2 py-1">
-                                        <div>
-                                            <img src="~/images/product-images/@product.PhotoURL.Split("|")[0]"
-                                                 class="avatar me-3" alt="user6">
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">@product.Name</h6>
-                                            <p class="text-xs text-secondary mb-0 text-nowrap">
-                                                @(
-                                                            product.Details.Length < 20
-                                                                 ? product.Details
-                                                                 : $"{product.Details.Substring(0, 20)}..."
-                                                        )
-                                            </p>
-                                        </div>
+                                    <input class="product-id" type="hidden" value="@product.Id" />
+                                    <div class="px-2 py-1">
+                                        <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id=@product.Id
+                                           class="d-flex">
+                                            <div>
+                                                <img src="~/images/product-images/@product.PhotoURL.Split("|")[0]"
+                                                     class="avatar me-3" alt="user6">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">@product.Name</h6>
+                                                @*<p class="text-xs text-secondary mb-0 text-nowrap">
+                                                        @(
+                                                                product.Details.Length < 20
+                                                                     ? product.Details
+                                                                     : $"{product.Details.Substring(0, 20)}..."
+                                                            )
+                                                    </p>*@
+                                            </div>
+                                        </a>
                                     </div>
                                 </td>
                                 <td>
@@ -67,34 +71,18 @@
                                         @product.CategoryName
                                     </p>
                                 </td>
-                                <td class="align-middle text-center text-sm">
-                                    @{
-                                        string styleClass = "badge badge-sm ";
-                                        switch (product.Status)
-                                        {
-                                            case ProductStatus.ACTIVE:
-                                                styleClass += "bg-gradient-success";
-                                                break;
-                                            case ProductStatus.GIVEN:
-                                                styleClass += "bg-gradient-warning";
-                                                break;
-                                            case ProductStatus.PASSIVE:
-                                                styleClass += "bg-gradient-secondary";
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                        <span class="badge badge-sm @styleClass">@product.Status</span>
-                                    }
-                                </td>
                                 <td class="align-middle text-center">
                                     <p class="text-xs text-secondary mb-0">@product.DateCreated</p>
                                     <p class="text-xs text-secondary mb-0">@product.DateModified</p>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <a asp-action="Edit" asp-route-id="@product.ID" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                        Edit
-                                    </a>
+                                    <p class="text-xs text-secondary mb-0">@product.DatePublished</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="product-status-indicator">@product.Status</span>
+                                </td>
+                                <td>
+                                    <select class="form-select product-status-select" asp-items="Html.GetEnumSelectList<ProductStatus>()"></select>
                                 </td>
                             </tr>
                         }
@@ -114,3 +102,70 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        let productStatusSelect = $(".product-status-select");
+        let productStatusIndicatorSelector = ".product-status-indicator";
+        let productStatusSelectSelector = ".product-status-select";
+
+        let updateProductStatusSelector = function (status, productStatusSelect) {
+            switch (status) {
+                case "ACTIVE":
+                    productStatusSelect.val("0").change();
+                    break;
+                case "GIVEN":
+                    productStatusSelect.val("1").change();
+                    break;
+                case "PASSIVE":
+                    productStatusSelect.val("2").change();
+                    break;
+            }
+        };
+
+        let updateProductStatusIndicator = function (status, productStatusIndicator) {
+            productStatusIndicator.text(status);
+            let productStatusIndicatorClass = "product-status-indicator badge badge-sm ";
+            switch (status) {
+                case "ACTIVE":
+                    productStatusIndicatorClass += "bg-gradient-success";
+                    break;
+                case "GIVEN":
+                    productStatusIndicatorClass += "bg-gradient-warning";
+                    break;
+                case "PASSIVE":
+                    productStatusIndicatorClass += "bg-gradient-danger";
+                    break;
+                default:
+                    productStatusIndicatorClass += "bg-gradient-success";
+            }
+            productStatusIndicator.attr("class", productStatusIndicatorClass);
+        };
+
+        $(productStatusIndicatorSelector).each(function () {
+            let productStatus = $(this).text();
+            updateProductStatusIndicator(productStatus, $(this));
+            @*$(this).parent().siblings().children(productStatusIndicatorSelector).text("sdfsdfsd");*@
+            updateProductStatusSelector(productStatus, $(this).parent().siblings().children(productStatusSelectSelector));
+        });
+
+        productStatusSelect.change(function (event) {
+            let productStatusIndicator = $(this).parent().siblings().children(productStatusIndicatorSelector);
+            let selectedOption = $(this).find(":selected");
+            let selectedOptionText = selectedOption.text();
+            let productId = $(this).parent().siblings().children(".product-id").val();
+            updateProductStatusIndicator(selectedOptionText, productStatusIndicator);
+            updateProductStatus(selectedOption.val(), productId);
+        });
+
+
+        function updateProductStatus(status, id) {
+            $.ajax({
+                method : "POST",
+                url: "/adminPanel/product/updateProductStatus",
+                data: { productStatus: status, productId: id },
+                async: false,
+            });
+        };
+    });
+</script>
