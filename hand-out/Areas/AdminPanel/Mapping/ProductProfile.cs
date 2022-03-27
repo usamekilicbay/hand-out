@@ -17,7 +17,6 @@ namespace hand_out.Areas.Admin.Mapping
 
             #region View Model <---> DTO
             CreateMap<ListProductViewModel, ListProductDTO>().ReverseMap();
-            CreateMap<UpdateProductViewModel, UpdateProductDTO>().ReverseMap();
             #endregion
         }
     }
