@@ -31,21 +31,14 @@ namespace hand_out.Areas.Admin.Controllers
             return View(listProductViewModels.ToPagedList(page, 7));
         }
 
-        [HttpGet]
-        public IActionResult Edit(int id)
+        public void UpdateProductStatus(int productStatus, int productId)
         {
-            return View(_mapper.Map<ListProductViewModel>(_productService.GetById<UpdateProductDTO>(id)));
-        }
+            UpdateProductDTO updateProductDTO = new()
+            {
+                Status = (Sidekick.NET.Types.ProductStatus)productStatus
+            };
 
-        [HttpPost]
-        public IActionResult Update(UpdateProductViewModel updateProductViewModel)
-        {
-            if (!ModelState.IsValid)
-                return RedirectToAction("Edit");
-
-            _productService.Update(_mapper.Map<UpdateProductDTO>(updateProductViewModel));
-
-            return RedirectToAction("Index");
+            _productService.Update(updateProductDTO, productId);
         }
     }
 }
