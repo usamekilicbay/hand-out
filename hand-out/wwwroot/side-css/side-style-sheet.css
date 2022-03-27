@@ -88,7 +88,28 @@ body {
     cursor: pointer !important;
 }
 
-.file-btn {
+.edit-btn-sm {
+    position: absolute;
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    top: -10%;
+    right: -25px;
+    height: 1rem;
+    width: 1rem;
+    background: rgba(0,0,0,0.3);
+}
+
+.file-btn-sm:hover {
+    cursor: pointer;
+}
+
+.edit-btn-sm > span {
+    font-size: 10px !important;
+}
+
+.edit-btn {
     position: absolute;
     display: flex;
     padding: 15px;
@@ -101,9 +122,9 @@ body {
     background: rgba(0,0,0,0.4);
 }
 
-    .file-btn:hover {
-        cursor: pointer;
-    }
+.file-btn:hover {
+    cursor: pointer;
+}
 
 .category-card {
     height: 10em;
