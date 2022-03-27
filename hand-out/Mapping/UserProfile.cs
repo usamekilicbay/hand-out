@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DataLayer.Areas.Admin.User;
+using DataLayer.General.User;
 using DataLayer.User;
 using EntityLayer.Concrete;
 using hand_out.Models.ViewModels.User;
