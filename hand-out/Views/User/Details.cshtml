@@ -25,12 +25,14 @@
                 </div>
                 <div class="col-md-auto col-7 me-auto">
                     <div class="profile-detail-block">
-                        <h4 class="d-inline-block position-relative mb-1">
-                            @Model.DetailsUserViewModel.UserName
+                        <div class="d-inline-block position-relative mb-1">
+                            <h4 class="w-100">
+                                @Model.DetailsUserViewModel.UserName
+                            </h4>
                             <button class="edit-trigger-btn btn btn-dark edit-btn-sm rounded-circle">
                                 <span class="fa fa-pen text-white"></span>
                             </button>
-                        </h4>
+                        </div>
                     </div>
                     <div class="input-block" style="display:none;">
                         <div class="w-75 position-relative">
@@ -46,14 +48,16 @@
                     <p class="mb-0 font-weight-lighter text-xs">id: @Model.DetailsUserViewModel.Id</p>
                 </div>
                 <div class="col-auto mb-md-auto mt-md-0 mt-2 ms-md-auto me-md-4">
-                    <div class="profile-detail-block">
-                        <h6 class="d-inline-block position-relative font-weight-light">
+                    <div class="profile-detail-block ">
+                        <div class="d-inline-block position-relative font-weight-light">
                             <span class="fa fa-map-marker"></span>
-                            @Model.DetailsUserViewModel.Address
+                            <h6 class="d-inline">
+                                @Model.DetailsUserViewModel.Address
+                            </h6>
                             <button class="edit-trigger-btn btn btn-dark edit-btn-sm rounded-circle">
                                 <span class="fa fa-pen text-white"></span>
                             </button>
-                        </h6>
+                        </div>
                     </div>
                     <div class="input-block" style="display:none;">
                         <div class="d-flex position-relative">
@@ -457,15 +461,18 @@
             });
 
             $(".edit-done-btn").click(function () {
-                let inputVal = $(this).siblings("input").val();
+                let inputField = $(this).siblings("input");
+                let inputVal = inputField.val();
                 if ($(this).attr("id") === "update-user-name-btn") {
                     updateUserName(inputVal);
                 } else if ($(this).attr("id") === "update-address-btn") {
                     updateAddress(inputVal);
                 }
 
+                $(this).parents(inputBlockSelector).siblings(profileDetailBlockSelector).children().children("h4 , h6").text(inputVal);
                 $(this).parents(inputBlockSelector).hide(500);
                 $(this).parents(inputBlockSelector).siblings(profileDetailBlockSelector).show(500);
+                inputField.val("");
             });
 
             let updateUserName = function (newUserName) {
