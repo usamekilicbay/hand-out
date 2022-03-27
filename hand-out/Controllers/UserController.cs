@@ -1,5 +1,4 @@
 ﻿using BusinessLogicLayer.Services.Abstract;
-using hand_out.Models;
 using DataLayer.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -58,25 +57,28 @@ namespace hand_out.Controllers
             return View(profileViewModel);
         }
 
-        public IActionResult Edit()
-        {
-            return View(new DetailsUserViewModel
-            {
-                //Name = "Usame Kilicbay",
-                //Mail = "usame.kilicbay@protonmail.com",
-                //Address = "Turkey",
-                //ProfilePicURL = "https://media-exp1.licdn.com/dms/image/C5603AQEoe9--htofaA/profile-displayphoto-shrink_800_800/0/1576480070508?e=1644451200&v=beta&t=UBn25UjZZOMD16JzYKJtWGukEhFohlRe59w462JZy18",
-            });
-        }
-
         public void UpdateProfilePhoto(IFormFile photo)
         {
             _userService.UpdateProfilePhoto(photo);
         }
 
+        public void UpdateUserName(string newUserName)
+        {
+            UpdateUserDTO updateUserDTO = _userService.GetById<UpdateUserDTO>(_userService.GetCurrentUserId());
+            updateUserDTO.UserName = newUserName;
+            Update(updateUserDTO);
+        }
+
+        public void UpdateAddress(string newAddress)
+        {
+            UpdateUserDTO updateUserDTO = _userService.GetById<UpdateUserDTO>(_userService.GetCurrentUserId());
+            updateUserDTO.Address = newAddress;
+            Update(updateUserDTO);
+        }
+
         public void Update(UpdateUserDTO updateUserDTO)
         {
-            _userService.Update(updateUserDTO, _unitOfWork.UserService.GetCurrentUserId());
+           _userService.UpdateUserAsync(updateUserDTO, _userService.GetCurrentUserId());
         }
 
         [HttpGet]
