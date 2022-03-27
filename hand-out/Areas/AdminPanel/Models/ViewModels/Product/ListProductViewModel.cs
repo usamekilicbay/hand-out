@@ -6,7 +6,7 @@ namespace hand_out.Areas.Admin.Models.ViewModels.Product
 {
     public class ListProductViewModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Details { get; set; }
         public string Address { get; set; }
