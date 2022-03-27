@@ -2,6 +2,7 @@
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.Abstract
 {
@@ -11,9 +12,10 @@ namespace DataAccessLayer.Repositories.Abstract
         SignInManager<User> SignInManager { get; set; }
         IHttpContextAccessor HttpContextAccessor { get; set; }
 
-        public User GetUser(string userId);
+        User GetUser(string userId);
         string GetCurrentUserId();
         User GetCurrentUser();
+        Task<IdentityResult> UpdateUserAsync(User user);
         SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
         IdentityResult SignUp(User user, string password);
         void SignOut();

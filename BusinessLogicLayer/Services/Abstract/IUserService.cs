@@ -1,9 +1,11 @@
 ﻿using DataAccessLayer.Repositories.Abstract;
+using DataLayer.General.User;
 using DataLayer.Shared;
 using DataLayer.User;
 using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services.Abstract
 {
@@ -17,6 +19,7 @@ namespace BusinessLogicLayer.Services.Abstract
         DetailsUserDTO GetCurrentUserDetails();
         ProfileDTO GetCurrentUserProfile();
         void UpdateProfilePhoto(IFormFile photo);
+        Task<IdentityResult> UpdateUserAsync(UpdateUserDTO updateProductDTO, string id);
         SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
         IdentityResult SignUp(SignUpUserDTO signUpUserDTO);
         void SignOut();

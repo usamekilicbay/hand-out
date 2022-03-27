@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories.Concrete
 {
@@ -34,6 +35,11 @@ namespace DataAccessLayer.Repositories.Concrete
 
         public User GetCurrentUser() =>
              UserManager.FindByIdAsync(GetCurrentUserId()).Result;
+
+        public async Task<IdentityResult> UpdateUserAsync(User user)
+        {
+            return await UserManager.UpdateAsync(user);
+        }
 
         public override List<User> GetAllWithRelations()
         {

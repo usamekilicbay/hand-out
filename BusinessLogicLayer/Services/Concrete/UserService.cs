@@ -3,6 +3,7 @@ using BusinessLogicLayer.Services.Abstract;
 using DataAccessLayer;
 using DataAccessLayer.Repositories.Abstract;
 using DataAccessLayer.Repositories.Concrete;
+using DataLayer.General.User;
 using DataLayer.Product;
 using DataLayer.Shared;
 using DataLayer.User;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Sidekick.NET;
 using Sidekick.NET.Constant;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services.Concrete
 {
@@ -54,7 +56,7 @@ namespace BusinessLogicLayer.Services.Concrete
             return new ProfileDTO(detailsUserDTO, mapper.Map<List<ListProductDTO>>(Products));
         }
 
-        
+
         public DetailsUserDTO GetCurrentUserDetails()
         {
             User user = UserRepository.GetCurrentUser();
@@ -71,6 +73,14 @@ namespace BusinessLogicLayer.Services.Concrete
             user.ProfilePhotoURL = FileOperations.SavePhoto(photo, Path.PROFILE_IMAGES);
 
             UserRepository.Update(user);
+        }
+
+
+        public async Task<IdentityResult> UpdateUserAsync(UpdateUserDTO updateUserDTO, string id)
+        {
+            User user = GetById<User>(id);
+            user = mapper.Map(updateUserDTO, user);
+            return await UserRepository.UpdateUserAsync(user);
         }
 
         #region Authentication
