@@ -11,16 +11,16 @@
         <div id="chat-list" class="col-lg-4">
             <div class="card max-height-vh-80 vh-100 shadow-lg">
                 <div class="card-header p-3 border-bottom">
-                    <h6 class="mb-0">Messages</h6>
+                    <h6 class="mb-0">Chats</h6>
                 </div>
                 <div class="card-body py-0 px-lg-3 px-2 overflow-auto">
                     <ul id="chat-list-area" class="list-group">
-                        Chatlist will be created here
+                        Chats are loading...
                     </ul>
                 </div>
             </div>
         </div>
-        <div id="chat" class="col-lg-8">
+        <div id="chat" class="col-lg-8" style="display:none;">
             <div class="card max-height-vh-80 vh-100 shadow-lg py-lg-3 px-lg-5 d-flex">
                 <div class="card-header border-bottom border-dark  px-0">
                     <div class="d-flex align-items-center px-md-4 px-2">
@@ -39,10 +39,10 @@
                         </div>
                         <div class="col-lg-8 col-6 text-nowrap overflow-hidden ms-md-3 ms-2 me-auto">
                             <a class="receiver-link" asp-controller="User" asp-action="Details" asp-route-id="">
-                                <h6 id="receiver-user-name" class="mb-0 text-sm">Receivesdddddddddddddddddrrrrrr</h6>
+                                <h6 id="receiver-user-name" class="mb-0 text-sm"></h6>
                             </a>
                             <a class="product-link" asp-controller="Product" asp-action="Details" asp-route-id="">
-                                <h6 id="product-name" class="mb-0 text">PRODUCTtttttttt</h6>
+                                <h6 id="product-name" class="mb-0 text"></h6>
                             </a>
                         </div>
                         <div class="col-auto ms-md-2 ms-1 me-lg-4 me-2">
