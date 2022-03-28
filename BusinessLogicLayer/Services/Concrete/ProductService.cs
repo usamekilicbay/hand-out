@@ -5,17 +5,12 @@ using DataAccessLayer.Repositories.Abstract;
 using DataAccessLayer.Repositories.Concrete;
 using DataLayer.Product;
 using EntityLayer.Concrete;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+using Sidekick.NET;
 using Constant = Sidekick.NET.Constant;
 
 namespace BusinessLogicLayer.Services.Concrete
 {
-    public class ProductService : Service<Product>, IProductService
+    public class ProductService : Service<Product, int>, IProductService
     {
         public IProductRepository ProductRepository { get; set; }
 
@@ -26,45 +21,25 @@ namespace BusinessLogicLayer.Services.Concrete
             Repository = ProductRepository;
         }
 
-        public async Task InsertAsync(CreateProductDTO productModel)
+        public void Insert(CreateProductDTO createProductDTO)
         {
-            StringBuilder photoURLBuilder = new();
-
-            List<string> uploadPaths = new();
-
-            if (!Directory.Exists(Constant.Path.PRODUCT_IMAGES))
-                Directory.CreateDirectory(Constant.Path.PRODUCT_IMAGES);
-
-            foreach (IFormFile photo in productModel.Photos)
-            {
-                string fileName = new StringBuilder()
-                    .Append(Path.GetFileNameWithoutExtension(photo.FileName))
-                    .Append('-')
-                    .Append(Guid.NewGuid().ToString().Replace("-", string.Empty))
-                    .Append(Path.GetExtension(photo.FileName)).ToString();
-
-                uploadPaths.Add(Path.Combine($"{Constant.Path.PRODUCT_IMAGES}", fileName));
-
-                photoURLBuilder.Append($"{fileName}|");
-            }
-
-            photoURLBuilder.Remove(photoURLBuilder.Length - 1, 1);
-
-            Product product = mapper.Map<Product>(productModel);
-
-            product.PhotoURL = photoURLBuilder.ToString();
+            Product product = mapper.Map<Product>(createProductDTO);
+            product.PhotoURL = FileOperations.SavePhotos(createProductDTO.Photos, Constant.Path.PRODUCT_IMAGES);
             product.GrantorId = UnitOfWork.UserService.GetCurrentUserId();
 
             ProductRepository.Insert(product);
+        }
 
-            for (int i = 0; i < productModel.Photos.Count; i++)
-            {
-                string path = uploadPaths[i];
-                using (FileStream fileStream = new(path, FileMode.CreateNew))
-                {
-                    await productModel.Photos[i].CopyToAsync(fileStream);
-                }
-            }
+        public void Update(UpdateProductDTO updateProductDTO)
+        {
+            Product product = GetById<Product>(updateProductDTO.Id);
+            string oldPhotoURL = product.PhotoURL;
+
+            Product updatedProduct = mapper.Map(updateProductDTO, product);
+
+            updatedProduct.PhotoURL = FileOperations.UpdatePhotos(updateProductDTO.Photos, updateProductDTO.PhotoURLs, oldPhotoURL, Constant.Path.PRODUCT_IMAGES);
+
+            ProductRepository.Update(product);
         }
     }
 }
