@@ -345,11 +345,12 @@
                                             </a>
                                         </div>
                                         <div class="card-body px-1 pb-0">
-                                            <p class="text-gradient text-dark mb-2 text-sm">@product.Address</p>
-                                            <a href="javascript:;">
-                                                <h5>@product.Name</h5>
-                                            </a>
-                                            <p class="mb-4 text-sm">@product.Details</p>
+                                            <p class="text-gradient text-dark mb-2 text-sm">
+                                                <span class="fa fa-map-marker"></span>
+                                                @product.Address
+                                            </p>
+                                            <h5>@product.Name</h5>
+                                            <p class="text-vertical-limitter mb-4 text-sm">@product.Details</p>
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" type="button"
                                                    class="btn btn-outline-primary btn-sm mb-0">View Details</a>
@@ -405,7 +406,7 @@
                                         {
                                             <div class="position-relative border-radius-lg  @(i == 1 ? "mx-lg-3 mx-md-2 mx-1" : "")">
                                                 <img class="img-fluid img-cover uploaded-img-preview border-radius-lg shadow text-center" />
-                                                <div class="file-btn rounded-circle z-index-1">
+                                                <div class="file-btn edit-btn rounded-circle z-index-1">
                                                     <span class="fa fa-trash fa-xs text-white"></span>
                                                 </div>
                                                 <input asp-for="CreateProductViewModel.Photos" type="file"
@@ -545,7 +546,7 @@
                     let img = new Image();
                     img.src = url;
                     img.onload = () => {
-                        if (img.height > 2048 || img.width > 2048 || img.width / img.height < 1) {
+                        if (img.height > 2048 || img.width > 2048 || img.width / img.height < 0.6) {
                             alert("Image resolution can not be more than 2048 X 2048 and height can not be more than width");
                             return;
                         }
