@@ -57,16 +57,27 @@ namespace hand_out.Controllers
 
         public ChatViewModel GetActiveChatViewModel(string chatId, int productId)
         {
-            ChatDTO chatDTO = GetChatDTO(chatId);
-
-            if (chatDTO != null)
+            ChatViewModel chatViewModel;
+            Product product = new();
+            if (string.IsNullOrEmpty(chatId))
             {
-                ChatViewModel chatview = _mapper.Map<ChatViewModel>(chatDTO);
-                chatview.Messages.ForEach(x => x.IsYourMessage = x.SenderId == _currentUserId);
-                return chatview;
+                product = _unitOfWork.ProductService.GetAllWithRelations<Product>(p => p.Id == productId).FirstOrDefault();
+                chatViewModel = _mapper.Map<ChatViewModel>(GetChatDTO(productId, product.GrantorId));
+                chatViewModel.Messages.ForEach(x => x.IsYourMessage = x.SenderId == _currentUserId);
+                return chatViewModel;
+            }
+            else
+            {
+                ChatDTO chatDTO = GetChatDTO(chatId);
+
+                if (chatDTO != null)
+                {
+                    chatViewModel = _mapper.Map<ChatViewModel>(chatDTO);
+                    return chatViewModel;
+                }
             }
 
-            Product product = _unitOfWork.ProductService.GetAllWithRelations<Product>(p => p.Id == productId).FirstOrDefault();
+            product = _unitOfWork.ProductService.GetAllWithRelations<Product>(p => p.Id == productId).FirstOrDefault();
 
             return new()
             {
