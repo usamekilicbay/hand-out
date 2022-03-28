@@ -5,11 +5,9 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit User</h2>
-<hr />
 <div class="row">
-    <div class="col-md-8 mx-auto mt-3 p-5 card shadow-lg">
-        <div class="mb-5">
+    <div class="col-md-8 mx-auto mt-3 mb-1 p-5 pb-4 card shadow-lg">
+        <div class="mb-4">
             <a class="row" asp-action="Index">
                 <span class="fa fa-arrow-left fa-lg"></span>
             </a>
@@ -18,7 +16,8 @@
         <form method="post" asp-action="Update" asp-route-id="@Model.Id" asp-route-data="@Model">
             <div class="row mb-3 px-5 text-center">
                 <div class="col-6">
-                    <img class="border-radius-lg shadow" style="width: 9rem; height: 9rem;" src="~/images/profile-images/@Model.ProfilePhotoURL" />
+                    <img class="border-radius-lg shadow" style="width: 9rem; height: 9rem;"
+                         src="~/images/profile-images/@(string.IsNullOrEmpty(Model.ProfilePhotoURL) ? "default-profile-img.jpg" : Model.ProfilePhotoURL)" />
                 </div>
                 <div class="col-6 text-end">
                     <button type="submit" class="btn bg-gradient-info">Update</button>
@@ -45,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="ProfilePhotoURL" class="control-label"></label>
-                        <input type="url" asp-for="ProfilePhotoURL" class="form-control" readonly/>
+                        <input asp-for="ProfilePhotoURL" class="form-control" readonly />
                         <span asp-validation-for="ProfilePhotoURL" class="text-danger"></span>
                     </div>
                 </div>
@@ -72,8 +71,8 @@
                             <option class="bg-gradient-danger">@UserStatus.BANNED </option>
                             @*<option class="bg-gradient-secondary">@UserStatus.OFFLINE</option>
                                 <option class="bg-gradient-primary">@UserStatus.ONLINE</option>*@
-                        <option class="bg-gradient-light">@UserStatus.PASSIVE</option>
-                        <option class="bg-gradient-warning">@UserStatus.PENDING</option>
+                            <option class="bg-gradient-light">@UserStatus.PASSIVE</option>
+                            <option class="bg-gradient-warning">@UserStatus.PENDING</option>
                         </select>
                         <span asp-validation-for="Status" class="text-danger"></span>
                     </div>
