@@ -3,17 +3,11 @@ using BusinessLogicLayer;
 using BusinessLogicLayer.Services.Abstract;
 using DataLayer.Category;
 using DataLayer.Product;
-using EntityLayer.Concrete;
 using hand_out.Models.ViewModels.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using static Sidekick.NET.Types;
 
 namespace hand_out.Controllers
 {
