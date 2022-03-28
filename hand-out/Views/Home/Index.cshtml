@@ -46,19 +46,25 @@
                                     </div>
                                     <div class="card-body p-3">
                                         <div class="row mb-2">
-                                            <div class="product-address col-6 text-gradient text-dark text-sm">
-                                                @product.Address
+                                            <div class="col-6 text-gradient text-dark text-sm">
                                                 <span class="fa fa-map-marker"></span>
+                                                <div class="product-address d-inline">
+                                                    @product.Address
+                                                </div>
                                             </div>
                                             <div class="col-6 text-gradient text-dark text-end">
-                                                <span class="product-category fa @product.CategoryFontAwesomeIconName"></span>
-                                                @product.CategoryName
+                                                <span class="product-category-icon fa @product.CategoryFontAwesomeIconName"></span>
+                                                <div class="product-category-name d-inline">
+                                                    @product.CategoryName
+                                                </div>
                                             </div>
                                         </div>
                                         <p>
                                             <h5 class="product-name">@product.Name</h5>
                                         </p>
-                                        <p class="product-details mb-4 text-sm">@product.Details</p>
+                                        <p class="text-vertical-limitter product-details mb-4 text-sm">
+                                            @product.Details
+                                        </p>
                                         <div class="d-flex align-items-center justify-content-between">
                                             <a asp-route-id="@product.Id" asp-action="Details" asp-controller="Product"
                                                class="product-link btn btn-outline-primary btn-sm mb-0">View Project</a>
@@ -123,7 +129,6 @@
                     returnVal = JSON.parse(JSON.stringify(data));
                 }
             });
-            console.log(returnVal);
             return returnVal;
         }
 
@@ -132,10 +137,8 @@
             for (var i = 0; i < productList.length; i++) {
                 let product = productList[i];
                 productParent.append($("#product-template").html());
-                let productPhotoURL = `images/product-images/${product.photoURL.split("|")[0]}`;
-                console.log(productPhotoURL);
-                $(".product-img:last").attr("src", `images/product-images/${product.photoURL.split("|")[0]}`);
-                $(".product-img:last").attr("src", `images/product-images/${product.photoURL.split("|")[0]}`);
+                let productPhotoURL = `/images/product-images/${product.photoURL.split("|")[0]}`;
+                $(".product-img:last").attr("src", productPhotoURL);
                 $(".product-name:last").text(product.name);
                 $(".product-details:last").text(product.details);
                 $(".product-address:last").text(product.address);
@@ -158,11 +161,17 @@
             </div>
             <div class="card-body p-3">
                 <div class="row mb-2">
-                    <div class="product-address col-6 text-gradient text-dark text-sm">
+                    <div class="col-6 text-gradient text-dark text-sm">
                         <span class="fa fa-map-marker"></span>
+                        <div class="product-address d-inline">
+                            Address
+                        </div>
                     </div>
-                    <div class="product-category-name col-6 text-gradient text-dark text-end">
-                        <span class="product-category-icon fa"></span>
+                    <div class="col-6 text-gradient text-dark text-end">
+                        <span class="product-category-icon fa fa-couch"></span>
+                        <div class="product-category-name d-inline">
+                            Category Name
+                        </div>
                     </div>
                 </div>
                 <p>
