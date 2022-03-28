@@ -157,7 +157,6 @@
                 }
                 let chatId = $(this).attr("data-chat-id");
                 activeChat = getActiveChat(chatId);
-                console.log(activeChat);
                 currentProductId = activeChat.productId;
                 updateActiveChatUI(activeChat);
             }
@@ -378,7 +377,7 @@
                 productLink.attr("href", productURL);
                 messageArea.empty();
 
-                if (activeChat.messages == null)
+                if (activeChat.messages === null)
                     return;
 
                 let messageList = activeChat.messages;
