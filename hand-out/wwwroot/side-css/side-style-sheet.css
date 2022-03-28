@@ -32,6 +32,19 @@ body {
     color: #67748e;
 }
 
+
+.text-vertical-limitter {
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-height: 16px; /* fallback */
+    min-height: 50px;
+    max-height: 50px; /* fallback */
+    -webkit-line-clamp: 3; /* number of lines to show */
+    -webkit-box-orient: vertical;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
