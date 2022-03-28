@@ -76,7 +76,7 @@ namespace BusinessLogicLayer.Services.Concrete
         }
 
 
-        public async Task<IdentityResult> UpdateUserAsync(UpdateUserDTO updateUserDTO, string id)
+        public async Task<IdentityResult> UpdateUserAsync<T>(T updateUserDTO, string id)
         {
             User user = GetById<User>(id);
             user = mapper.Map(updateUserDTO, user);

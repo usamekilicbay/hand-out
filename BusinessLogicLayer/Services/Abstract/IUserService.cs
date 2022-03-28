@@ -19,7 +19,7 @@ namespace BusinessLogicLayer.Services.Abstract
         DetailsUserDTO GetCurrentUserDetails();
         ProfileDTO GetCurrentUserProfile();
         void UpdateProfilePhoto(IFormFile photo);
-        Task<IdentityResult> UpdateUserAsync(UpdateUserDTO updateProductDTO, string id);
+        Task<IdentityResult> UpdateUserAsync<T>(T updateProductDTO, string id);
         SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
         IdentityResult SignUp(SignUpUserDTO signUpUserDTO);
         void SignOut();
