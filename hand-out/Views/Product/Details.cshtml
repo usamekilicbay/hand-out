@@ -56,7 +56,8 @@
                                     <div class="row">
                                         <div class="col-auto">
                                             <div class="avatar-xl d-flex">
-                                                <img src="~/images/profile-images/@Model.GrantorProfilePhotoURL" alt="profile_image"
+                                                <img src="~/images/profile-images/@(string.IsNullOrEmpty(Model.GrantorProfilePhotoURL) ? "default-profile-img.jpg" : Model.GrantorProfilePhotoURL)"
+                                                     alt="profile_image"
                                                      class="w-100 img-cover mb-0 rounded-circle">
                                             </div>
                                         </div>
@@ -69,16 +70,17 @@
                             @if (!ViewBag.IsYourWare)
                             {
                                 <div class="col d-flex justify-content-end">
-                                    <a asp-route-id="@Model.Id" asp-action="Index" asp-controller="Message" 
+                                    <a asp-route-id="@Model.Id" asp-action="Index" asp-controller="Message"
                                        class="btn btn-outline-primary btn-sm w-75 my-auto">Message</a>
                                 </div>
                             }
                             else
                             {
                                 <div class="col d-flex justify-content-end">
-                                    <a asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Product" 
+                                    <a asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Product"
                                        class="btn btn-outline-primary btn-sm w-75 my-auto">
-                                    Edit</a>
+                                        Edit
+                                    </a>
                                 </div>
                             }
                         </div>

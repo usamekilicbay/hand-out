@@ -15,7 +15,8 @@
             {
                 <div class="col-md-auto col-5">
                     <div class="avatar-xxl position-relative">
-                        <img src="~/images/profile-images/@Model.DetailsUserViewModel.ProfilePhotoURL" alt="profile_image" id="profile-photo"
+                        <img src="~/images/profile-images/@(string.IsNullOrEmpty(Model.DetailsUserViewModel.ProfilePhotoURL) ? "default-profile-img.jpg" : Model.DetailsUserViewModel.ProfilePhotoURL)"
+                             alt="profile_image" id="profile-photo"
                              class="img-cover w-100 h-100 border-radius-lg text-center">
                         <div id="upload-profile-img" class="file-btn edit-btn rounded-circle">
                             <span class="fa fa-pen fa-xs text-white"></span>
