@@ -58,36 +58,34 @@ namespace hand_out.Controllers
         public ChatViewModel GetActiveChatViewModel(string chatId, int productId)
         {
             ChatViewModel chatViewModel;
-            Product product = new();
+            ChatDTO chatDTO;
             if (string.IsNullOrEmpty(chatId))
             {
-                product = _unitOfWork.ProductService.GetAllWithRelations<Product>(p => p.Id == productId).FirstOrDefault();
-                chatViewModel = _mapper.Map<ChatViewModel>(GetChatDTO(productId, product.GrantorId));
-                chatViewModel.Messages.ForEach(x => x.IsYourMessage = x.SenderId == _currentUserId);
-                return chatViewModel;
-            }
-            else
-            {
-                ChatDTO chatDTO = GetChatDTO(chatId);
+                Product product = _unitOfWork.ProductService.GetAllWithRelations<Product>(p => p.Id == productId).FirstOrDefault();
+                chatDTO = GetChatDTO(productId, product.GrantorId);
 
                 if (chatDTO != null)
                 {
                     chatViewModel = _mapper.Map<ChatViewModel>(chatDTO);
+                    chatViewModel.Messages.ForEach(x => x.IsYourMessage = x.SenderId == _currentUserId);
                     return chatViewModel;
                 }
+
+                return new()
+                {
+                    ProductId = product.Id,
+                    ProductName = product.Name,
+                    ProductPhotoURL = product.PhotoURL,
+                    ReceiverParticipantId = product.GrantorId,
+                    ReceiverParticipantUserName = product.Grantor.UserName,
+                    ReceiverParticipantPhotoURL = product.Grantor.ProfilePhotoURL
+                };
             }
 
-            product = _unitOfWork.ProductService.GetAllWithRelations<Product>(p => p.Id == productId).FirstOrDefault();
-
-            return new()
-            {
-                ProductId = product.Id,
-                ProductName = product.Name,
-                ProductPhotoURL = product.PhotoURL,
-                ReceiverParticipantId = product.GrantorId,
-                ReceiverParticipantUserName = product.Grantor.UserName,
-                ReceiverParticipantPhotoURL = product.Grantor.ProfilePhotoURL
-            };
+            chatDTO = GetChatDTO(chatId);
+            chatViewModel = _mapper.Map<ChatViewModel>(chatDTO);
+            chatViewModel.Messages.ForEach(x => x.IsYourMessage = x.SenderId == _currentUserId);
+            return chatViewModel;
         }
 
         public void SaveMessage(CreateMessageDTO createMessageDTO)
