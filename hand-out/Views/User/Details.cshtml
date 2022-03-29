@@ -337,19 +337,31 @@
                             @foreach (ListProductViewModel product in Model.ListProductViewModels)
                             {
                                 <div class="col-xl-3 col-md-6 mb-xl-0 my-4">
-                                    <div class="card card-blog card-plain">
+                                    <div class="card card-blog card-plain shadow-lg">
                                         <div class="position-relative">
                                             <a class="d-block shadow-xl border-radius-xl">
                                                 <img src="/images/product-images/@product.PhotoURL.Split("|")[0]" alt="img-blur-shadow"
                                                      class="card-img-top h-100 min-height-200 max-height-250 img-cover shadow border-radius-xl">
                                             </a>
                                         </div>
-                                        <div class="card-body px-1 pb-0">
-                                            <p class="text-gradient text-dark mb-2 text-sm">
-                                                <span class="fa fa-map-marker"></span>
-                                                @product.Address
+                                        <div class="card-body py-3 px-2">
+                                            <div class="row mb-2">
+                                                <div class="col-6 text-gradient text-dark text-sm">
+                                                    <span class="fa fa-map-marker"></span>
+                                                    <div class="product-address d-inline">
+                                                        @product.Address
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 text-gradient text-dark text-sm text-end ">
+                                                    <span class="product-category-icon fa @product.CategoryFontAwesomeIconName"></span>
+                                                    <div class="product-category-name d-inline">
+                                                        @product.CategoryName
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p>
+                                                <h5 class="product-name">@product.Name</h5>
                                             </p>
-                                            <h5>@product.Name</h5>
                                             <p class="text-vertical-limitter mb-4 text-sm">@product.Details</p>
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" type="button"
