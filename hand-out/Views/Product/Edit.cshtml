@@ -100,7 +100,7 @@
                 let img = new Image();
                 img.src = url;
                 img.onload = () => {
-                    if (img.height > 2048 || img.width > 2048 || img.width / img.height < 1) {
+                    if (img.height > 2048 || img.width > 2048 || img.width / img.height < 0.6) {
                         alert("Image resolution can not be more than 2048 X 2048 and height can not be more than width");
                         return;
                     }
