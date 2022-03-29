@@ -22,13 +22,14 @@
                                         <img class="w-100 h-100 img-cover uploaded-img-preview border-radius-lg shadow text-center"
                                              src="~/images/product-images/@Model.PhotoURLs[i]" />
 
-                                        <input formenctype="multipart/form-data" name="@($"img-name-{@i}")" type="hidden" class="img-name z-index-0 position-absolute start-0 bottom-0 opacity-0 h-100 w-100">
+                                        <input formenctype="multipart/form-data" name="@($"img-name-{@i}")" type="hidden" 
+                                               class="img-name z-index-0 position-absolute start-0 bottom-0 opacity-0 h-100 w-100">
                                     }
                                     else
                                     {
                                         <img class="w-100 h-100 img-cover uploaded-img-preview border-radius-lg shadow text-center" src="" />
                                     }
-                                    <div class="file-btn rounded-circle z-index-1">
+                                    <div class="edit-btn file-btn rounded-circle z-index-1">
                                         <span class="fa fa-trash fa-xs text-white"></span>
                                     </div>
                                     <input type="file" accept="image/*" asp-for="Photos"
