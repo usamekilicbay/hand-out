@@ -43,7 +43,7 @@ namespace BusinessLogicLayer.Services.Concrete
         public ProfileDTO GetUserProfile(string userId)
         {
             DetailsUserDTO detailsUserDTO = GetUserDetails(userId);
-            List<Product> Products = UnitOfWork.ProductService.GetAll<Product>(x => x.GrantorId == detailsUserDTO.Id);
+            List<Product> Products = UnitOfWork.ProductService.GetAllWithRelations<Product>(x => x.GrantorId == detailsUserDTO.Id);
 
             return new ProfileDTO(detailsUserDTO, mapper.Map<List<ListProductDTO>>(Products));
         }
@@ -51,7 +51,7 @@ namespace BusinessLogicLayer.Services.Concrete
         public ProfileDTO GetCurrentUserProfile()
         {
             DetailsUserDTO detailsUserDTO = GetCurrentUserDetails();
-            List<Product> Products = UnitOfWork.ProductService.GetAll<Product>(x => x.GrantorId == detailsUserDTO.Id);
+            List<Product> Products = UnitOfWork.ProductService.GetAllWithRelations<Product>(x => x.GrantorId == detailsUserDTO.Id);
 
             return new ProfileDTO(detailsUserDTO, mapper.Map<List<ListProductDTO>>(Products));
         }
