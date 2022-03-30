@@ -6,7 +6,10 @@ using hand_out.Models.ViewModels.Category;
 using hand_out.Models.ViewModels.Product;
 using hand_out.Models.ViewModels.Shared;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace hand_out.Controllers
 {
@@ -21,14 +24,14 @@ namespace hand_out.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index(int id = 0)
+        public IActionResult Index(int categoryId = 0)
         {
-            List<ListProductDTO> listProducts = id != 0
-                ? _unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>(p => p.CategoryId == id)
+            List<ListProductDTO> listProductDTOs = categoryId != 0
+                ? _unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>(p => p.CategoryId == categoryId)
                 : _unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>();
 
             IndexViewModel indexViewModel = new(
-                listProductViewModels: _mapper.Map<List<ListProductViewModel>>(listProducts),
+                listProductViewModels: _mapper.Map<List<ListProductViewModel>>(listProductDTOs).OrderBy(x => new Random().Next()).ToList(),
                 listCategoryViewModels: _mapper.Map<List<ListCategoryViewModel>>(_unitOfWork.CategoryService.GetAll<ListCategoryDTO>()));
 
             return View(indexViewModel);
@@ -39,9 +42,16 @@ namespace hand_out.Controllers
             return View();
         }
 
-        public List<ListProductViewModel> GetProducts(string nameIncludes)
+        public IEnumerable<ListProductViewModel> GetProducts(string nameIncludes)
         {
-            return _mapper.Map<List<ListProductViewModel>>(_unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>(x => x.Name.Contains(nameIncludes)));
+            if (string.IsNullOrEmpty(nameIncludes))
+                return _mapper.Map<IEnumerable<ListProductViewModel>>(_unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>());
+
+            IEnumerable<ListProductDTO> listProductDTOs = _unitOfWork.ProductService.
+                GetAllWithRelations<ListProductDTO>(x => x.Name.Contains(nameIncludes)).
+                OrderBy(x => new Random().Next()).ToList();
+
+            return _mapper.Map<IEnumerable<ListProductViewModel>>(listProductDTOs);
         }
     }
 }
