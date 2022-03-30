@@ -7,9 +7,9 @@ using hand_out.Models.ViewModels.Product;
 using hand_out.Models.ViewModels.Shared;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using static Sidekick.NET.Types;
 
 namespace hand_out.Controllers
 {
@@ -26,12 +26,12 @@ namespace hand_out.Controllers
 
         public IActionResult Index(int categoryId = 0)
         {
-            List<ListProductDTO> listProductDTOs = categoryId != 0
-                ? _unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>(p => p.CategoryId == categoryId)
-                : _unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>();
+            IEnumerable<ListProductDTO> listProductDTOs = categoryId != 0
+                ? _unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>(p => p.CategoryId == categoryId && p.Status == ProductStatus.ACTIVE)
+                : _unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>(p => p.Status == ProductStatus.ACTIVE);
 
             IndexViewModel indexViewModel = new(
-                listProductViewModels: _mapper.Map<List<ListProductViewModel>>(listProductDTOs).OrderBy(x => new Random().Next()).ToList(),
+                listProductViewModels: _mapper.Map<IEnumerable<ListProductViewModel>>(listProductDTOs).OrderBy(p => new Random().Next()).ToList(),
                 listCategoryViewModels: _mapper.Map<List<ListCategoryViewModel>>(_unitOfWork.CategoryService.GetAll<ListCategoryDTO>()));
 
             return View(indexViewModel);
@@ -45,10 +45,11 @@ namespace hand_out.Controllers
         public IEnumerable<ListProductViewModel> GetProducts(string nameIncludes)
         {
             if (string.IsNullOrEmpty(nameIncludes))
-                return _mapper.Map<IEnumerable<ListProductViewModel>>(_unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>());
+                return _mapper.Map<IEnumerable<ListProductViewModel>>(_unitOfWork.ProductService.
+                    GetAllWithRelations<ListProductDTO>(p => p.Status == ProductStatus.ACTIVE));
 
             IEnumerable<ListProductDTO> listProductDTOs = _unitOfWork.ProductService.
-                GetAllWithRelations<ListProductDTO>(x => x.Name.Contains(nameIncludes)).
+                GetAllWithRelations<ListProductDTO>(p => p.Name.Contains(nameIncludes) && p.Status == ProductStatus.ACTIVE).
                 OrderBy(x => new Random().Next()).ToList();
 
             return _mapper.Map<IEnumerable<ListProductViewModel>>(listProductDTOs);
