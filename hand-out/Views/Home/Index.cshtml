@@ -17,7 +17,7 @@
                 @foreach (ListCategoryViewModel category in @Model.ListCategoryViewModels)
                 {
                     <div class="card-category mx-2 mx-md-3">
-                        <a class="card-link text-white" asp-action="Index" asp-route-id="@category.Id">
+                        <a class="category-btn card-link text-white" data-id="@category.Id">
                             <div class="category-card rounded-3 shadow anim-grow bg-gradient-dark">
                                 <span class="fa @category.FontAwesomeIconName fa-2x"></span>
                                 <span class="category-card-title">@category.Name</span>
@@ -100,30 +100,36 @@
         let searchBox = $("#search-box");
         let productParent = $("#product-parent");
 
-        class ExaClass {
-            Id
-            Name
-            Details
-            Address
-            PhotoURL
-            GrantorUserName
-            CategoryName
-            CategoryFontAwesomeIconName
-        }
-
+        $(".category-btn").click(function () {
+            let categories = getProductsByCategory($(this).attr("data-id"));
+            updateProducts(categories);
+        });
 
         $(searchBox.keypress(function (event) {
             if (event.key === "Enter") {
                 console.log("runt");
-                updateProducts(getProductsWithCondition(searchBox.val()));
+                updateProducts(getProductsByCondition(searchBox.val()));
             }
         }));
 
-        function getProductsWithCondition(searchedWord) {
+        function getProductsByCondition(searchedWord) {
             let returnVal;
             $.ajax({
-                url: "/Home/GetProducts",
+                url: "/Home/GetProductsBySearchedWord",
                 data: { nameIncludes: searchedWord },
+                async: false,
+                success: function (data) {
+                    returnVal = JSON.parse(JSON.stringify(data));
+                }
+            });
+            return returnVal;
+        }
+
+        function getProductsByCategory(categoryId) {
+            let returnVal;
+            $.ajax({
+                url: "/Home/GetProductsByCategory",
+                data: { categoryId: categoryId },
                 async: false,
                 success: function (data) {
                     returnVal = JSON.parse(JSON.stringify(data));
