@@ -148,7 +148,7 @@
                 $(".product-name:last").text(product.name);
                 $(".product-details:last").text(product.details);
                 $(".product-address:last").text(product.address);
-                $(".product-url:last").attr("href", `/Product/Details?id=${product.id}`);
+                $(".product-link:last").attr("href", `/Product/Details?id=${product.id}`);
                 $(".product-category-icon:last").attr("css", `product-category-icon fa ${product.categoryFontAwesomeIconName}`);
                 $(".product-category-name:last").text(product.categoryName);
             }
