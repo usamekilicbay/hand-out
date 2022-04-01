@@ -16,7 +16,9 @@
 - N-Tier Architecture:
 
   - BusinessLogic
+    - Services
   - DataAccess
+    - Repositories
   - Entity
   - Presentation
 
@@ -32,17 +34,27 @@
 
 - Identity Core:
 
-  - JWT :sparkles:
-  - OAuth :sparkles:
-  - Session
   - Claims/ClaimsPrincipal :sparkles:
   - Cookie :sparkles:
-  - Role, Policy, Claim based Authorization :sparkles:
+  - Role based Authorization :sparkles:
 
 - SignalR :sparkles:
 
+  - Real-time Communication (chat) :sparkles:
+
 - Application Settings/Configurations :sparkles:
 
+  - Environment variables :sparkles:
+  - appsettings.json :sparkles:
+    - appsettings.Development.json :sparkles:
+    - appsettings.Production.json :sparkles:
+
 - MVC (best practices)
+
   - Tag Helpers :sparkles:
   - Areas :sparkles:
+
+- jQuery :sparkles:
+- Bootstrap 5
+- HTML5
+- CSS
