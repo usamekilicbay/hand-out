@@ -24,11 +24,10 @@ namespace hand_out.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index(int categoryId = 0)
+        public IActionResult Index()
         {
-            IEnumerable<ListProductDTO> listProductDTOs = categoryId != 0
-                ? _unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>(p => p.CategoryId == categoryId && p.Status == ProductStatus.ACTIVE)
-                : _unitOfWork.ProductService.GetAllWithRelations<ListProductDTO>(p => p.Status == ProductStatus.ACTIVE);
+            IEnumerable<ListProductDTO> listProductDTOs = _unitOfWork.ProductService.
+                GetAllWithRelations<ListProductDTO>(p => p.Status == ProductStatus.ACTIVE);
 
             IndexViewModel indexViewModel = new(
                 listProductViewModels: _mapper.Map<IEnumerable<ListProductViewModel>>(listProductDTOs).OrderBy(p => new Random().Next()).ToList(),
@@ -37,12 +36,7 @@ namespace hand_out.Controllers
             return View(indexViewModel);
         }
 
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
-
-        public IEnumerable<ListProductViewModel> GetProducts(string nameIncludes)
+        public IEnumerable<ListProductViewModel> GetProductsBySearchedWord(string nameIncludes)
         {
             if (string.IsNullOrEmpty(nameIncludes))
                 return _mapper.Map<IEnumerable<ListProductViewModel>>(_unitOfWork.ProductService.
@@ -53,6 +47,22 @@ namespace hand_out.Controllers
                 OrderBy(x => new Random().Next()).ToList();
 
             return _mapper.Map<IEnumerable<ListProductViewModel>>(listProductDTOs);
+        }
+
+        public IEnumerable<ListProductViewModel> GetProductsByCategory(int categoryId)
+        {
+            IEnumerable<ListProductDTO> listProductDTOs = _unitOfWork.ProductService.
+                    GetAllWithRelations<ListProductDTO>(p => p.CategoryId == categoryId && p.Status == ProductStatus.ACTIVE);
+
+            IEnumerable<ListProductViewModel> listProductViewModels = _mapper.Map<IEnumerable<ListProductViewModel>>(listProductDTOs)
+                .OrderBy(x => new Random().Next()).ToList();
+
+            return listProductViewModels;
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
