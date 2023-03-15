@@ -33,6 +33,7 @@ namespace hand_out
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                //options.UseNpgsql(Configuration.GetConnectionString("PostgreSqlConnection"))
             );
 
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
