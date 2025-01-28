@@ -1,6 +1,6 @@
 # :diamonds: `Hand-Out` :diamonds: is a web app, for handing out disused wares to needers.
 
-## [App Link](http://dokrtinv-001-site1.dtempurl.com/) (sorry it's free host 😋)
+## [App Link](http://handout.runasp.net/)
 
 [![Hand-Out Presentation Video](https://i.ytimg.com/vi/26yJYFv9n6o/maxresdefault.jpg)](https://youtu.be/26yJYFv9n6o)
 
