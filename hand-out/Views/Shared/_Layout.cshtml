@@ -29,8 +29,9 @@
     <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
     <!-- Custom CSS Files -->
     <link href="~/side-css/side-style-sheet.css" rel="stylesheet" />
-
-
+    <!-- Bootstrap Icons-->
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
 
     <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
 
@@ -58,7 +59,7 @@
                             <ul class="navbar-nav mx-auto">
                                 <li class="nav-item">
                                     <a asp-controller="Home" asp-action="Index" class="nav-link d-flex align-items-center me-2 active" aria-current="page">
-                                        <i class="fa fa-home opacity-6 text-dark me-1"></i>
+                                        <i class="bi bi-house opacity-6 text-dark me-1"></i>
                                         Home
                                     </a>
                                 </li>
@@ -67,13 +68,13 @@
                                     {
                                         <li class="nav-item">
                                             <a asp-controller="User" asp-action="Details" asp-route-id="" class="nav-link me-2">
-                                                <i class="fa fa-user opacity-6 text-dark me-1"></i>
+                                                <i class="bi bi-person opacity-6 text-dark me-1"></i>
                                                 Profile
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a asp-controller="Message" asp-action="Index" class="nav-link">
-                                                <i class="fa fa-comment-dots opacity-6 text-dark me-1"></i>
+                                                <i class="bi bi-envelope opacity-6 text-dark me-1"></i>
                                                 Messages
                                             </a>
                                         </li>
@@ -81,14 +82,14 @@
                                         {
                                             <li class="nav-item">
                                                 <a asp-controller="User" asp-action="Index" asp-area="AdminPanel" class="nav-link me-2">
-                                                    <i class="fa fa-user-ninja opacity-6 text-dark me-1"></i>
+                                                    <i class="bi bi-person-heart opacity-6 text-dark me-1"></i>
                                                     Admin Dashboard
                                                 </a>
                                             </li>
                                         }
                                         <li class="nav-item">
                                             <a asp-controller="User" asp-action="SignOut" class="nav-link me-2">
-                                                <i class="fa fa-sign-out opacity-6 text-dark me-1"></i>
+                                                <i class="bi bi-box-arrow-in-right opacity-6 text-dark me-1"></i>
                                                 Sign Out
                                             </a>
                                         </li>
@@ -99,13 +100,13 @@
                                     {
                                         <li class="nav-item">
                                             <a asp-controller="User" asp-action="SignUp" class="nav-link me-2">
-                                                <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                                                <i class="bi bi-person-plus opacity-6 text-dark me-1"></i>
                                                 Sign Up
                                             </a>
                                         </li>
                                         <li class="nav-item">
                                             <a asp-controller="User" asp-action="SignIn" class="nav-link">
-                                                <i class="fas fa-key opacity-6 text-dark me-1"></i>
+                                                <i class="bi bi-box-arrow-in-right  opacity-6 text-dark me-1"></i>
                                                 Sign In
                                             </a>
                                         </li>
@@ -125,73 +126,71 @@
     <!-- -------- START FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
     @{ if (!ViewData["Title"].Equals("Message/Index") && !ViewData["Title"].Equals("Product/Edit"))
         {
-            <footer class="footer py-5">
-                <div class="container">
-                    <div class="row">
-                        @*<div class="col-lg-8 mb-4 mx-auto text-center">
-                            <a href="" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                                Company
-                            </a>
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                                Linkedin
-                            </a>
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                                Team
-                            </a>
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                                Products
-                            </a>
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                                Blog
-                            </a>
-                            <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-                                Pricing
-                            </a>
-                        </div>*@
-                        <div class="col-lg-8 mx-auto text-center mb-4 mt-2">
-                            <a href="https://www.linkedin.com/in/usame-kilicbay/" target="_blank" class="text-secondary me-xl-4 me-4">
-                                <span class="text-lg fab fa-linkedin"></span>
-                            </a>
-                            <a href="https://github.com/usamekilicbay" target="_blank" class="text-secondary me-xl-4 me-4">
-                                <span class="text-lg fab fa-github"></span>
-                            </a>
-                            <a href="https://stackoverflow.com/users/9929196/usame-kilicbay" target="_blank" class="text-secondary me-xl-4 me-4">
-                                <span class="text-lg fab fa-stack-overflow"></span>
-                            </a>
+            <div class="container-fluid py-2 min-vh-85">
+                <footer class="footer rounded-pill py-2 bg-gradient-faded-light">
+                    <div class="container-fluid">
+                        <div class="row align-items-center justify-content-lg-between">
+                            <div class="col-lg-5 mb-lg-0 mb-4">
+                                <div class="copyright text-center text-muted text-lg-start">
+                                    ©
+                                    <script>document.write("2022")</script>,
+                                    made with <i class="bi bi-heart"></i> by
+                                    <a href="https://www.linkedin.com/in/usame-kilicbay/" class="font-weight-bold" target="_blank">Usame Kilicbay</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <ul class="nav nav-footer justify-content-center align-items-center justify-content-lg-end">
+                                    <li class="nav-item">
+                                        <a href="https://www.usamekilicbay.com" class="nav-link font-weight-bolder text-opacity-75 text-primary" target="_blank">
+                                            Usame Kilicbay
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="https://www.linkedin.com/in/usame-kilicbay/" class="nav-link fs-5 text-primary" target="_blank">
+                                            <span class="bi bi-linkedin"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="https://github.com/usamekilicbay" class="nav-link fs-5 text-primary" target="_blank">
+                                            <span class="bi bi-github"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="https://www.fiverr.com/usame_kilicbay" class="nav-link text-primary align-middle" target="_blank">
+                                                <span class="text-bolder me-1 align-middle">Hire me</span>
+                                            <span class="bi bi-briefcase-fill fs-5"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-8 mx-auto text-center mt-1">
-                            <p class="mb-0 text-secondary">
-                                Copyright ©
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script> Soft by Creative Tim, Developed by Usame Kilicbay
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </footer> } }
-    <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
-    <!--   Core JS Files   -->
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
-    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-    <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
-            }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-        }
-    </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.3"></script>
-</body>
+                </footer>
+            </div>
+                    } }
+                <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
+                <!--   Core JS Files   -->
+                <script src="../assets/js/core/popper.min.js"></script>
+                <script src="../assets/js/core/bootstrap.min.js"></script>
+                <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+                <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+                <script>
+                    var win = navigator.platform.indexOf('Win') > -1;
+                    if (win && document.querySelector('#sidenav-scrollbar')) {
+                        var options = {
+                            damping: '0.5'
+                        }
+                        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+                    }
+                </script>
+                <!-- Github buttons -->
+                <script async defer src="https://buttons.github.io/buttons.js"></script>
+                <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+                <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.3"></script>
+        </body>
 
 </html>
 

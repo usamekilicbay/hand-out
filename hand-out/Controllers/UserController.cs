@@ -16,6 +16,7 @@ using hand_out.Models.ViewModels.Product;
 using DataLayer.General.User;
 using Microsoft.AspNetCore.Http;
 using DataLayer.Shared;
+using System.Threading.Tasks;
 
 namespace hand_out.Controllers
 {
@@ -114,12 +115,12 @@ namespace hand_out.Controllers
         }
 
         [HttpPost]
-        public IActionResult SignIn(PasswordSignInUserViewModel signInUserViewModel)
+        public async Task<IActionResult> SignIn(PasswordSignInUserViewModel signInUserViewModel)
         {
             if (!ModelState.IsValid)
                 return View();
 
-            SignInResult signInResult = _userService.PasswordSignIn(_mapper.Map<PasswordSignInUserDTO>(signInUserViewModel));
+            SignInResult signInResult =await _userService.PasswordSignIn(_mapper.Map<PasswordSignInUserDTO>(signInUserViewModel));
 
             if (!signInResult.Succeeded)
             {

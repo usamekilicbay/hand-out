@@ -5,6 +5,7 @@ using DataLayer.Product;
 using hand_out.Models.ViewModels.Category;
 using hand_out.Models.ViewModels.Product;
 using hand_out.Models.ViewModels.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

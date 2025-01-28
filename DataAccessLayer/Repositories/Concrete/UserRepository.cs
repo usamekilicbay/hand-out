@@ -53,13 +53,25 @@ namespace DataAccessLayer.Repositories.Concrete
         }
 
         #region Authentication
-        public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO) =>
-          SignInManager.PasswordSignInAsync(
+        public async Task<SignInResult> PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO)
+        {
+            var user = await UserManager.FindByNameAsync(passwordSignInUserDTO.UserName);
+            if (user == null)
+                Console.WriteLine("User not found");
+
+            var isPasswordValid = await UserManager.CheckPasswordAsync(user, passwordSignInUserDTO.Password);
+            if (!isPasswordValid)
+                Console.WriteLine("Password mismatch");
+
+
+            var result = await SignInManager.PasswordSignInAsync(
               passwordSignInUserDTO.UserName,
               passwordSignInUserDTO.Password,
               passwordSignInUserDTO.RememberMe,
-              false).Result;
-
+              false);
+            
+            return result; 
+        }
         public IdentityResult SignUp(User user, string password) =>
             UserManager.CreateAsync(user, password).Result;
 

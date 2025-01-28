@@ -36,7 +36,8 @@ namespace hand_out
                 //options.UseNpgsql(Configuration.GetConnectionString("PostgreSqlConnection"))
             );
 
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.ConfigureApplicationCookie(_ =>
             {

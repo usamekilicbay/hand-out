@@ -19,7 +19,7 @@
                              alt="profile_image" id="profile-photo"
                              class="img-cover w-100 h-100 border-radius-lg text-center">
                         <div id="upload-profile-img" class="file-btn edit-btn rounded-circle">
-                            <span class="fa fa-pen fa-xs text-white"></span>
+                            <span class="bi bi-pencil-square fs-5 text-white"></span>
                             <input type="file" id="profile-photo-upload" class="position-absolute p-0 m-0 opacity-0 w-100 h-100">
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                                 @Model.DetailsUserViewModel.UserName
                             </h4>
                             <button class="edit-trigger-btn btn btn-dark edit-btn-sm rounded-circle">
-                                <span class="fa fa-pen text-white"></span>
+                                <span class="bi bi-pencil-square text-white"></span>
                             </button>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                         <div class="w-75 position-relative">
                             <input type="text" id="user-name-input" class="form-control-sm w-100 h-100 mb-md-2 mb-0 border-1 shadow-lg" />
                             <button id="update-user-name-btn" class="edit-done-btn btn bg-success edit-btn-sm rounded-circle">
-                                <span class="fa fa-check text-white"></span>
+                                <span class="bi bi-check text-white"></span>
                             </button>
                         </div>
                     </div>
@@ -51,12 +51,12 @@
                 <div class="col-auto mb-md-auto mt-md-0 mt-2 ms-md-auto me-md-4">
                     <div class="profile-detail-block ">
                         <div class="d-inline-block position-relative font-weight-light">
-                            <span class="fa fa-map-marker"></span>
+                            <span class="bi bi-geo"></span>
                             <h6 class="d-inline">
                                 @Model.DetailsUserViewModel.Address
                             </h6>
                             <button class="edit-trigger-btn btn btn-dark edit-btn-sm rounded-circle">
-                                <span class="fa fa-pen text-white"></span>
+                                <span class="bi bi-pencil-square text-white"></span>
                             </button>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                         <div class="d-flex position-relative">
                             <input type="text" id="address-input" class="form-control-sm w-100 h-100 mb-2 border-1 shadow-lg" />
                             <button id="update-address-btn" class="edit-done-btn btn bg-success edit-btn-sm rounded-circle">
-                                <span class="fa fa-check text-white"></span>
+                                <span class="bi bi-check text-white"></span>
                             </button>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="col-auto mt-md-0 mt-2 ms-md-auto me-md-4">
                     <h6 class="font-weight-light">
-                        <span class="fa fa-map-marker"></span>
+                        <span class="bi bi-geo"></span>
                         @Model.DetailsUserViewModel.Address
                     </h6>
                 </div>
@@ -347,13 +347,13 @@
                                         <div class="card-body py-3 px-2">
                                             <div class="row d-flex justify-content-between mb-2">
                                                 <div class="col-auto text-gradient text-dark text-sm">
-                                                    <span class="fa fa-map-marker"></span>
+                                                    <span class="bi bi-geo"></span>
                                                     <div class="product-address d-inline">
                                                         @product.Address
                                                     </div>
                                                 </div>
                                                 <div class="col-auto text-gradient text-dark text-sm text-end ">
-                                                    <span class="product-category-icon fa @product.CategoryFontAwesomeIconName"></span>
+                                                    <span class="product-category-icon bi @product.CategoryFontAwesomeIconName"></span>
                                                     <div class="product-category-name d-inline">
                                                         @product.CategoryName
                                                     </div>
@@ -391,7 +391,7 @@
                                     <div class="card h-100 card-plain border">
                                         <div class="card-body d-flex flex-column justify-content-center text-center">
                                             <a data-bs-toggle="collapse" href="#createProduct" role="button">
-                                                <i class="fa fa-plus text-secondary mb-3"></i>
+                                                <i class="bi bi-plus text-secondary mb-3"></i>
                                                 <h5 class=" text-secondary"> New product </h5>
                                             </a>
                                         </div>
@@ -419,7 +419,7 @@
                                             <div class="position-relative border-radius-lg  @(i == 1 ? "mx-lg-3 mx-md-2 mx-1" : "")">
                                                 <img class="img-fluid img-cover uploaded-img-preview border-radius-lg shadow text-center" />
                                                 <div class="file-btn edit-btn rounded-circle z-index-1">
-                                                    <span class="fa fa-trash fa-xs text-white"></span>
+                                                    <span class="bi bi-trash fs-6 text-white"></span>
                                                 </div>
                                                 <input asp-for="CreateProductViewModel.Photos" type="file"
                                                        class="img-upload z-index-0 position-absolute start-0 bottom-0 opacity-0 h-100 w-100">

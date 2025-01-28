@@ -16,7 +16,7 @@ namespace DataAccessLayer.Repositories.Abstract
         string GetCurrentUserId();
         User GetCurrentUser();
         Task<IdentityResult> UpdateUserAsync(User user);
-        SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
+        Task<SignInResult> PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO);
         IdentityResult SignUp(User user, string password);
         void SignOut();
     }

@@ -84,8 +84,10 @@ namespace BusinessLogicLayer.Services.Concrete
         }
 
         #region Authentication
-        public SignInResult PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO) =>
-            UserRepository.PasswordSignIn(passwordSignInUserDTO);
+        public async Task<SignInResult> PasswordSignIn(PasswordSignInUserDTO passwordSignInUserDTO)
+        {
+            return await UserRepository.PasswordSignIn(passwordSignInUserDTO);
+        }
 
         public IdentityResult SignUp(SignUpUserDTO signUpUserDTO)
         {
