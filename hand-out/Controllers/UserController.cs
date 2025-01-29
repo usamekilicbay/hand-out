@@ -103,12 +103,31 @@ namespace hand_out.Controllers
                 return View();
             }
 
+            return RedirectToAction("SignInAutoDirected", new {
+                signUpUserViewModel.UserName,
+                signUpUserViewModel.Password});
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SignInAutoDirected(string username, string password)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var dto = new PasswordSignInUserDTO() { UserName = username, Password = password, RememberMe = true };
+
+            SignInResult signInResult = await _userService.PasswordSignIn(dto);
+
+            if (!signInResult.Succeeded)
+            {
+                return View();
+            }
+
             return RedirectToAction("Details");
         }
 
-
-        #region Authentication
-        [HttpGet]
+            #region Authentication
+            [HttpGet]
         public IActionResult SignIn()
         {
             return View();
